@@ -9,3 +9,7 @@ It is possible through three different ways: military power, culture overgrow or
 You can interact with each different empire and bargain for your interests. You can move your troops to extinguish weak soldiers. You can invest in your culture to show how advanced you are and how barbaric your neighboors are.
 
 Come and conquer the world in your own way.
+
+## What is the **goal**?
+
+To win the game, you must be the first empire to win in any of the possible categories: culture, economy or military. You can have the best army in the world, but if another empire wins a culture victory sooner, you lose.
