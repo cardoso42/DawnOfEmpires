@@ -13,3 +13,9 @@ Come and conquer the world in your own way.
 ## What is the **goal**?
 
 To win the game, you must be the first empire to win in any of the possible categories: culture, economy or military. You can have the best army in the world, but if another empire wins a culture victory sooner, you lose.
+
+## Components
+- 1: Single player, menu, sound, save/load progress, difficulty levels
+- 2: Local multiplayer, simple animations
+- 3: Network multiplayer
+- 4: Evolutionary algorithms for AI, procedurally generated world/content
