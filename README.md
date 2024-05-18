@@ -15,7 +15,5 @@ Come and conquer the world in your own way.
 To win the game, you must be the first empire to win in any of the possible categories: culture, economy or military. You can have the best army in the world, but if another empire wins a culture victory sooner, you lose.
 
 ## Components
-- 1: Single player, menu, sound, save/load progress, difficulty levels
-- 2: Local multiplayer, simple animations
-- 3: Network multiplayer
-- 4: Evolutionary algorithms for AI, procedurally generated world/content
+- Single player, menu, sound, save/load progress, difficulty levels
+- Local multiplayer, simple animations
