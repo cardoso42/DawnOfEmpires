@@ -1,26 +1,32 @@
+#include "main.h"
+
+#include <iostream>
+
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
  
 int main()
 {
+    std::cout << "Build path is " BASE_PATH << std::endl;
+
     // Create the main window
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
  
     // Load a sprite to display
     sf::Texture texture;
-    if (!texture.loadFromFile("resources/cute_image.jpg"))
+    if (!texture.loadFromFile(BASE_PATH "/resources/cute_image.jpg"))
         return EXIT_FAILURE;
     sf::Sprite sprite(texture);
  
     // Create a graphical text to display
     sf::Font font;
-    if (!font.loadFromFile("resources/arial.ttf"))
+    if (!font.loadFromFile(BASE_PATH "/resources/arial.ttf"))
         return EXIT_FAILURE;
     sf::Text text("Hello SFML", font, 50);
  
     // Load a music to play
     sf::Music music;
-    if (!music.openFromFile("resources/nice_music.mp3"))
+    if (!music.openFromFile(BASE_PATH "/resources/nice_music.mp3"))
         return EXIT_FAILURE;
  
     // Play the music
