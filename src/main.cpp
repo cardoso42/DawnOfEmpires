@@ -1,4 +1,4 @@
-#include "main.h"
+#include "main.hpp"
 
 #include <iostream>
 
@@ -40,26 +40,35 @@ void handleInput(sf::RenderWindow &window)
     }
 }
 
-void updateFrame()
+void updateFrame(GameController &game)
 {
 }
  
-void renderFrame(sf::RenderWindow &window)
+void renderFrame(sf::RenderWindow &window, GameController game)
 {
     window.clear(backgroundColor);
+
+    // render other objects
+
     window.display();
 }
 
 int main()
 {
+    AssetManager assetManager;
+
     sf::RenderWindow window;
     createWindow(window);
+
+    int gameId{0};
+    sf::FloatRect viewport = {0, 0, 1, 1};
+    GameController game(++gameId, window.getSize(), viewport);
 
     while (window.isOpen())
     {
         handleInput(window);
-        updateFrame();
-        renderFrame(window);
+        updateFrame(game);
+        renderFrame(window, game);
     }
  
     return EXIT_SUCCESS;

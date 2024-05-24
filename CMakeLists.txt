@@ -6,18 +6,31 @@ set(RESOURCES_SOURCE_DIR ${CMAKE_SOURCE_DIR}/resources)
 set(RESOURCES_DEST_DIR ${CMAKE_BINARY_DIR}/resources)
 set(FILES_BASE_PATH ${CMAKE_BINARY_DIR})
 
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build: Debug, Release" FORCE)
+endif()
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_definitions(-DDEBUG)
+endif()
+
 include(FetchContent)
 FetchContent_Declare(SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
     GIT_TAG 2.6.x)
 FetchContent_MakeAvailable(SFML)
 
-configure_file(src/main.h.in src/main.h)
+add_subdirectory(src/AssetManager)
+add_subdirectory(src/Animator)
+add_subdirectory(src/GameController)
 
 add_executable(DawnOfEmpires src/main.cpp)
 target_link_libraries(DawnOfEmpires PRIVATE sfml-graphics)
 target_link_libraries(DawnOfEmpires PRIVATE sfml-audio)
-target_compile_features(DawnOfEmpires PRIVATE cxx_std_17)
+target_link_libraries(DawnOfEmpires PUBLIC AssetManager)
+target_link_libraries(DawnOfEmpires PUBLIC Animator)
+target_link_libraries(DawnOfEmpires PUBLIC GameController)
+target_compile_features(DawnOfEmpires PRIVATE cxx_std_20)
 
 if(WIN32)
     add_custom_command(
