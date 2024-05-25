@@ -1,5 +1,4 @@
 #include "Animator.hpp"
-#include "AssetManager.hpp"
 
 Animator::Animator(sf::Sprite& sprite)
     : m_Sprite(sprite), m_CurrentTime(), m_CurrentAnimation(nullptr)
@@ -9,6 +8,11 @@ Animator::Animator(sf::Sprite& sprite)
 Animator::Animation& Animator::CreateAnimation(std::string const& name,
     std::string const& textureName, sf::Time const& duration, bool loop)
 {
+    if (duration == sf::seconds(0))
+    {
+        throw std::invalid_argument("duration can't be 0");
+    }
+
     m_Animations.push_back(
         Animator::Animation(name, textureName, duration, loop)
     );
@@ -96,5 +100,6 @@ void Animator::Update(sf::Time const& dt)
     }
 
     // Set the texture rectangle, depending on the frame
-    m_Sprite.setTextureRect(m_CurrentAnimation->m_Frames[currentFrame]);
+    sf::IntRect frame = m_CurrentAnimation->m_Frames[currentFrame];
+    m_Sprite.setTextureRect(frame);
 }

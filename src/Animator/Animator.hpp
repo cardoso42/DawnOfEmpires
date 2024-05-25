@@ -1,6 +1,8 @@
 #ifndef ANIMATOR_HPP
 #define ANIMATOR_HPP
 
+#include "AssetManager.hpp"
+
 #include <SFML/Graphics.hpp>
 #include <list>
 

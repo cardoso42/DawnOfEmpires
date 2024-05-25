@@ -10,6 +10,9 @@ target_include_directories(GameController
 
 target_link_libraries(GameController PRIVATE AssetManager)
 target_link_libraries(GameController PRIVATE Animator)
+target_link_libraries(GameController PRIVATE AnimatedAsset)
+target_link_libraries(GameController PRIVATE TilePiece)
+target_link_libraries(GameController PRIVATE TileMap)
 
 target_include_directories(GameController PUBLIC
                            "${PROJECT_BINARY_DIR}/src/GameController"

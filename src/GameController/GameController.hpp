@@ -2,6 +2,7 @@
 #define GAME_CONTROLLER_HPP
 
 #include "AssetManager.hpp"
+#include "TileMap.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -21,6 +22,9 @@ public:
 private:
     sf::View view;
     int gameId;
+
+    TileMap *map;
+    TilePiece *example;
 
     sf::RectangleShape drawDebugSquare(sf::Sprite sprite, sf::Color backgroundColor);
 };

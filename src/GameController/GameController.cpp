@@ -11,17 +11,19 @@ GameController::GameController(int id, sf::Vector2u windowSize, sf::FloatRect vi
     );
     view.setViewport(viewport);
 
+    map = new TileMap(2, {windowSize.x * 0.5f, windowSize.y * 0.5f});
+
     // setar listener
 }
 
 void GameController::updateFrame(sf::Time deltaTime)
 {
-
+    map->animate(deltaTime);
 }
 
 void GameController::drawOn(sf::RenderWindow& window, sf::Color backgroundColor)
 {
-
+    map->drawOn(window);
 }
 
 sf::RectangleShape GameController::drawDebugSquare(sf::Sprite sprite, sf::Color backgroundColor)

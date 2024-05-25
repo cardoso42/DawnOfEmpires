@@ -1,0 +1,44 @@
+#include "TileMap.hpp"
+
+#include <cmath>
+
+TileMap::TileMap(int mapRadius, sf::Vector2f center) : tileSize({200, 172}), mapRadius(mapRadius)
+{
+    generateHexMap(center);
+}
+
+void TileMap::generateHexMap(sf::Vector2f center) 
+{
+    float hexWidth = static_cast<float>(tileSize.x);
+    float hexRadius = hexWidth / 2.0f;
+    float hexHeight = std::sqrt(3.0f) * hexRadius;
+
+    for (int q = -mapRadius; q <= mapRadius; ++q) 
+    {
+        int r1 = std::max(-mapRadius, -q - mapRadius);
+        int r2 = std::min(mapRadius, -q + mapRadius);
+
+        for (int r = r1; r <= r2; ++r) 
+        {
+            float x = hexWidth * (q * 3.0f / 4.0f);
+            float y = hexHeight * (r + q / 2.0f);
+            tiles.push_back(TilePiece(x + center.x, y + center.y));
+        }
+    }
+}
+
+void TileMap::drawOn(sf::RenderWindow &window)
+{
+    for (auto& tile : tiles)
+    {
+        tile.drawOn(window);
+    }
+}
+
+void TileMap::animate(sf::Time deltaTime)
+{
+    for (auto& tile : tiles)
+    {
+        tile.animate(deltaTime);
+    }
+}

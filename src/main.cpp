@@ -3,8 +3,9 @@
 #include <iostream>
 
 #include <SFML/Graphics.hpp>
+#include "IdGenerator.hpp"
 
-const sf::Color backgroundColor = sf::Color::Black;
+const sf::Color backgroundColor = sf::Color::White;
 
 void createWindow(sf::RenderWindow &window)
 {
@@ -40,15 +41,16 @@ void handleInput(sf::RenderWindow &window)
     }
 }
 
-void updateFrame(GameController &game)
+void updateFrame(GameController &game, sf::Time deltaTime)
 {
+    game.updateFrame(deltaTime);
 }
  
-void renderFrame(sf::RenderWindow &window, GameController game)
+void renderFrame(sf::RenderWindow &window, GameController &game)
 {
     window.clear(backgroundColor);
 
-    // render other objects
+    game.drawOn(window);
 
     window.display();
 }
@@ -56,6 +58,7 @@ void renderFrame(sf::RenderWindow &window, GameController game)
 int main()
 {
     AssetManager assetManager;
+    IdGenerator idGenerator;
 
     sf::RenderWindow window;
     createWindow(window);
@@ -63,11 +66,15 @@ int main()
     int gameId{0};
     sf::FloatRect viewport = {0, 0, 1, 1};
     GameController game(++gameId, window.getSize(), viewport);
+    // window.setPosition({0,0});
 
+    sf::Clock clock;
     while (window.isOpen())
     {
+        sf::Time deltaTime = clock.restart();
+
         handleInput(window);
-        updateFrame(game);
+        updateFrame(game, deltaTime);
         renderFrame(window, game);
     }
  
