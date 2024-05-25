@@ -8,12 +8,12 @@ public:
 
     static unsigned int GenerateUniqueId();
     static unsigned int GenerateTileId();
-    
+
 private:
     static IdGenerator* mInstance;
 
-    unsigned int uniqueId;
-    unsigned int tileId;
+    static unsigned int uniqueId;
+    static unsigned int tileId;
 };
 
 #endif // IDGENERATOR_HPP
