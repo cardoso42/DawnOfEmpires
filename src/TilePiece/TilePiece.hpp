@@ -14,13 +14,11 @@ public:
     enum TileType { GRASS, FOREST, MINE, FARM, CONSTRUCTION, TYPES_NR_ITEMS };
 
     TilePiece();
-    TilePiece(float x, float y, sf::Color bgColor = sf::Color::White);
+    TilePiece(float x, float y, int q, int r, sf::Color bgColor = sf::Color::White);
 
     // Overrides
     void setPosition(const sf::Vector2f& position);
-    sf::Vector2f getPosition();
 
-    sf::FloatRect getGlobalBounds();
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     void animate(sf::Time deltaTime);
@@ -28,16 +26,27 @@ public:
     void select();
     void unselect();
 
+    // getters
+    sf::FloatRect getGlobalBounds();
+    sf::Vector2f getPosition();
+    int getId() const;
+    int getQ() const;
+    int getR() const;
+
     // Static
     static sf::Vector2i getSize();
 private:
     AnimatedAsset *decoration;
     sf::Sprite border;
     sf::Sprite body;
+#ifdef DEBUG
     sf::Text *text;
+#endif
     
     TileType type;
     uint tileId;
+
+    int q, r; // axial coordinates
 
     void generateDecoration();
 };

@@ -7,6 +7,23 @@
 
 #include <vector>
 
+struct hash_pair 
+{
+    template <class T1, class T2>
+    size_t operator()(const std::pair<T1, T2>& p) const 
+    {
+        auto hash1 = std::hash<T1>{}(p.first);
+        auto hash2 = std::hash<T2>{}(p.second);
+
+        if (hash1 != hash2) 
+        {
+            return hash1 ^ hash2;              
+        }
+        
+        return hash1;
+    }
+};
+
 class TileMap : public sf::Drawable
 {
 public:
@@ -20,9 +37,12 @@ public:
 
 private:
     std::vector<TilePiece> tiles;
-    int mapRadius;
+    std::unordered_map<std::pair<int, int>, int, hash_pair> tileMap;
+    uint selectedTileId;
 
-    void generateHexMap(sf::Vector2f center);
+    void generateHexMap(sf::Vector2f center, int mapRadius);
+    TilePiece* getTile(uint id);
+    std::vector<TilePiece*> getNeighbors(int q, int r);    
 };
 
 #endif // TILEMAP_HPP

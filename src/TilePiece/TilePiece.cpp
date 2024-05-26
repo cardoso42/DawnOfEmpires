@@ -3,9 +3,6 @@
 
 TilePiece::TilePiece() : tileId(IdGenerator::GenerateTileId())
 {
-    text = new sf::Text(std::to_string(tileId), AssetManager::GetFont("arial.ttf"), 12U);
-    text->setColor(sf::Color::Black);
-
     body.setTexture(*AssetManager::GetTexture("hexagon.png"));
     body.setOrigin(
         body.getTexture()->getSize().x * 0.5, 
@@ -23,8 +20,16 @@ TilePiece::TilePiece() : tileId(IdGenerator::GenerateTileId())
     generateDecoration();
 }
 
-TilePiece::TilePiece(float x, float y, sf::Color bgColor) : TilePiece()
+TilePiece::TilePiece(float x, float y, int q, int r, sf::Color bgColor) : TilePiece()
 {
+    this->q = q;
+    this->r = r;
+
+#ifdef DEBUG
+    text = new sf::Text("(" + std::to_string(q) + ", " + std::to_string(r) + ")", AssetManager::GetFont("arial.ttf"), 12U);
+    text->setFillColor(sf::Color::Black);
+#endif
+
     body.setColor(bgColor);
     setPosition({x, y});
 }
@@ -33,26 +38,30 @@ void TilePiece::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     target.draw(body);
     target.draw(border);
-#ifdef DEBUG
-    target.draw(*text);
-#endif
 
     if (decoration != nullptr)
     {
         target.draw(*decoration);
     }
+
+#ifdef DEBUG
+    target.draw(*text);
+#endif
 }
 
 void TilePiece::setPosition(const sf::Vector2f& position)
 {
     body.setPosition(position);
     border.setPosition(position);
-    text->setPosition({position.x, position.y + 16});
 
     if (decoration != nullptr)
     {
         decoration->setPosition(position);
     }
+
+#ifdef DEBUG
+    text->setPosition({position.x, position.y + 16});
+#endif
 }
 
 sf::Vector2f TilePiece::getPosition() { return body.getPosition(); }
@@ -97,11 +106,6 @@ void TilePiece::generateDecoration()
     decoration->fitTo(getSize(), 0.6f);
 }
 
-sf::Vector2i TilePiece::getSize()
-{
-    return {107, 93};
-}
-
 void TilePiece::paint(sf::Color newColor)
 {
     body.setColor(newColor);
@@ -117,4 +121,13 @@ void TilePiece::unselect()
     border.setTexture(*AssetManager::GetTexture("hexagon-border.png"));
 }
 
+// Getters
 sf::FloatRect TilePiece::getGlobalBounds() { return border.getGlobalBounds(); }
+
+sf::Vector2i TilePiece::getSize() { return {107, 93}; }
+
+int TilePiece::getId() const { return tileId; }
+
+int TilePiece::getQ() const { return q; } 
+
+int TilePiece::getR() const { return r; }
