@@ -18,6 +18,8 @@ public:
 
     // Overrides
     void setPosition(const sf::Vector2f& position);
+    sf::Vector2f getPosition();
+
     sf::FloatRect getGlobalBounds();
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
@@ -27,12 +29,12 @@ public:
     void unselect();
 
     // Static
-    static sf::Vector2i GetSize();
+    static sf::Vector2i getSize();
 private:
+    AnimatedAsset *decoration;
     sf::Sprite border;
     sf::Sprite body;
-    
-    AnimatedAsset *decoration;
+    sf::Text *text;
     
     TileType type;
     uint tileId;

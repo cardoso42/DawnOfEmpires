@@ -9,7 +9,7 @@ TileMap::TileMap(int mapRadius, sf::Vector2f center) : mapRadius(mapRadius)
 
 void TileMap::generateHexMap(sf::Vector2f center) 
 {
-    sf::Vector2i tileSize = TilePiece::GetSize();
+    sf::Vector2i tileSize = TilePiece::getSize();
     float hexWidth = tileSize.x;
     float hexRadius = hexWidth / 2.0f;
     float hexHeight = std::sqrt(3.0f) * hexRadius;

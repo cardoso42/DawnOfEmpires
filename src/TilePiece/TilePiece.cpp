@@ -3,6 +3,9 @@
 
 TilePiece::TilePiece() : tileId(IdGenerator::GenerateTileId())
 {
+    text = new sf::Text(std::to_string(tileId), AssetManager::GetFont("arial.ttf"), 12U);
+    text->setColor(sf::Color::Black);
+
     body.setTexture(*AssetManager::GetTexture("hexagon.png"));
     body.setOrigin(
         body.getTexture()->getSize().x * 0.5, 
@@ -30,6 +33,9 @@ void TilePiece::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     target.draw(body);
     target.draw(border);
+#ifdef DEBUG
+    target.draw(*text);
+#endif
 
     if (decoration != nullptr)
     {
@@ -41,12 +47,15 @@ void TilePiece::setPosition(const sf::Vector2f& position)
 {
     body.setPosition(position);
     border.setPosition(position);
+    text->setPosition({position.x, position.y + 16});
 
     if (decoration != nullptr)
     {
         decoration->setPosition(position);
     }
 }
+
+sf::Vector2f TilePiece::getPosition() { return body.getPosition(); }
 
 void TilePiece::animate(sf::Time deltaTime)
 {
@@ -85,10 +94,10 @@ void TilePiece::generateDecoration()
     }
 
     decoration->setPosition(body.getPosition());
-    decoration->fitTo(GetSize(), 0.6f);
+    decoration->fitTo(getSize(), 0.6f);
 }
 
-sf::Vector2i TilePiece::GetSize()
+sf::Vector2i TilePiece::getSize()
 {
     return {107, 93};
 }
