@@ -9,9 +9,9 @@ target_include_directories(TilePiece
 )
 
 target_link_libraries(TilePiece PUBLIC IdGenerator)
-target_link_libraries(TilePiece PRIVATE AssetManager)
-target_link_libraries(TilePiece PRIVATE Animator)
-target_link_libraries(TilePiece PRIVATE AnimatedAsset)
+target_link_libraries(TilePiece PUBLIC AssetManager)
+target_link_libraries(TilePiece PUBLIC Animator)
+target_link_libraries(TilePiece PUBLIC AnimatedAsset)
 
 target_include_directories(TilePiece PUBLIC
                            "${PROJECT_BINARY_DIR}/src/TilePiece"

@@ -4,6 +4,7 @@
 #include "AssetManager.hpp"
 #include "TileMap.hpp"
 #include "Window.hpp"
+#include "Empire.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -27,6 +28,8 @@ private:
 
     TileMap *map;
     TilePiece *example;
+
+    std::vector<Empire> players;
 
     sf::RectangleShape drawDebugSquare(sf::Sprite sprite, sf::Color backgroundColor);
 };

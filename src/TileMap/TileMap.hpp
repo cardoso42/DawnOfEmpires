@@ -35,6 +35,8 @@ public:
     void animate(sf::Time deltaTime);
     void click(int x, int y);
 
+    TilePiece& getRandomTile();
+
 private:
     std::vector<TilePiece> tiles;
     std::unordered_map<std::pair<int, int>, int, hash_pair> tileMap;

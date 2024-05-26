@@ -8,12 +8,13 @@ target_include_directories(GameController
     $<INSTALL_INTERFACE:include>
 )
 
-target_link_libraries(GameController PRIVATE AssetManager)
-target_link_libraries(GameController PRIVATE Animator)
-target_link_libraries(GameController PRIVATE AnimatedAsset)
-target_link_libraries(GameController PRIVATE TilePiece)
-target_link_libraries(GameController PRIVATE TileMap)
-target_link_libraries(GameController PRIVATE Window)
+target_link_libraries(GameController PUBLIC AssetManager)
+target_link_libraries(GameController PUBLIC Animator)
+target_link_libraries(GameController PUBLIC AnimatedAsset)
+target_link_libraries(GameController PUBLIC TilePiece)
+target_link_libraries(GameController PUBLIC Empire)
+target_link_libraries(GameController PUBLIC TileMap)
+target_link_libraries(GameController PUBLIC Window)
 
 target_include_directories(GameController PUBLIC
                            "${PROJECT_BINARY_DIR}/src/GameController"

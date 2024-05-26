@@ -9,6 +9,8 @@ GameController::GameController(): window("Dawn of Empires", {800, 600})
 
     map = new TileMap(2, {windowSize.x * 0.5f, windowSize.y * 0.5f});
 
+    players.push_back(Empire(map->getRandomTile()));
+
     // setar listener
 }
 

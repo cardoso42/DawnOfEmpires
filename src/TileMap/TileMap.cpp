@@ -70,7 +70,7 @@ void TileMap::click(int x, int y)
             {
                 neighbor->paint(sf::Color::Cyan);
             }
-            
+
             break;
         }
     }
@@ -109,4 +109,9 @@ std::vector<TilePiece*> TileMap::getNeighbors(int q, int r)
     }
 
     return neighbors;
+}
+
+TilePiece& TileMap::getRandomTile()
+{
+    return tiles[rand() % tiles.size()];
 }
