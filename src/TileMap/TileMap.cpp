@@ -48,11 +48,11 @@ void TileMap::click(int x, int y)
 {
     for (auto& tile : tiles)
     {
-        tile.paint(sf::Color::White);
+        tile.unselect();
 
         if (tile.getGlobalBounds().contains({x, y}))
         {
-            tile.paint(sf::Color(192, 192, 192));
+            tile.select();
         }
     }
 }

@@ -1,13 +1,19 @@
 #include "TilePiece.hpp"
+#include "AssetManager.hpp"
 
-TilePiece::TilePiece() : sf::Sprite(), tileId(IdGenerator::GenerateTileId())
+TilePiece::TilePiece() : tileId(IdGenerator::GenerateTileId())
 {
-    animator = new Animator(static_cast<sf::Sprite&>(*this));
+    body.setTexture(*AssetManager::GetTexture("hexagon.png"));
+    body.setOrigin(
+        body.getTexture()->getSize().x * 0.5, 
+        body.getTexture()->getSize().y * 0.5
+    );
 
-    auto& animation = animator->CreateAnimation("NormalTile", "hexagon.png", sf::seconds(1), false);
-    animation.AddFrames({0, 0}, GetSize(), 1);
-
-    setOrigin({GetSize().x * 0.5f, GetSize().y * 0.5f});
+    border.setTexture(*AssetManager::GetTexture("hexagon-border.png"));
+    border.setOrigin(
+        border.getTexture()->getSize().x * 0.5,
+        border.getTexture()->getSize().y * 0.5
+    );
 
     type = static_cast<TileType>(rand() % TileType::TYPES_NR_ITEMS);
 
@@ -16,13 +22,14 @@ TilePiece::TilePiece() : sf::Sprite(), tileId(IdGenerator::GenerateTileId())
 
 TilePiece::TilePiece(float x, float y, sf::Color bgColor) : TilePiece()
 {
-    setColor(bgColor);
+    body.setColor(bgColor);
     setPosition({x, y});
 }
 
 void TilePiece::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    target.draw(static_cast<sf::Sprite>(*this));
+    target.draw(body);
+    target.draw(border);
 
     if (decoration != nullptr)
     {
@@ -32,8 +39,9 @@ void TilePiece::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void TilePiece::setPosition(const sf::Vector2f& position)
 {
-    sf::Sprite::setPosition(position);
- 
+    body.setPosition(position);
+    border.setPosition(position);
+
     if (decoration != nullptr)
     {
         decoration->setPosition(position);
@@ -42,8 +50,6 @@ void TilePiece::setPosition(const sf::Vector2f& position)
 
 void TilePiece::animate(sf::Time deltaTime)
 {
-    animator->Update(deltaTime);
-
     if (decoration != nullptr)
     {
         decoration->animate(deltaTime);
@@ -78,7 +84,7 @@ void TilePiece::generateDecoration()
         throw std::logic_error("generated value for tile type is invalid");
     }
 
-    decoration->setPosition(getPosition());
+    decoration->setPosition(body.getPosition());
     decoration->fitTo(GetSize(), 0.6f);
 }
 
@@ -89,5 +95,17 @@ sf::Vector2i TilePiece::GetSize()
 
 void TilePiece::paint(sf::Color newColor)
 {
-    setColor(newColor);
+    body.setColor(newColor);
 }
+
+void TilePiece::select()
+{
+    border.setTexture(*AssetManager::GetTexture("hexagon-border-selected.png"));
+}
+
+void TilePiece::unselect()
+{
+    border.setTexture(*AssetManager::GetTexture("hexagon-border.png"));
+}
+
+sf::FloatRect TilePiece::getGlobalBounds() { return border.getGlobalBounds(); }
