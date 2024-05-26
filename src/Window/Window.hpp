@@ -4,37 +4,38 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
-class Window
+class Window : public sf::RenderWindow
 {
 public:
     Window();
     Window(const std::string& l_title, const sf::Vector2u& l_size);
     ~Window();
 
-    void BeginDraw();
-    void EndDraw();
+    void beginDraw();
+    void endDraw();
 
-    void Update();
+    void update();
 
-    bool IsDone();
-    bool IsFullscreen();
-    sf::Vector2u GetWindowSize();
+    bool isDone();
+    bool isFullscreen();
+    sf::Vector2u getWindowSize();
+    sf::Vector2i getWindowPos();
+    
+    void zoom(float delta);
 
-    void ToggleFullscreen();
+    void toggleFullscreen();
 
-    void Draw(sf::Drawable& l_drawable);
+    void draw(sf::Drawable& l_drawable);
 
 private:
-    void Setup(const std::string& l_title, const sf::Vector2u& l_size);
-    void Destroy();
-    void Create();
+    void setup(const std::string& l_title, const sf::Vector2u& l_size);
+    void destroy();
+    void create();
 
-    sf::RenderWindow m_window;
     sf::Vector2u m_windowSize;
     std::string m_windowTitle;
     bool m_isDone;
     bool m_isFullscreen;
-
 };
 
 #endif // WINDOW_HPP

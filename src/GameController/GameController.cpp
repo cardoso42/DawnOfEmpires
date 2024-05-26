@@ -5,7 +5,7 @@
 
 GameController::GameController(): window("Dawn of Empires", {800, 600})
 {
-    sf::Vector2u windowSize = window.GetWindowSize();
+    sf::Vector2u windowSize = window.getWindowSize();
 
     map = new TileMap(2, {windowSize.x * 0.5f, windowSize.y * 0.5f});
 
@@ -19,21 +19,25 @@ GameController::~GameController()
 
 void GameController::updateFrame(sf::Time deltaTime)
 {
-    window.Update();
+    window.update();
 
     map->animate(deltaTime);
 }
 
 void GameController::render(sf::Color backgroundColor)
 {
-    window.BeginDraw();
-    window.Draw(*map);
-    window.EndDraw();
+    window.beginDraw();
+    window.draw(*map);
+    window.endDraw();
 }
 
 void GameController::handleInput()
 {
-
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+    {
+        sf::Vector2i pos = sf::Mouse::getPosition(window);
+        map->click(pos.x, pos.y);
+    }
 }
 
 sf::RectangleShape GameController::drawDebugSquare(sf::Sprite sprite, sf::Color backgroundColor)
@@ -52,4 +56,4 @@ sf::RectangleShape GameController::drawDebugSquare(sf::Sprite sprite, sf::Color 
     return outline;
 }
 
-bool GameController::isOver() { return window.IsDone(); }
+bool GameController::isOver() { return window.isDone(); }

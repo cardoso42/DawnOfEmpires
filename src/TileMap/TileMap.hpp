@@ -16,6 +16,7 @@ public:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     void animate(sf::Time deltaTime);
+    void click(int x, int y);
 
 private:
     std::vector<TilePiece> tiles;

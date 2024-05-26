@@ -2,56 +2,61 @@
 
 Window::Window()
 {
-    Setup("Window", {640, 480});
+    setup("Window", {640, 480});
 }
 
 Window::Window(const std::string& l_title, const sf::Vector2u& l_size)
 {
-    Setup(l_title, l_size);
+    setup(l_title, l_size);
 }
 
 Window::~Window()
 {
-    Destroy();
+    destroy();
 }
 
-void Window::Setup(const std::string& l_title, const sf::Vector2u& l_size)
+void Window::setup(const std::string& l_title, const sf::Vector2u& l_size)
 {
     m_windowTitle = l_title;
     m_windowSize = l_size;
     m_isFullscreen =  false;
     m_isDone = false;
-    Create();
+    create();
 }
 
-void Window::Create()
+void Window::create()
 {
     auto sytle = (m_isFullscreen ? sf::Style::Fullscreen : sf::Style::Default);
-    m_window.create({m_windowSize.x, m_windowSize.y, 32}, m_windowTitle, sytle);
+    sf::RenderWindow::create({m_windowSize.x, m_windowSize.y, 32}, m_windowTitle, sytle);
 }
 
-void Window::Destroy()
+void Window::destroy()
 {
-    m_window.close();
+    close();
 }
 
-void Window::Update()
+void Window::update()
 {
     sf::Event event;
 
-    while (m_window.pollEvent(event))
+    while (pollEvent(event))
     {
         switch (event.type)
         {
         case sf::Event::Closed:
             m_isDone = true;
+            close();
             break;
 
         case sf::Event::KeyPressed:
             if (event.key.code == sf::Keyboard::F5)
             {
-                ToggleFullscreen();
+                toggleFullscreen();
             }
+            break;
+        
+        case sf::Event::MouseWheelScrolled:
+            zoom(event.mouseWheelScroll.delta);
             break;
         
         default:
@@ -60,30 +65,39 @@ void Window::Update()
     }
 }
 
-void Window::ToggleFullscreen()
+void Window::zoom(float delta)
+{
+    sf::View view = getView();
+    view.zoom(1 + delta * 0.1);
+    setView(view);
+}
+
+void Window::toggleFullscreen()
 {
     m_isFullscreen = !m_isFullscreen;
-    Destroy();
-    Create();
+    destroy();
+    create();
 }
 
-void Window::BeginDraw()
+void Window::beginDraw()
 {
-    m_window.clear(sf::Color::White);
+    clear(sf::Color::White);
 }
 
-void Window::EndDraw()
+void Window::endDraw()
 {
-    m_window.display();
+    display();
 }
 
-bool Window::IsDone() { return m_isDone; }
+bool Window::isDone() { return m_isDone; }
 
-bool Window::IsFullscreen() { return m_isFullscreen; }
+bool Window::isFullscreen() { return m_isFullscreen; }
 
-sf::Vector2u Window::GetWindowSize() { return m_windowSize; }
+sf::Vector2u Window::getWindowSize() { return m_windowSize; }
 
-void Window::Draw(sf::Drawable& l_drawable)
+void Window::draw(sf::Drawable& l_drawable)
 {
-    m_window.draw(l_drawable);
+    sf::RenderWindow::draw(l_drawable);
 }
+
+sf::Vector2i Window::getWindowPos() { return getPosition(); }

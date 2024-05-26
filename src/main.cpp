@@ -5,8 +5,6 @@
 #include <SFML/Graphics.hpp>
 #include "IdGenerator.hpp"
 
-const sf::Color backgroundColor = sf::Color::White;
-
 void createWindow(sf::RenderWindow &window)
 {
     sf::VideoMode videoMode(800, 600);
@@ -28,9 +26,7 @@ int main()
 {
     AssetManager assetManager;
     IdGenerator idGenerator;
-
     GameController game;
-    // window.setPosition({0,0});
 
     sf::Clock clock;
     while (!game.isOver())

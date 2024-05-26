@@ -43,3 +43,16 @@ void TileMap::animate(sf::Time deltaTime)
         tile.animate(deltaTime);
     }
 }
+
+void TileMap::click(int x, int y)
+{
+    for (auto& tile : tiles)
+    {
+        tile.paint(sf::Color::White);
+
+        if (tile.getGlobalBounds().contains({x, y}))
+        {
+            tile.paint(sf::Color(192, 192, 192));
+        }
+    }
+}
