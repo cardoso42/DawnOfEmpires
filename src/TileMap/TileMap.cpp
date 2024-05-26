@@ -5,6 +5,11 @@
 TileMap::TileMap(int mapRadius, sf::Vector2f center)
 {
     generateHexMap(center, mapRadius);
+
+    for (auto& tile : tiles)
+    {
+        tile.setNeighbors(getNeighbors(tile.getQ(), tile.getR()));
+    }
 }
 
 void TileMap::generateHexMap(sf::Vector2f center, int mapRadius) 
@@ -47,30 +52,26 @@ void TileMap::animate(sf::Time deltaTime)
 
 void TileMap::click(int x, int y)
 {
-    TilePiece* selectedTile{nullptr};
-
-    selectedTileId = 0;
     for (auto& tile : tiles)
     {
         tile.unselect();
         tile.paint(sf::Color::White);
+    }
 
+    selectedTileId = 0;
+    for (auto& tile : tiles)
+    {
         if (tile.getGlobalBounds().contains(sf::Vector2f(x, y)))
         {
             tile.select();
             selectedTileId = tile.getId();
-            selectedTile = &tile;
-            break;
-        }
-    }
 
-    if (selectedTile != nullptr)
-    {
-        auto neighbors = getNeighbors(selectedTile->getQ(), selectedTile->getR());
-        
-        for (auto& tile : neighbors)
-        {
-            tile->paint(sf::Color::Cyan);
+            for (auto& neighbor : tile.getNeighbors())
+            {
+                neighbor->paint(sf::Color::Cyan);
+            }
+            
+            break;
         }
     }
 }

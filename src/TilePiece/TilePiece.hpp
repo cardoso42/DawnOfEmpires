@@ -27,15 +27,20 @@ public:
     void unselect();
 
     // getters
+    std::vector<TilePiece*> getNeighbors();
     sf::FloatRect getGlobalBounds();
     sf::Vector2f getPosition();
     int getId() const;
     int getQ() const;
     int getR() const;
 
+    // setters
+    int setNeighbors(std::vector<TilePiece*> newNeighbors);
+
     // Static
     static sf::Vector2i getSize();
 private:
+    std::vector<TilePiece*> neighbors;
     AnimatedAsset *decoration;
     sf::Sprite border;
     sf::Sprite body;

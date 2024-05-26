@@ -121,7 +121,22 @@ void TilePiece::unselect()
     border.setTexture(*AssetManager::GetTexture("hexagon-border.png"));
 }
 
+// Setters
+int TilePiece::setNeighbors(std::vector<TilePiece*> newNeighbors)
+{
+    if (neighbors.size() > 0)
+    {
+        throw std::logic_error("Neighbors of tile " + std::to_string(tileId) + " already set");
+    }
+
+    neighbors = newNeighbors;
+
+    return neighbors.size();
+}
+
 // Getters
+std::vector<TilePiece*> TilePiece::getNeighbors() { return neighbors; }
+
 sf::FloatRect TilePiece::getGlobalBounds() { return border.getGlobalBounds(); }
 
 sf::Vector2i TilePiece::getSize() { return {107, 93}; }
