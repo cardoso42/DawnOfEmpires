@@ -3,27 +3,37 @@
 #include <iostream>
 #include <sstream>
 
-GameController::GameController(int id, sf::Vector2u windowSize, sf::FloatRect viewport) : gameId(id)
+GameController::GameController(): window("Dawn of Empires", {800, 600})
 {
-    view = sf::View(
-        sf::Vector2f(windowSize.x * 0.5f, windowSize.y * 0.5f),
-        sf::Vector2f(windowSize.x, windowSize.y)
-    );
-    view.setViewport(viewport);
+    sf::Vector2u windowSize = window.GetWindowSize();
 
     map = new TileMap(2, {windowSize.x * 0.5f, windowSize.y * 0.5f});
 
     // setar listener
 }
 
+GameController::~GameController()
+{
+
+}
+
 void GameController::updateFrame(sf::Time deltaTime)
 {
+    window.Update();
+
     map->animate(deltaTime);
 }
 
-void GameController::drawOn(sf::RenderWindow& window, sf::Color backgroundColor)
+void GameController::render(sf::Color backgroundColor)
 {
-    map->drawOn(window);
+    window.BeginDraw();
+    window.Draw(*map);
+    window.EndDraw();
+}
+
+void GameController::handleInput()
+{
+
 }
 
 sf::RectangleShape GameController::drawDebugSquare(sf::Sprite sprite, sf::Color backgroundColor)
@@ -42,12 +52,4 @@ sf::RectangleShape GameController::drawDebugSquare(sf::Sprite sprite, sf::Color 
     return outline;
 }
 
-sf::View GameController::getView()
-{
-    return view;
-}
-
-int GameController::getId()
-{
-    return gameId;
-}
+bool GameController::isOver() { return window.IsDone(); }

@@ -3,6 +3,7 @@
 
 #include "AssetManager.hpp"
 #include "TileMap.hpp"
+#include "Window.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -12,16 +13,17 @@
 class GameController
 {
 public:
-    GameController(int id, sf::Vector2u windowSize, sf::FloatRect viewport);
-    
+    GameController();
+    ~GameController();
+
+    void handleInput();
     void updateFrame(sf::Time deltaTime);
-    void drawOn(sf::RenderWindow& window, sf::Color backgroundColor = sf::Color::Black);
+    void render(sf::Color backgroundColor = sf::Color::Black);
     
-    sf::View getView();
-    int getId();
+    bool isOver();
 private:
     sf::View view;
-    int gameId;
+    Window window;
 
     TileMap *map;
     TilePiece *example;

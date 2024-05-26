@@ -28,11 +28,11 @@ void TileMap::generateHexMap(sf::Vector2f center)
     }
 }
 
-void TileMap::drawOn(sf::RenderWindow &window)
+void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     for (auto& tile : tiles)
     {
-        tile.drawOn(window);
+        target.draw(tile);
     }
 }
 

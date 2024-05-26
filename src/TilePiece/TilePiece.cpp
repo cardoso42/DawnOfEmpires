@@ -20,13 +20,13 @@ TilePiece::TilePiece(float x, float y, sf::Color bgColor) : TilePiece()
     setPosition({x, y});
 }
 
-void TilePiece::drawOn(sf::RenderWindow &window)
+void TilePiece::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    window.draw(*this);
+    target.draw(static_cast<sf::Sprite>(*this));
 
     if (decoration != nullptr)
     {
-        window.draw(*decoration);
+        target.draw(*decoration);
     }
 }
 

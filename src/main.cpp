@@ -24,58 +24,22 @@ void createWindow(sf::RenderWindow &window)
     window.setFramerateLimit(60);
 }
 
-void handleInput(sf::RenderWindow &window)
-{
-    sf::Event event;
-    while (window.pollEvent(event))
-    {
-        switch (event.type)
-        {
-        case sf::Event::EventType::Closed:
-            window.close();
-            break;
-
-        default:
-            break;
-        }
-    }
-}
-
-void updateFrame(GameController &game, sf::Time deltaTime)
-{
-    game.updateFrame(deltaTime);
-}
- 
-void renderFrame(sf::RenderWindow &window, GameController &game)
-{
-    window.clear(backgroundColor);
-
-    game.drawOn(window);
-
-    window.display();
-}
-
 int main()
 {
     AssetManager assetManager;
     IdGenerator idGenerator;
 
-    sf::RenderWindow window;
-    createWindow(window);
-
-    int gameId{0};
-    sf::FloatRect viewport = {0, 0, 1, 1};
-    GameController game(++gameId, window.getSize(), viewport);
+    GameController game;
     // window.setPosition({0,0});
 
     sf::Clock clock;
-    while (window.isOpen())
+    while (!game.isOver())
     {
         sf::Time deltaTime = clock.restart();
 
-        handleInput(window);
-        updateFrame(game, deltaTime);
-        renderFrame(window, game);
+        game.handleInput();
+        game.updateFrame(deltaTime);
+        game.render();
     }
  
     return EXIT_SUCCESS;

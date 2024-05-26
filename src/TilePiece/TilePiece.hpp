@@ -18,9 +18,9 @@ public:
 
     // Overrides
     void setPosition(const sf::Vector2f& position);
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     void animate(sf::Time deltaTime);
-    void drawOn(sf::RenderWindow &window);
     void paint(sf::Color color);
 
     // Static

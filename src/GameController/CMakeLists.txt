@@ -13,6 +13,7 @@ target_link_libraries(GameController PRIVATE Animator)
 target_link_libraries(GameController PRIVATE AnimatedAsset)
 target_link_libraries(GameController PRIVATE TilePiece)
 target_link_libraries(GameController PRIVATE TileMap)
+target_link_libraries(GameController PRIVATE Window)
 
 target_include_directories(GameController PUBLIC
                            "${PROJECT_BINARY_DIR}/src/GameController"

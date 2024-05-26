@@ -7,11 +7,14 @@
 
 #include <vector>
 
-class TileMap
+class TileMap : public sf::Drawable
 {
 public:
     TileMap(int mapRadius, sf::Vector2f center);
-    void drawOn(sf::RenderWindow &window);
+
+    // Override
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
     void animate(sf::Time deltaTime);
 
 private:
