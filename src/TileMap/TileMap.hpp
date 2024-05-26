@@ -16,7 +16,6 @@ public:
 
 private:
     std::vector<TilePiece> tiles;
-    sf::Vector2i tileSize;
     int mapRadius;
 
     void generateHexMap(sf::Vector2f center);

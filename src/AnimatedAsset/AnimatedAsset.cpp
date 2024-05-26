@@ -16,15 +16,33 @@ AnimatedAsset::AnimatedAsset(std::string filename)
 {
     animator = new Animator(static_cast<sf::Sprite&>(*this));
 
+    sf::Vector2u textureSize = (AssetManager::GetTexture(filename))->getSize();
     auto& animation = animator->CreateAnimation(filename, filename, sf::seconds(1));
-    animation.AddFrames(
-        {0, 0}, 
-        static_cast<sf::Vector2i>((AssetManager::GetTexture(filename))->getSize()), 
-        1
-    );
+    animation.AddFrames({0, 0}, static_cast<sf::Vector2i>(textureSize), 1);
+
+    setOrigin({textureSize.x * 0.5f, textureSize.y * 0.5f});
 }
 
 void AnimatedAsset::animate(sf::Time deltaTime)
 {
     animator->Update(deltaTime);
+}
+
+void AnimatedAsset::fitTo(sf::Vector2i size, float proportion)
+{
+    float scale{1};
+
+    sf::Vector2f maxSizeTexture = {size.x * proportion, size.y * proportion};
+    
+    if (getTextureRect().width > maxSizeTexture.x)
+    {
+        scale = maxSizeTexture.x / getTextureRect().width;
+    }
+
+    if (getTextureRect().height > maxSizeTexture.y)
+    {
+        scale = std::min(scale, maxSizeTexture.y / getTextureRect().height);
+    }
+
+    setScale({scale, scale});
 }

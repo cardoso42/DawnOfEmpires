@@ -1,23 +1,22 @@
 #include "TilePiece.hpp"
 
-TilePiece::TilePiece() : sf::Sprite(), decoration(nullptr), 
-    tileId(IdGenerator::GenerateTileId())
+TilePiece::TilePiece() : sf::Sprite(), tileId(IdGenerator::GenerateTileId())
 {
     animator = new Animator(static_cast<sf::Sprite&>(*this));
 
-    sf::Vector2i size = {200, 172};
     auto& animation = animator->CreateAnimation("NormalTile", "hexagon.png", sf::seconds(1), false);
-    animation.AddFrames({0, 0}, size, 1);
+    animation.AddFrames({0, 0}, GetSize(), 1);
 
-    setOrigin({size.x * 0.5f, size.y * 0.5f});
+    setOrigin({GetSize().x * 0.5f, GetSize().y * 0.5f});
 
     type = static_cast<TileType>(rand() % TileType::TYPES_NR_ITEMS);
 
     generateDecoration();
 }
 
-TilePiece::TilePiece(float x, float y) : TilePiece()
+TilePiece::TilePiece(float x, float y, sf::Color bgColor) : TilePiece()
 {
+    setColor(bgColor);
     setPosition({x, y});
 }
 
@@ -79,9 +78,16 @@ void TilePiece::generateDecoration()
         throw std::logic_error("generated value for tile type is invalid");
     }
 
-    decoration->setOrigin({
-        decoration->getTextureRect().width * 0.5f, 
-        decoration->getTextureRect().height * 0.5f
-    });
     decoration->setPosition(getPosition());
+    decoration->fitTo(GetSize(), 0.6f);
+}
+
+sf::Vector2i TilePiece::GetSize()
+{
+    return {107, 93};
+}
+
+void TilePiece::paint(sf::Color newColor)
+{
+    setColor(newColor);
 }

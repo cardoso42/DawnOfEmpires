@@ -2,14 +2,15 @@
 
 #include <cmath>
 
-TileMap::TileMap(int mapRadius, sf::Vector2f center) : tileSize({200, 172}), mapRadius(mapRadius)
+TileMap::TileMap(int mapRadius, sf::Vector2f center) : mapRadius(mapRadius)
 {
     generateHexMap(center);
 }
 
 void TileMap::generateHexMap(sf::Vector2f center) 
 {
-    float hexWidth = static_cast<float>(tileSize.x);
+    sf::Vector2i tileSize = TilePiece::GetSize();
+    float hexWidth = tileSize.x;
     float hexRadius = hexWidth / 2.0f;
     float hexHeight = std::sqrt(3.0f) * hexRadius;
 

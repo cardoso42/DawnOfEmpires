@@ -13,7 +13,6 @@ IdGenerator::IdGenerator()
     mInstance = this;
 }
 
-
 unsigned int IdGenerator::GenerateUniqueId()
 {
     return ++uniqueId;
@@ -23,4 +22,3 @@ unsigned int IdGenerator::GenerateTileId()
 {
     return ++tileId;
 }
-
