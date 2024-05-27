@@ -3,13 +3,18 @@
 #include <iostream>
 #include <sstream>
 
-GameController::GameController(): window("Dawn of Empires", {800, 600})
+GameController::GameController(): window("Dawn of Empires")
 {
-    sf::Vector2u windowSize = window.getWindowSize();
+    window.createView("map", {0, 0}, {0.8, 1});
+    window.createView("menu", {0.8, 0}, {0.2, 1});
 
-    map = new TileMap(2, {windowSize.x * 0.5f, windowSize.y * 0.5f});
+    int mapRadius = 2;
+    sf::Vector2f viewCenter = window.getViewSize("map") * 0.5f;
+    map = new TileMap(mapRadius, viewCenter);
 
-    players.push_back(Empire(map->getRandomTile()));
+    menu = new ActionMenu(window.getViewSize("menu"));
+
+    players.push_back(Empire());
 
     // setar listener
 }
@@ -29,7 +34,13 @@ void GameController::updateFrame(sf::Time deltaTime)
 void GameController::render(sf::Color backgroundColor)
 {
     window.beginDraw();
+
+    window.switchToView("menu");
+    window.draw(*menu);
+
+    window.switchToView("map");
     window.draw(*map);
+
     window.endDraw();
 }
 

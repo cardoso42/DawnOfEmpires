@@ -1,8 +1,7 @@
 #include "Empire.hpp"
 
-Empire::Empire(TilePiece &startingTile) : color(sf::Color::Red)
+Empire::Empire() : color(sf::Color::Red)
 {
-    setStartingTerritory(startingTile);
 }
 
 Empire::~Empire()

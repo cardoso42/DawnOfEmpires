@@ -3,6 +3,7 @@
 
 #include "AssetManager.hpp"
 #include "TileMap.hpp"
+#include "ActionMenu.hpp"
 #include "Window.hpp"
 #include "Empire.hpp"
 
@@ -23,11 +24,10 @@ public:
     
     bool isOver();
 private:
-    sf::View view;
     Window window;
 
+    ActionMenu *menu;
     TileMap *map;
-    TilePiece *example;
 
     std::vector<Empire> players;
 

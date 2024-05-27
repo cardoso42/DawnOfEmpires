@@ -7,35 +7,37 @@
 class Window : public sf::RenderWindow
 {
 public:
-    Window();
-    Window(const std::string& l_title, const sf::Vector2u& l_size);
+    Window(const std::string& title);
+    Window(const std::string& title, const sf::Vector2u& size);
     ~Window();
 
+    bool createView(std::string name, sf::Vector2f pos, sf::Vector2f size);
+    bool switchToView(std::string name);
     void beginDraw();
     void endDraw();
-
     void update();
 
     bool isDone();
     bool isFullscreen();
+
     sf::Vector2u getWindowSize();
     sf::Vector2i getWindowPos();
-    
-    void zoom(float delta);
+    sf::Vector2f getViewSize(std::string name);
 
-    void toggleFullscreen();
-
-    void draw(sf::Drawable& l_drawable);
+    void draw(sf::Drawable& drawable);
 
 private:
-    void setup(const std::string& l_title, const sf::Vector2u& l_size);
+    void setup(const std::string& title, const sf::Vector2u& size);
     void destroy();
     void create();
+    void zoom(float delta);
+    void toggleFullscreen();
 
-    sf::Vector2u m_windowSize;
-    std::string m_windowTitle;
+    sf::Vector2u windowSize;
+    std::string windowTitle;
     bool m_isDone;
     bool m_isFullscreen;
+    std::map<std::string, sf::View*> views;
 };
 
 #endif // WINDOW_HPP

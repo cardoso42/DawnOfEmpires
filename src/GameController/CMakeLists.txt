@@ -15,6 +15,7 @@ target_link_libraries(GameController PUBLIC TilePiece)
 target_link_libraries(GameController PUBLIC Empire)
 target_link_libraries(GameController PUBLIC TileMap)
 target_link_libraries(GameController PUBLIC Window)
+target_link_libraries(GameController PUBLIC ActionMenu)
 
 target_include_directories(GameController PUBLIC
                            "${PROJECT_BINARY_DIR}/src/GameController"

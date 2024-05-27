@@ -1,11 +1,24 @@
 #include "TilePiece.hpp"
 #include "AssetManager.hpp"
 
-TilePiece::TilePiece() : tileId(IdGenerator::GenerateTileId())
+TilePiece::TilePiece(float x, float y, int q, int r, sf::Color bgColor) 
+    : tileId(IdGenerator::GenerateTileId()), q(q), r(r), bodyColor(bgColor),
+    status(TilePiece::TileStatus::NONE), empireId(-1), decoration(nullptr)
 {
+#ifdef DEBUG
+    text = new sf::Text(
+        "(" + std::to_string(q) + ", " + std::to_string(r) + ")",
+        AssetManager::GetFont("arial.ttf"), 12U
+    );
+    text->setFillColor(sf::Color::Black);
+#endif
+
+    body.setColor(bgColor);
+    setPosition({x, y});
+
     body.setTexture(*AssetManager::GetTexture("hexagon.png"));
     body.setOrigin(
-        body.getTexture()->getSize().x * 0.5, 
+        body.getTexture()->getSize().x * 0.5,
         body.getTexture()->getSize().y * 0.5
     );
 
@@ -16,22 +29,7 @@ TilePiece::TilePiece() : tileId(IdGenerator::GenerateTileId())
     );
 
     type = static_cast<TileType>(rand() % TileType::TYPES_NR_ITEMS);
-
     generateDecoration();
-}
-
-TilePiece::TilePiece(float x, float y, int q, int r, sf::Color bgColor) : TilePiece()
-{
-    this->q = q;
-    this->r = r;
-
-#ifdef DEBUG
-    text = new sf::Text("(" + std::to_string(q) + ", " + std::to_string(r) + ")", AssetManager::GetFont("arial.ttf"), 12U);
-    text->setFillColor(sf::Color::Black);
-#endif
-
-    body.setColor(bgColor);
-    setPosition({x, y});
 }
 
 void TilePiece::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -119,6 +117,12 @@ void TilePiece::select()
 void TilePiece::unselect()
 {
     border.setTexture(*AssetManager::GetTexture("hexagon-border.png"));
+}
+
+void TilePiece::annexTo(uint newOwner, sf::Color ownerColor)
+{
+    status = TilePiece::TileStatus::TERRITORY;
+    bodyColor = ownerColor;
 }
 
 // Setters

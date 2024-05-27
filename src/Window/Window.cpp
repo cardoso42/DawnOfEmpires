@@ -1,8 +1,18 @@
 #include "Window.hpp"
 
-Window::Window()
+#include <iostream>
+
+Window::Window(const std::string& title)
 {
-    setup("Window", {640, 480});
+    sf::VideoMode videoMode(800, 600);
+    
+    auto fullscreenModes = sf::VideoMode::getFullscreenModes();
+    if (fullscreenModes.size() > 0)
+    {
+        videoMode = fullscreenModes[0];
+    }
+
+    setup(title, {videoMode.width, videoMode.height});
 }
 
 Window::Window(const std::string& l_title, const sf::Vector2u& l_size)
@@ -17,8 +27,8 @@ Window::~Window()
 
 void Window::setup(const std::string& l_title, const sf::Vector2u& l_size)
 {
-    m_windowTitle = l_title;
-    m_windowSize = l_size;
+    windowTitle = l_title;
+    windowSize = l_size;
     m_isFullscreen =  false;
     m_isDone = false;
     create();
@@ -27,7 +37,10 @@ void Window::setup(const std::string& l_title, const sf::Vector2u& l_size)
 void Window::create()
 {
     auto sytle = (m_isFullscreen ? sf::Style::Fullscreen : sf::Style::Default);
-    sf::RenderWindow::create({m_windowSize.x, m_windowSize.y, 32}, m_windowTitle, sytle);
+
+    sf::RenderWindow::create({windowSize.x, windowSize.y}, windowTitle, sytle);
+
+    setFramerateLimit(60);
 }
 
 void Window::destroy()
@@ -67,9 +80,8 @@ void Window::update()
 
 void Window::zoom(float delta)
 {
-    sf::View view = getView();
-    view.zoom(1 + delta * 0.1);
-    setView(view);
+    views["map"]->zoom(1 + delta * 0.1);
+    setView(*views["map"]);
 }
 
 void Window::toggleFullscreen()
@@ -89,15 +101,56 @@ void Window::endDraw()
     display();
 }
 
-bool Window::isDone() { return m_isDone; }
+bool Window::createView(std::string name, sf::Vector2f pos, sf::Vector2f size)
+{
+    if (views.find(name) != views.end())
+    {
+        return false;
+    }
 
-bool Window::isFullscreen() { return m_isFullscreen; }
+    const float width = windowSize.x * size.x;
+    const float height = windowSize.y * size.y;
 
-sf::Vector2u Window::getWindowSize() { return m_windowSize; }
+    views[name] = new sf::View({0, 0, width, height});
+    views[name]->setViewport({pos.x, pos.y, size.x, size.y});
+    
+    return true;
+}
+
+bool Window::switchToView(std::string name)
+{
+    auto view = views.find(name);
+    if (view == views.end())
+    {
+        return false;
+    }
+
+    sf::RenderWindow::setView(*(view->second));
+
+    return true;
+}
 
 void Window::draw(sf::Drawable& l_drawable)
 {
     sf::RenderWindow::draw(l_drawable);
 }
 
+bool Window::isDone() { return m_isDone; }
+
+bool Window::isFullscreen() { return m_isFullscreen; }
+
+sf::Vector2u Window::getWindowSize() { return windowSize; }
+
 sf::Vector2i Window::getWindowPos() { return getPosition(); }
+
+sf::Vector2f Window::getViewSize(std::string name)
+{
+    auto view = views.find(name);
+
+    if (view == views.end())
+    {
+        return {-1, -1};
+    }
+
+    return view->second->getSize();
+}

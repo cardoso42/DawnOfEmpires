@@ -6,12 +6,13 @@
 class Empire
 {
 public:
-    Empire(TilePiece& startingTile);
+    Empire();
     ~Empire();
+    
+    void setStartingTerritory(TilePiece& startingTile);
 private:
     std::vector<TilePiece> territory;
 
-    void setStartingTerritory(TilePiece& startingTile);
     sf::Color color;
 };
 
