@@ -11,6 +11,7 @@ public:
     // Overrides
     void draw(sf::RenderTarget& target, sf::RenderStates states) const;
     void setPosition(sf::Vector2f pos);
+    void setScale(sf::Vector2f scale);
     sf::FloatRect getGlobalBounds();
     sf::Vector2f getSize();
 

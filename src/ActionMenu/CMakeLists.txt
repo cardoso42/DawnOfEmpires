@@ -11,6 +11,7 @@ target_include_directories(ActionMenu
 target_link_libraries(ActionMenu PUBLIC AssetManager)
 target_link_libraries(ActionMenu PUBLIC Animator)
 target_link_libraries(ActionMenu PUBLIC ButtonMenu)
+target_link_libraries(ActionMenu PUBLIC GenericMenu)
 
 target_include_directories(ActionMenu PUBLIC
                            "${PROJECT_BINARY_DIR}/src/ActionMenu"

@@ -50,8 +50,8 @@ target_include_directories($NOME
     \$<INSTALL_INTERFACE:include>
 )
 
-target_link_libraries($NOME PRIVATE AssetManager)
-target_link_libraries($NOME PRIVATE Animator)
+target_link_libraries($NOME PUBLIC AssetManager)
+target_link_libraries($NOME PUBLIC Animator)
 
 target_include_directories($NOME PUBLIC
                            "\${PROJECT_BINARY_DIR}/src/$NOME"

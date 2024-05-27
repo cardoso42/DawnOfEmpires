@@ -4,7 +4,7 @@
 #include "AssetManager.hpp"
 #include "TileMap.hpp"
 #include "ActionMenu.hpp"
-#include "Window.hpp"
+#include "WindowManager.hpp"
 #include "Empire.hpp"
 
 #include <SFML/Graphics.hpp>
@@ -24,7 +24,7 @@ public:
     
     bool isOver();
 private:
-    Window window;
+    WindowManager windowManager;
 
     ActionMenu *menu;
     TileMap *map;

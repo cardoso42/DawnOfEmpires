@@ -1,18 +1,19 @@
 #include "GameController.hpp"
+#include "ContextMenu.hpp"
 
 #include <iostream>
 #include <sstream>
 
-GameController::GameController(): window("Dawn of Empires")
+GameController::GameController(): windowManager("Dawn of Empires")
 {
-    window.createView("map", {0, 0}, {0.8, 1});
-    window.createView("menu", {0.8, 0}, {0.2, 1});
+    windowManager.createView("map", {0, 0}, {0.8, 1});
+    windowManager.createView("menu", {0.8, 0}, {0.2, 1});
 
     int mapRadius = 2;
-    sf::Vector2f viewCenter = window.getViewSize("map") * 0.5f;
+    sf::Vector2f viewCenter = windowManager.getViewSize("map") * 0.5f;
     map = new TileMap(mapRadius, viewCenter);
 
-    menu = new ActionMenu(window.getViewSize("menu"));
+    menu = new ActionMenu(windowManager.getViewSize("menu"));
 
     players.push_back(Empire());
 
@@ -26,37 +27,37 @@ GameController::~GameController()
 
 void GameController::updateFrame(sf::Time deltaTime)
 {
-    window.update();
+    windowManager.update();
 
     map->animate(deltaTime);
 }
 
 void GameController::render(sf::Color backgroundColor)
 {
-    window.beginDraw();
+    windowManager.beginDraw();
 
-    window.switchToView("menu");
-    window.draw(*menu);
+    windowManager.switchToView("menu");
+    windowManager.draw(*menu);
 
-    window.switchToView("map");
-    window.draw(*map);
+    windowManager.switchToView("map");
+    windowManager.draw(*map);
 
-    window.endDraw();
+    windowManager.endDraw();
 }
 
 void GameController::handleInput()
 {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
     {
-        sf::Vector2i pos = sf::Mouse::getPosition(window);
+        sf::Vector2i pos = sf::Mouse::getPosition(windowManager);
         sf::Vector2f sceneCords;
 
-        window.switchToView("menu");
-        sceneCords = window.mapPixelToCoords({pos.x, pos.y});
+        windowManager.switchToView("menu");
+        sceneCords = windowManager.mapPixelToCoords({pos.x, pos.y});
         menu->click(sceneCords.x, sceneCords.y);
 
-        window.switchToView("map");
-        sceneCords = window.mapPixelToCoords({pos.x, pos.y});
+        windowManager.switchToView("map");
+        sceneCords = windowManager.mapPixelToCoords({pos.x, pos.y});
         map->click(sceneCords.x, sceneCords.y);
     }
 }
@@ -77,4 +78,4 @@ sf::RectangleShape GameController::drawDebugSquare(sf::Sprite sprite, sf::Color 
     return outline;
 }
 
-bool GameController::isOver() { return window.isDone(); }
+bool GameController::isOver() { return windowManager.isDone(); }

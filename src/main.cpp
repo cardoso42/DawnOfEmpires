@@ -4,26 +4,12 @@
 
 #include <SFML/Graphics.hpp>
 #include "IdGenerator.hpp"
-
-void createWindow(sf::RenderWindow &window)
-{
-    sf::VideoMode videoMode(800, 600);
-    
-    sf::Uint32 styles = sf::Style::Default;
-
-    std::vector<sf::VideoMode> fullscreenModes= sf::VideoMode::getFullscreenModes();
-    if (fullscreenModes.size() > 0)
-    {
-        videoMode = fullscreenModes[0];
-        // styles = sf::Style::Fullscreen;
-    }
-
-    window.create(videoMode, "Dawn of Empires", styles);
-    window.setFramerateLimit(60);
-}
+#include <X11/Xlib.h>
 
 int main()
 {
+    XInitThreads();
+    
     AssetManager assetManager;
     IdGenerator idGenerator;
     GameController game;

@@ -21,6 +21,12 @@ void ButtonMenu::setPosition(sf::Vector2f pos)
     btnText.setPosition(pos);
 }
 
+void ButtonMenu::setScale(sf::Vector2f scale)
+{
+    frame.setScale(scale);
+    btnText.setScale(scale);
+}
+
 void ButtonMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     target.draw(frame);

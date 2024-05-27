@@ -3,13 +3,14 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <thread>
 
-class Window : public sf::RenderWindow
+class WindowManager : public sf::RenderWindow
 {
 public:
-    Window(const std::string& title);
-    Window(const std::string& title, const sf::Vector2u& size);
-    ~Window();
+    WindowManager(const std::string& title);
+    WindowManager(const std::string& title, const sf::Vector2u& size);
+    ~WindowManager();
 
     bool createView(std::string name, sf::Vector2f pos, sf::Vector2f size);
     bool switchToView(std::string name);
@@ -32,12 +33,14 @@ private:
     void create();
     void zoom(float delta);
     void toggleFullscreen();
+    void finishThread();
 
     sf::Vector2u windowSize;
     std::string windowTitle;
     bool m_isDone;
     bool m_isFullscreen;
     std::map<std::string, sf::View*> views;
+    std::thread contextMenuThread;
 };
 
 #endif // WINDOW_HPP
