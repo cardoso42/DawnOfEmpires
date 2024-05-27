@@ -1,6 +1,6 @@
 set(FILES_BASE_PATH ${CMAKE_BINARY_DIR})
 
-add_library(ActionMenu STATIC ActionMenu.cpp)
+add_library(ActionMenu STATIC ActionMenu.cpp ButtonCallback.cpp ButtonCallback.hpp)
 
 target_include_directories(ActionMenu
     INTERFACE
@@ -8,8 +8,9 @@ target_include_directories(ActionMenu
     $<INSTALL_INTERFACE:include>
 )
 
-target_link_libraries(ActionMenu PRIVATE AssetManager)
-target_link_libraries(ActionMenu PRIVATE Animator)
+target_link_libraries(ActionMenu PUBLIC AssetManager)
+target_link_libraries(ActionMenu PUBLIC Animator)
+target_link_libraries(ActionMenu PUBLIC ButtonMenu)
 
 target_include_directories(ActionMenu PUBLIC
                            "${PROJECT_BINARY_DIR}/src/ActionMenu"

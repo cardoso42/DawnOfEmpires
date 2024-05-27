@@ -49,7 +49,15 @@ void GameController::handleInput()
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
     {
         sf::Vector2i pos = sf::Mouse::getPosition(window);
-        map->click(pos.x, pos.y);
+        sf::Vector2f sceneCords;
+
+        window.switchToView("menu");
+        sceneCords = window.mapPixelToCoords({pos.x, pos.y});
+        menu->click(sceneCords.x, sceneCords.y);
+
+        window.switchToView("map");
+        sceneCords = window.mapPixelToCoords({pos.x, pos.y});
+        map->click(sceneCords.x, sceneCords.y);
     }
 }
 
