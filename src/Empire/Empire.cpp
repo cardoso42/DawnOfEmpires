@@ -20,3 +20,5 @@ void Empire::setStartingTerritory(TilePiece *startingTile)
     territory.push_back(*startingTile);
     startingTile->paint(color);
 }
+
+std::vector<TilePiece> Empire::getTerritory() { return territory; }

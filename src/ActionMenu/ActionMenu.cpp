@@ -17,11 +17,22 @@ void ActionMenu::selectInitialTileBtnCb(std::vector<void*> parameters)
     Empire* empire = GameContext::getPlayer();
     TilePiece* tile = GameContext::getTile();
 
-    if (tile == nullptr || empire == nullptr)
+    if (empire == nullptr)
     {
+        throw std::logic_error("At least one empire should be selected by now");
+    }
+
+    if (tile == nullptr)
+    {
+        std::cout << "You should select a tile first!" << std::endl;
         return;
     }
 
+    if (empire->getTerritory().size() > 0)
+    {
+        std::cout << "You already have a territory" << std::endl;
+        return;
+    }
 
     empire->setStartingTerritory(tile);
 }

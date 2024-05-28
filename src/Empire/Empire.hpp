@@ -10,6 +10,7 @@ public:
     ~Empire();
     
     void setStartingTerritory(TilePiece *startingTile);
+    std::vector<TilePiece> getTerritory();
 private:
     std::vector<TilePiece> territory;
 
