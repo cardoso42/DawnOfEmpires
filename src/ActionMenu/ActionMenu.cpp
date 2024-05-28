@@ -42,6 +42,22 @@ void ActionMenu::annexTileBtnCb(std::vector<void *> parameters)
         return;
     }
 
+    bool isAdjacent{false};
+    // O(6) = O(1) :D
+    for (auto neighbor : tile->getNeighbors())
+    {
+        if (neighbor->isOwnedBy(empire->getId()))
+        {
+            isAdjacent = true;
+        }
+    }
+
+    if (!isAdjacent)
+    {
+        std::cout << "New tile must be adjacent to your current territory!" << std::endl;
+        return;
+    }
+
     empire->annexNewTile(tile);
 }
 
