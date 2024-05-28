@@ -11,7 +11,9 @@ public:
     
     void setStartingTerritory(TilePiece *startingTile);
     std::vector<TilePiece> getTerritory();
+    uint getId();
 private:
+    uint empireId;
     std::vector<TilePiece> territory;
 
     sf::Color color;

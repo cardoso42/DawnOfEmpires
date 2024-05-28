@@ -6,6 +6,7 @@ ActionMenu::ActionMenu(sf::Vector2f windowSize) : GenericMenu(windowSize)
 {
     sf::Vector2f size = {windowSize.x * 0.6f, windowSize.y * 0.05f};
 
+    // TODO: think about someway to hide and show new buttons throghout the game
     buttons.push_back(ButtonMenu("Select initial tile", size, selectInitialTileBtnCb, {}));
     buttons.push_back(ButtonMenu("Improve tile", size, improveTileBtnCb, {}));
 
@@ -39,5 +40,25 @@ void ActionMenu::selectInitialTileBtnCb(std::vector<void*> parameters)
 
 void ActionMenu::improveTileBtnCb(std::vector<void*> parameters)
 {
+    Empire* empire = GameContext::getPlayer();
+    TilePiece* tile = GameContext::getTile();
 
+    if (empire == nullptr)
+    {
+        throw std::logic_error("At least one empire should be selected by now");
+    }
+    
+    if (tile == nullptr)
+    {
+        std::cout << "You should select a tile first!" << std::endl;
+        return;
+    }
+
+    if (!tile->isOwnedBy(empire->getId()))
+    {
+        std::cout << "You can\'t improve not owned tiles!" << std::endl;
+        return;
+    }
+
+    tile->improve();
 }

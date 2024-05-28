@@ -9,6 +9,7 @@ target_include_directories(Empire
 )
 
 target_link_libraries(Empire PUBLIC TilePiece)
+target_link_libraries(Empire PUBLIC GameContext)
 
 target_include_directories(Empire PUBLIC
                            "${PROJECT_BINARY_DIR}/src/Empire"

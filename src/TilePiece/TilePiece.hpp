@@ -11,7 +11,7 @@
 class TilePiece : public sf::Drawable
 {
 public:
-    enum TileType { GRASS, FOREST, MINE, FARM, CONSTRUCTION, TYPES_NR_ITEMS };
+    enum TileType { GRASS, FOREST, MINE, TYPES_NR_ITEMS, FARM, CONSTRUCTION };
     enum TileStatus { NONE = 0x0, TERRITORY = 0x1, MODIFIED = 0x2, SELECTED = 0x4 };
 
     TilePiece();
@@ -29,8 +29,11 @@ public:
     void animate(sf::Time deltaTime);
     void paint(sf::Color color);
     void annexTo(uint newOwner, sf::Color newColor);
+    void improve();
     void select();
     void unselect();
+
+    bool isOwnedBy(uint empireId);
 
     // getters
     std::vector<TilePiece*> getNeighbors();
@@ -59,7 +62,7 @@ private:
     TileType type;
     uint tileId;
 
-    int empireId;
+    int ownerId;
     int q, r; // axial coordinates
 
     void generateDecoration();

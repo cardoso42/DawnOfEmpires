@@ -4,7 +4,7 @@
 
 TilePiece::TilePiece(float x, float y, int q, int r, sf::Color bgColor) 
     : tileId(IdGenerator::GenerateTileId()), q(q), r(r), colorHistory({bgColor}),
-    status(TilePiece::TileStatus::NONE), empireId(-1), decoration(nullptr)
+    status(TilePiece::TileStatus::NONE), ownerId(-1), decoration(nullptr)
 {
 #ifdef DEBUG
     text = new sf::Text(
@@ -30,7 +30,20 @@ TilePiece::TilePiece(float x, float y, int q, int r, sf::Color bgColor)
     );
 
     type = static_cast<TileType>(rand() % TileType::TYPES_NR_ITEMS);
-    generateDecoration();
+    setColor();
+}
+
+void TilePiece::improve()
+{
+    if (type == TileType::FOREST || type == TileType::MINE)
+    {
+        generateDecoration();
+    }
+}
+
+bool TilePiece::isOwnedBy(uint empireId)
+{
+    return empireId == ownerId;
 }
 
 void TilePiece::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -70,6 +83,32 @@ void TilePiece::animate(sf::Time deltaTime)
     if (decoration != nullptr)
     {
         decoration->animate(deltaTime);
+    }
+}
+
+void TilePiece::setColor()
+{
+    switch (type)
+    {
+    case TileType::GRASS:
+        paint(sf::Color(144,238,144));
+        break;
+
+    case TileType::FOREST:
+        paint(sf::Color(34,139,34));
+        break;
+
+    case TileType::MINE:
+        paint(sf::Color(211,211,211));
+        break;
+
+    case TileType::FARM:
+    case TileType::CONSTRUCTION:
+        paint(sf::Color(240,230,140));
+        break;
+
+    default:
+        throw std::logic_error("generated value for tile type is invalid");
     }
 }
 
@@ -135,7 +174,8 @@ void TilePiece::unselect()
 void TilePiece::annexTo(uint newOwner, sf::Color ownerColor)
 {
     status |= TilePiece::TileStatus::TERRITORY;
-    colorHistory.push_back(ownerColor);
+    ownerId = newOwner;
+    paint(ownerColor);
 }
 
 // Setters
