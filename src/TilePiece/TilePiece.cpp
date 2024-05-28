@@ -1,10 +1,12 @@
 #include "TilePiece.hpp"
 #include "AssetManager.hpp"
 #include "GameContext.hpp"
+#include <Resources.hpp>
 
 TilePiece::TilePiece(float x, float y, int q, int r, sf::Color bgColor) 
     : tileId(IdGenerator::GenerateTileId()), q(q), r(r), colorHistory({bgColor}),
-    status(TilePiece::TileStatus::NONE), ownerId(-1), decoration(nullptr)
+        status(TilePiece::TileStatus::NONE), ownerId(-1), decoration(nullptr),
+        resourceSource(nullptr)
 {
 #ifdef DEBUG
     text = new sf::Text(
@@ -36,15 +38,55 @@ TilePiece::TilePiece(float x, float y, int q, int r, sf::Color bgColor)
     );
 
     type = static_cast<TileType>(rand() % TileType::TYPES_NR_ITEMS);
+
+    float amount = 5000 + rand() % 10000;
+    float generation = .95 + rand() % 10 * 0.01;
+
+    switch (type)
+    {
+    case TileType::FOREST:
+        resourceSource = new WoodResourceSource(amount, generation);
+        break;
+    
+    case TileType::MINE:
+        resourceSource = new MineralResourceSource(amount, generation);
+        break;
+    
+    case TileType::GRASS:
+        resourceSource = new FoodResourceSource(amount, generation);
+        break;
+
+    default:
+        std::logic_error("Not possible to create a tile of type " + std::to_string(type));
+        break;
+    }
+
     setColor();
 }
 
-void TilePiece::improve()
+bool TilePiece::improve()
 {
-    if (type == TileType::FOREST || type == TileType::MINE)
+    if (status &= TileStatus::MODIFIED)
     {
-        generateDecoration();
+        return false;
     }
+
+    status |= TileStatus::MODIFIED;
+
+    generateDecoration();
+
+    return true;
+}
+
+Resource TilePiece::extractResource(sf::Time dt)
+{
+    if (status &= TileStatus::MODIFIED)
+    {
+        return resourceSource->extract(dt);
+    }
+    
+    // TODO: criar exceções melhores
+    throw std::logic_error("tile is not yet improved");
 }
 
 bool TilePiece::isOwnedBy(uint empireId)

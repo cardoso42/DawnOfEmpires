@@ -6,6 +6,7 @@
 #include "TileMap.hpp"
 #include "ActionMenu.hpp"
 #include "WindowManager.hpp"
+#include "ResourceBar.hpp"
 #include "Empire.hpp"
 
 #include <SFML/Graphics.hpp>
@@ -27,6 +28,7 @@ public:
 private:
     WindowManager windowManager;
 
+    ResourceBar *bar;
     ActionMenu *menu;
     TileMap *map;
 

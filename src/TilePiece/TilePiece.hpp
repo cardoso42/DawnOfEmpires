@@ -5,6 +5,8 @@
 #include "Animator.hpp"
 #include "AnimatedAsset.hpp"
 #include "IdGenerator.hpp"
+#include "Resources.hpp"
+#include "ResourceSource.hpp"
 
 #include <SFML/Graphics.hpp>
 
@@ -29,9 +31,11 @@ public:
     void animate(sf::Time deltaTime);
     void paint(sf::Color color);
     void annexTo(uint newOwner, sf::Color newColor);
-    void improve();
+    bool improve();
     void select();
     void unselect();
+
+    Resource extractResource(sf::Time dt);
 
     bool isOwnedBy(uint empireId);
 
@@ -49,6 +53,7 @@ public:
     // Static
     static sf::Vector2i getSize();
 private:
+    ResourceSource *resourceSource;
     std::vector<TilePiece*> neighbors;
     AnimatedAsset *decoration;
     std::vector<sf::Color> colorHistory;
