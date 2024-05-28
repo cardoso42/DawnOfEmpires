@@ -6,3 +6,6 @@ build
 
 # this can be used to add resources for tests
 resources/etc
+
+# file to register ideas during development
+ideas

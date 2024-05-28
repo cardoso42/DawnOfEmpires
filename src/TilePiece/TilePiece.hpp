@@ -52,6 +52,7 @@ private:
     std::vector<TilePiece*> neighbors;
     AnimatedAsset *decoration;
     std::vector<sf::Color> colorHistory;
+    sf::CircleShape ownerColor;
     sf::Sprite border;
     sf::Sprite body;
 #ifdef DEBUG

@@ -15,6 +15,12 @@ TilePiece::TilePiece(float x, float y, int q, int r, sf::Color bgColor)
 #endif
 
     body.setColor(bgColor);
+
+    float radius = 5;
+    ownerColor = sf::CircleShape(radius);
+    ownerColor.setFillColor(sf::Color(0,0,0,0));
+    ownerColor.setOrigin({radius / 2, radius / 2});
+
     setPosition({x, y});
 
     body.setTexture(*AssetManager::GetTexture("hexagon.png"));
@@ -56,6 +62,11 @@ void TilePiece::draw(sf::RenderTarget& target, sf::RenderStates states) const
         target.draw(*decoration);
     }
 
+    if (ownerId != -1)
+    {
+        target.draw(ownerColor);
+    }
+
 #ifdef DEBUG
     target.draw(*text);
 #endif
@@ -63,8 +74,12 @@ void TilePiece::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void TilePiece::setPosition(const sf::Vector2f& position)
 {
+    float deltaX = position.x - body.getPosition().x;
+    float deltaY = position.y - body.getPosition().y;
+
     body.setPosition(position);
     border.setPosition(position);
+    ownerColor.setPosition({position.x + getSize().x / 8, position.y - getSize().y / 3});
 
     if (decoration != nullptr)
     {
@@ -171,11 +186,11 @@ void TilePiece::unselect()
     border.setTexture(*AssetManager::GetTexture("hexagon-border.png"));
 }
 
-void TilePiece::annexTo(uint newOwner, sf::Color ownerColor)
+void TilePiece::annexTo(uint newOwner, sf::Color newColor)
 {
     status |= TilePiece::TileStatus::TERRITORY;
     ownerId = newOwner;
-    paint(ownerColor);
+    ownerColor.setFillColor(newColor);
 }
 
 // Setters
