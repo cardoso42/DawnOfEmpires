@@ -18,7 +18,7 @@ void ActionMenu::selectInitialTileBtnCb(std::vector<void*> parameters)
     Empire* empire = static_cast<Empire*>(parameters[0]);
     TilePiece* tile = static_cast<TilePiece*>(parameters[1]);
 
-    std::cout << *tile << std::endl;
+    empire->setStartingTerritory(tile);
 }
 
 void ActionMenu::improveTileBtnCb(std::vector<void*> parameters)

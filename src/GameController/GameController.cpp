@@ -10,7 +10,7 @@ GameController::GameController(): windowManager("Dawn of Empires"),
     windowManager.createView("map", {0, 0}, {0.8, 1});
     windowManager.createView("menu", {0.8, 0}, {0.2, 1});
 
-    int mapRadius = 2;
+    int mapRadius = 3;
     sf::Vector2f viewCenter = windowManager.getViewSize("map") * 0.5f;
     map = new TileMap(mapRadius, viewCenter);
 

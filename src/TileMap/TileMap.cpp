@@ -107,7 +107,7 @@ std::vector<TilePiece*> TileMap::getNeighbors(int q, int r)
         auto it = tileMap.find(std::make_pair(neighborQ, neighborR));
         if (it != tileMap.end()) 
         {
-            neighbors.push_back(&(tiles.at(it->second)));
+            neighbors.push_back(&tiles[it->second]);
         }
     }
 

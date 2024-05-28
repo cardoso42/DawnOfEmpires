@@ -106,6 +106,7 @@ void TilePiece::generateDecoration()
 
 void TilePiece::paint(sf::Color newColor)
 {
+    bodyColor = newColor;
     body.setColor(newColor);
 }
 

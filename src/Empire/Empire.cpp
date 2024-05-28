@@ -11,7 +11,8 @@ Empire::~Empire()
 
 void Empire::setStartingTerritory(TilePiece *startingTile)
 {
-    for (auto tile : startingTile->getNeighbors())
+    std::cout << startingTile << std::endl;
+    for (auto& tile : startingTile->getNeighbors())
     {
         territory.push_back(*tile);
         tile->paint(color);
