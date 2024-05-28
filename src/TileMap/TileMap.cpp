@@ -1,4 +1,5 @@
 #include "TileMap.hpp"
+#include "GameContext.hpp"
 
 #include <cmath>
 
@@ -55,27 +56,35 @@ void TileMap::click(int x, int y)
     // TODO: problema ao clicar porque como o globalBounds retorna um 
     // retângulo, não coincide exatamente com os hexagonos, fazendo com que ao 
     // clicar no canto de alguns hex, selecione o vizinho na verdade
+    TilePiece* selected = GameContext::getTile();
 
-    for (auto& tile : tiles)
-    {
-        tile.unselect();
-    }
-
-    selectedTileId = 0;
+    bool clickedOnTile{false};
     for (auto& tile : tiles)
     {
         if (tile.getGlobalBounds().contains(sf::Vector2f(x, y)))
         {
-            tile.select();
-            selectedTileId = tile.getId();
+            clickedOnTile = true;
 
-            for (auto& neighbor : tile.getNeighbors())
+            if (selected == nullptr)
             {
-                neighbor->paint(sf::Color::Cyan);
+                tile.select();
             }
-
+            else if (tile.getId() != selected->getId())
+            {
+                selected->unselect();
+                tile.select();
+            }
+            else
+            {
+                tile.unselect();
+            }
             break;
         }
+    }
+
+    if (!clickedOnTile && selected != nullptr)
+    {
+        selected->unselect();
     }
 }
 
@@ -83,7 +92,7 @@ TilePiece* TileMap::getTile(uint id)
 {
     for (auto& tile : tiles)
     {
-        if (tile.getId() == selectedTileId)
+        if (tile.getId() == id)
         {
             return &tile;
         }

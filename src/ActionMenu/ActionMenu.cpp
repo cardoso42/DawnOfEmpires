@@ -1,13 +1,12 @@
 #include "ActionMenu.hpp"
 #include <iostream>
+#include "GameContext.hpp"
 
-ActionMenu::ActionMenu(sf::Vector2f windowSize, Empire *currentEmpire, TilePiece *currentTile) : GenericMenu(windowSize)
+ActionMenu::ActionMenu(sf::Vector2f windowSize) : GenericMenu(windowSize)
 {
     sf::Vector2f size = {windowSize.x * 0.6f, windowSize.y * 0.05f};
 
-    std::vector<void*> parameters = {static_cast<void*>(currentEmpire), static_cast<void*>(currentTile)};
-
-    buttons.push_back(ButtonMenu("Select initial tile", size, selectInitialTileBtnCb, parameters));
+    buttons.push_back(ButtonMenu("Select initial tile", size, selectInitialTileBtnCb, {}));
     buttons.push_back(ButtonMenu("Improve tile", size, improveTileBtnCb, {}));
 
     organizeButtons();
@@ -15,8 +14,14 @@ ActionMenu::ActionMenu(sf::Vector2f windowSize, Empire *currentEmpire, TilePiece
 
 void ActionMenu::selectInitialTileBtnCb(std::vector<void*> parameters)
 {
-    Empire* empire = static_cast<Empire*>(parameters[0]);
-    TilePiece* tile = static_cast<TilePiece*>(parameters[1]);
+    Empire* empire = GameContext::getPlayer();
+    TilePiece* tile = GameContext::getTile();
+
+    if (tile == nullptr || empire == nullptr)
+    {
+        return;
+    }
+
 
     empire->setStartingTerritory(tile);
 }

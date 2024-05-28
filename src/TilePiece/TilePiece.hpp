@@ -48,7 +48,7 @@ public:
 private:
     std::vector<TilePiece*> neighbors;
     AnimatedAsset *decoration;
-    sf::Color bodyColor;
+    std::vector<sf::Color> colorHistory;
     sf::Sprite border;
     sf::Sprite body;
 #ifdef DEBUG
@@ -63,6 +63,7 @@ private:
     int q, r; // axial coordinates
 
     void generateDecoration();
+    void setColor();
 };
 
 #endif // TILE_PIECE_HPP

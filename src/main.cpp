@@ -12,6 +12,7 @@ int main()
     
     AssetManager assetManager;
     IdGenerator idGenerator;
+    GameContext context;
     GameController game;
 
     sf::Clock clock;

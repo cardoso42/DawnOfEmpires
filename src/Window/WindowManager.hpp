@@ -24,6 +24,7 @@ public:
     sf::Vector2u getWindowSize();
     sf::Vector2i getWindowPos();
     sf::Vector2f getViewSize(std::string name);
+    sf::IntRect getViewport(std::string name);
 
     void draw(sf::Drawable& drawable);
 

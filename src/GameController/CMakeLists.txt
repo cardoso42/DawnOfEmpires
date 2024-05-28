@@ -17,6 +17,7 @@ target_link_libraries(GameController PUBLIC TileMap)
 target_link_libraries(GameController PUBLIC WindowManager)
 target_link_libraries(GameController PUBLIC ActionMenu)
 target_link_libraries(GameController PUBLIC ContextMenu)
+target_link_libraries(GameController PUBLIC GameContext)
 
 target_include_directories(GameController PUBLIC
                            "${PROJECT_BINARY_DIR}/src/GameController"

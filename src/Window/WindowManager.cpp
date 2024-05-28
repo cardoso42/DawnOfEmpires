@@ -224,3 +224,15 @@ sf::Vector2f WindowManager::getViewSize(std::string name)
 
     return view->second->getSize();
 }
+
+sf::IntRect WindowManager::getViewport(std::string name)
+{
+    auto view = views.find(name);
+
+    if (view == views.end())
+    {
+        throw std::invalid_argument(name + " does not exist as view");
+    }
+
+    return sf::RenderWindow::getViewport(*(view->second));
+}

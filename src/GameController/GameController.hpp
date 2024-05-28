@@ -2,6 +2,7 @@
 #define GAME_CONTROLLER_HPP
 
 #include "AssetManager.hpp"
+#include "GameContext.hpp"
 #include "TileMap.hpp"
 #include "ActionMenu.hpp"
 #include "WindowManager.hpp"

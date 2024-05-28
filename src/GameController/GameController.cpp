@@ -15,7 +15,9 @@ GameController::GameController(): windowManager("Dawn of Empires"),
     map = new TileMap(mapRadius, viewCenter);
 
     players.push_back(Empire());
-    menu = new ActionMenu(windowManager.getViewSize("menu"), &players[0], map->getRandomTile());
+    menu = new ActionMenu(windowManager.getViewSize("menu"));
+
+    GameContext::setEmpire(&players[0]);
 }
 
 GameController::~GameController()
@@ -47,19 +49,29 @@ void GameController::handleInput()
 {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
     {
+        // Basically, act only when the button is first pressed
+        // This is to avoid multiple calls for this block of code,
+        // for example, to avoid multiple buttons clicks
+
         if (!wasButtonAlreadyPressed)
         {
             wasButtonAlreadyPressed = true;
             sf::Vector2i pos = sf::Mouse::getPosition(windowManager);
             sf::Vector2f sceneCords;
 
-            windowManager.switchToView("menu");
-            sceneCords = windowManager.mapPixelToCoords({pos.x, pos.y});
-            menu->click(sceneCords.x, sceneCords.y);
+            if (windowManager.getViewport("menu").contains(pos))
+            {
+                windowManager.switchToView("menu");
+                sceneCords = windowManager.mapPixelToCoords({pos.x, pos.y});
+                menu->click(sceneCords.x, sceneCords.y);
+            }
 
-            windowManager.switchToView("map");
-            sceneCords = windowManager.mapPixelToCoords({pos.x, pos.y});
-            map->click(sceneCords.x, sceneCords.y);
+            if (windowManager.getViewport("map").contains({pos.x, pos.y}))
+            {
+                windowManager.switchToView("map");
+                sceneCords = windowManager.mapPixelToCoords({pos.x, pos.y});
+                map->click(sceneCords.x, sceneCords.y);
+            }
         }
     }
     else

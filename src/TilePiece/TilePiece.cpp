@@ -1,8 +1,9 @@
 #include "TilePiece.hpp"
 #include "AssetManager.hpp"
+#include "GameContext.hpp"
 
 TilePiece::TilePiece(float x, float y, int q, int r, sf::Color bgColor) 
-    : tileId(IdGenerator::GenerateTileId()), q(q), r(r), bodyColor(bgColor),
+    : tileId(IdGenerator::GenerateTileId()), q(q), r(r), colorHistory({bgColor}),
     status(TilePiece::TileStatus::NONE), empireId(-1), decoration(nullptr)
 {
 #ifdef DEBUG
@@ -106,27 +107,35 @@ void TilePiece::generateDecoration()
 
 void TilePiece::paint(sf::Color newColor)
 {
-    bodyColor = newColor;
+    if (newColor == colorHistory.back())
+    {
+        return;
+    }
+
+    colorHistory.push_back(newColor);
     body.setColor(newColor);
 }
 
 void TilePiece::select()
 {
     status |= TileStatus::SELECTED;
+    GameContext::setTile(this);
+
     border.setTexture(*AssetManager::GetTexture("hexagon-border-selected.png"));
 }
 
 void TilePiece::unselect()
 {
+    GameContext::setTile(nullptr);
     status &= (~TileStatus::SELECTED);
-    body.setColor(bodyColor);
+
     border.setTexture(*AssetManager::GetTexture("hexagon-border.png"));
 }
 
 void TilePiece::annexTo(uint newOwner, sf::Color ownerColor)
 {
-    status = TilePiece::TileStatus::TERRITORY;
-    bodyColor = ownerColor;
+    status |= TilePiece::TileStatus::TERRITORY;
+    colorHistory.push_back(ownerColor);
 }
 
 // Setters

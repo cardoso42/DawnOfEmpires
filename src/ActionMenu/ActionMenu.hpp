@@ -11,7 +11,7 @@
 class ActionMenu : public GenericMenu
 {
 public:
-    ActionMenu(sf::Vector2f windowSize, Empire *currentEmpire, TilePiece *currentTile);
+    ActionMenu(sf::Vector2f windowSize);
 private:
     static void selectInitialTileBtnCb(std::vector<void*> parameters);
     static void improveTileBtnCb(std::vector<void*> parameters);

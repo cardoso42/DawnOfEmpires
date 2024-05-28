@@ -14,6 +14,7 @@ target_link_libraries(ActionMenu PUBLIC ButtonMenu)
 target_link_libraries(ActionMenu PUBLIC GenericMenu)
 target_link_libraries(ActionMenu PUBLIC Empire)
 target_link_libraries(ActionMenu PUBLIC TilePiece)
+target_link_libraries(ActionMenu PUBLIC GameContext)
 
 target_include_directories(ActionMenu PUBLIC
                            "${PROJECT_BINARY_DIR}/src/ActionMenu"
