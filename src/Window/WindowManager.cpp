@@ -14,6 +14,8 @@ WindowManager::WindowManager(const std::string& title)
         videoMode = fullscreenModes[0];
     }
 
+    lastMousePos = sf::Mouse::getPosition();
+
     setup(title, {videoMode.width, videoMode.height});
 }
 
@@ -139,7 +141,22 @@ void WindowManager::update()
             {
                 finishThread();
             }
+            break;
 
+        case sf::Event::MouseMoved:
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                sf::View& view = *views["map"];
+
+                sf::Vector2i currentMousePos = sf::Mouse::getPosition();
+                sf::Vector2f displacement = static_cast<sf::Vector2f>(currentMousePos - lastMousePos);
+                
+                float zoomFactor = view.getSize().x / getSize().x;
+                displacement *= zoomFactor;
+
+                view.move(-(sf::Vector2f)(currentMousePos - lastMousePos) * zoomFactor);
+                setView(view);
+            } 
+            lastMousePos = sf::Mouse::getPosition();
             break;
 
         default:
@@ -150,8 +167,17 @@ void WindowManager::update()
 
 void WindowManager::zoom(float delta)
 {
-    views["map"]->zoom(1 + delta * 0.1);
-    setView(*views["map"]);
+    sf::View& view = *views["map"];
+    sf::Vector2i mousePixel = sf::Mouse::getPosition();
+    
+    sf::Vector2f beforeZoom = mapPixelToCoords(mousePixel, view);
+    view.zoom(1 - (delta * 0.1f));
+    sf::Vector2f afterZoom = mapPixelToCoords(mousePixel, view);
+
+    sf::Vector2f offset = beforeZoom - afterZoom;
+    view.move(offset);
+
+    setView(view);
 }
 
 void WindowManager::toggleFullscreen()

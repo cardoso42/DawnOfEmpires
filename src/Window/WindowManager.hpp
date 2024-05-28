@@ -42,6 +42,8 @@ private:
     bool m_isFullscreen;
     std::map<std::string, sf::View*> views;
     std::thread contextMenuThread;
+
+    sf::Vector2i lastMousePos;
 };
 
 #endif // WINDOW_HPP
