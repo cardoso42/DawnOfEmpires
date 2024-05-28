@@ -12,13 +12,17 @@ class TilePiece : public sf::Drawable
 {
 public:
     enum TileType { GRASS, FOREST, MINE, FARM, CONSTRUCTION, TYPES_NR_ITEMS };
-    enum TileStatus { NONE, TERRITORY, MODIFIED, STATUS_NR_ITEMS };
+    enum TileStatus { NONE = 0x0, TERRITORY = 0x1, MODIFIED = 0x2, SELECTED = 0x4 };
 
     TilePiece();
     TilePiece(float x, float y, int q, int r, sf::Color bgColor = sf::Color::White);
 
     // Overrides
     void setPosition(const sf::Vector2f& position);
+    friend std::ostream& operator<<(std::ostream& os, const TilePiece& obj) {
+        os << "(" << obj.q << ", " << obj.r << ")";
+        return os;
+    }
 
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
@@ -51,7 +55,7 @@ private:
     sf::Text *text;
 #endif
     
-    TileStatus status;
+    int status;
     TileType type;
     uint tileId;
 

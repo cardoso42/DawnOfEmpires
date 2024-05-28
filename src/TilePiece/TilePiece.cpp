@@ -111,11 +111,14 @@ void TilePiece::paint(sf::Color newColor)
 
 void TilePiece::select()
 {
+    status |= TileStatus::SELECTED;
     border.setTexture(*AssetManager::GetTexture("hexagon-border-selected.png"));
 }
 
 void TilePiece::unselect()
 {
+    status &= (~TileStatus::SELECTED);
+    body.setColor(bodyColor);
     border.setTexture(*AssetManager::GetTexture("hexagon-border.png"));
 }
 

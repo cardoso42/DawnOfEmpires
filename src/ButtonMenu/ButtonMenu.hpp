@@ -6,7 +6,7 @@
 class ButtonMenu : public sf::Drawable
 {
 public:
-    ButtonMenu(std::string text, sf::Vector2f size, std::function<void()> cb);
+    ButtonMenu(std::string text, sf::Vector2f size, std::function<void(std::vector<void*>)> cb, std::vector<void*> parameters);
 
     // Overrides
     void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -20,7 +20,11 @@ public:
 private:
     sf::RectangleShape frame;
     sf::Text btnText;
-    std::function<void()> btnCb;
+    std::function<void(std::vector<void*>)> btnCb;
+    std::vector<void*> cbParameters;
+    
+    void initButton();
+
 };
 
 #endif // BUTTONMENU_HPP

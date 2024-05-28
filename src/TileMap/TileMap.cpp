@@ -59,7 +59,6 @@ void TileMap::click(int x, int y)
     for (auto& tile : tiles)
     {
         tile.unselect();
-        tile.paint(sf::Color::White);
     }
 
     selectedTileId = 0;
@@ -115,7 +114,9 @@ std::vector<TilePiece*> TileMap::getNeighbors(int q, int r)
     return neighbors;
 }
 
-TilePiece& TileMap::getRandomTile()
+TilePiece* TileMap::getRandomTile()
 {
-    return tiles[rand() % tiles.size()];
+    srand(time(NULL));
+    int i = rand() % tiles.size();
+    return &tiles[i];
 }

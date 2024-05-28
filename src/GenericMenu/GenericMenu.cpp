@@ -42,7 +42,7 @@ void GenericMenu::organizeButtons()
     const float remainingSpace = frameHeight - len * (buttonHeight + interval + 1);
     if (remainingSpace < 0)
     {
-        throw std::logic_error("o-oh! too crowd in here!");
+        throw std::logic_error("o-oh! too crowded in here!");
     }
 
     float yDisplace = (remainingSpace + buttonHeight) / 2;

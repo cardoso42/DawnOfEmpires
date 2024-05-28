@@ -9,12 +9,15 @@ Empire::~Empire()
 
 }
 
-void Empire::setStartingTerritory(TilePiece &startingTile)
+void Empire::setStartingTerritory(TilePiece *startingTile)
 {
-    for (auto tile : startingTile.getNeighbors())
+    for (auto tile : startingTile->getNeighbors())
     {
         territory.push_back(*tile);
         tile->paint(color);
     }
-    territory.push_back(startingTile);
+    territory.push_back(*startingTile);
+    startingTile->paint(color);
 }
+
+std::string Empire::getName() { return "Funcionou!"; }

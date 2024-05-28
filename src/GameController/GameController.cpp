@@ -4,7 +4,8 @@
 #include <iostream>
 #include <sstream>
 
-GameController::GameController(): windowManager("Dawn of Empires")
+GameController::GameController(): windowManager("Dawn of Empires"), 
+    wasButtonAlreadyPressed(false)
 {
     windowManager.createView("map", {0, 0}, {0.8, 1});
     windowManager.createView("menu", {0.8, 0}, {0.2, 1});
@@ -13,11 +14,8 @@ GameController::GameController(): windowManager("Dawn of Empires")
     sf::Vector2f viewCenter = windowManager.getViewSize("map") * 0.5f;
     map = new TileMap(mapRadius, viewCenter);
 
-    menu = new ActionMenu(windowManager.getViewSize("menu"));
-
     players.push_back(Empire());
-
-    // setar listener
+    menu = new ActionMenu(windowManager.getViewSize("menu"), &players[0], map->getRandomTile());
 }
 
 GameController::~GameController()
@@ -49,16 +47,24 @@ void GameController::handleInput()
 {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
     {
-        sf::Vector2i pos = sf::Mouse::getPosition(windowManager);
-        sf::Vector2f sceneCords;
+        if (!wasButtonAlreadyPressed)
+        {
+            wasButtonAlreadyPressed = true;
+            sf::Vector2i pos = sf::Mouse::getPosition(windowManager);
+            sf::Vector2f sceneCords;
 
-        windowManager.switchToView("menu");
-        sceneCords = windowManager.mapPixelToCoords({pos.x, pos.y});
-        menu->click(sceneCords.x, sceneCords.y);
+            windowManager.switchToView("menu");
+            sceneCords = windowManager.mapPixelToCoords({pos.x, pos.y});
+            menu->click(sceneCords.x, sceneCords.y);
 
-        windowManager.switchToView("map");
-        sceneCords = windowManager.mapPixelToCoords({pos.x, pos.y});
-        map->click(sceneCords.x, sceneCords.y);
+            windowManager.switchToView("map");
+            sceneCords = windowManager.mapPixelToCoords({pos.x, pos.y});
+            map->click(sceneCords.x, sceneCords.y);
+        }
+    }
+    else
+    {
+        wasButtonAlreadyPressed = false;
     }
 }
 

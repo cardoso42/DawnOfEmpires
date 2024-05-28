@@ -1,8 +1,9 @@
 #include "ButtonMenu.hpp"
 #include "AssetManager.hpp"
 
-ButtonMenu::ButtonMenu(std::string text, sf::Vector2f size, std::function<void()> cb)
-    : btnCb(cb), btnText(text, AssetManager::GetFont("arial.ttf")), frame(size)
+ButtonMenu::ButtonMenu(std::string text, sf::Vector2f size, 
+    std::function<void(std::vector<void*>)> cb, std::vector<void*> parameters) : frame(size),
+    btnText(text, AssetManager::GetFont("arial.ttf")), btnCb(cb), cbParameters(parameters)
 {
     frame.setOrigin(size * 0.5f);
     frame.setOutlineColor(sf::Color::Black);
@@ -40,7 +41,7 @@ void ButtonMenu::select()
 
     if (btnCb)
     {
-        btnCb();
+        btnCb(cbParameters);
     }
 }
 
