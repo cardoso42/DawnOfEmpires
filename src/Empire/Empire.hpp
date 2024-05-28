@@ -10,6 +10,7 @@ public:
     ~Empire();
     
     void setStartingTerritory(TilePiece *startingTile);
+    void annexNewTile(TilePiece *tile);
     std::vector<TilePiece*> getTerritory();
     std::vector<Resource> getResources();
     void update(sf::Time dt);

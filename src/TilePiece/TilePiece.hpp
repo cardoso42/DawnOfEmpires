@@ -38,6 +38,7 @@ public:
     Resource extractResource(sf::Time dt);
 
     bool isOwnedBy(uint empireId);
+    bool isOwnedBySomeone();
 
     // getters
     std::vector<TilePiece*> getNeighbors();

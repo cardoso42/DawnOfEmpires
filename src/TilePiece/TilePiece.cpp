@@ -94,6 +94,11 @@ bool TilePiece::isOwnedBy(uint empireId)
     return empireId == ownerId;
 }
 
+bool TilePiece::isOwnedBySomeone()
+{
+    return ownerId != -1;
+}
+
 void TilePiece::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     target.draw(body);

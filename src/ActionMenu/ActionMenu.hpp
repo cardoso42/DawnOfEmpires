@@ -13,6 +13,7 @@ class ActionMenu : public GenericMenu
 public:
     ActionMenu(sf::Vector2f windowSize);
 private:
+    static void annexTileBtnCb(std::vector<void*> parameters);
     static void selectInitialTileBtnCb(std::vector<void*> parameters);
     static void improveTileBtnCb(std::vector<void*> parameters);
 };

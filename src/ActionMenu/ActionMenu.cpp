@@ -9,11 +9,43 @@ ActionMenu::ActionMenu(sf::Vector2f windowSize) : GenericMenu(windowSize)
     // TODO: think about someway to hide and show new buttons throghout the game
     buttons.push_back(ButtonMenu("Select initial tile", size, selectInitialTileBtnCb, {}));
     buttons.push_back(ButtonMenu("Improve tile", size, improveTileBtnCb, {}));
+    buttons.push_back(ButtonMenu("Annex tile", size, annexTileBtnCb, {}));
 
     organizeButtons();
 }
 
-void ActionMenu::selectInitialTileBtnCb(std::vector<void*> parameters)
+void ActionMenu::annexTileBtnCb(std::vector<void *> parameters)
+{
+    Empire* empire = GameContext::getPlayer();
+    TilePiece* tile = GameContext::getTile();
+
+    if (empire == nullptr)
+    {
+        throw std::logic_error("At least one empire should be selected by now");
+    }
+
+    if (tile == nullptr)
+    {
+        std::cout << "You should select a tile first!" << std::endl;
+        return;
+    }
+
+    if (tile->isOwnedBy(empire->getId()))
+    {
+        std::cout << "You already own this tile!" << std::endl;
+        return;
+    }
+
+    if (tile->isOwnedBySomeone())
+    {
+        std::cout << "Don\'t be rude! Someone else already own this tile!" << std::endl;
+        return;
+    }
+
+    empire->annexNewTile(tile);
+}
+
+void ActionMenu::selectInitialTileBtnCb(std::vector<void *> parameters)
 {
     Empire* empire = GameContext::getPlayer();
     TilePiece* tile = GameContext::getTile();

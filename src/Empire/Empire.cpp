@@ -57,5 +57,19 @@ void Empire::setStartingTerritory(TilePiece *startingTile)
     startingTile->annexTo(empireId, color);
 }
 
+void Empire::annexNewTile(TilePiece *newTile)
+{
+    for (auto& tile : territory)
+    {
+        if (tile->getId() == newTile->getId())
+        {
+            return;
+        }
+    }
+
+    territory.push_back(newTile);
+    newTile->annexTo(empireId, color);
+}
+
 std::vector<TilePiece*> Empire::getTerritory() { return territory; }
 uint Empire::getId() { return empireId; }
