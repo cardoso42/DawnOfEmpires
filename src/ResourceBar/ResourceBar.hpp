@@ -7,21 +7,29 @@
 class ResourceBar : public sf::Drawable
 {
 public:
-    ResourceBar(sf::Vector2f size);
+    ResourceBar(sf::Vector2f viewSize);
 
     void update();
 
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 private:
+    class ResourceBox : public sf::Drawable
+    {
+    public:
+        ResourceBox(sf::Vector2f size, Resource resource);
+        void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
+        void setPosition(sf::Vector2f pos);
+    private:
+        sf::RectangleShape frame;
+        sf::RectangleShape body;
+        sf::Text display;
+    };
     Empire* empire;
 
-    sf::Text resourcesInfo;
-    sf::Vector2f windowSize;
+    sf::Vector2f viewSize;
     
-    sf::RectangleShape wood;
-    sf::RectangleShape minerals;
-    sf::RectangleShape food;
+    std::vector<ResourceBox> resourceBoxes;
 };
 
 #endif // RESOURCEBAR_HPP
