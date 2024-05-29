@@ -19,6 +19,7 @@ void Empire::update(sf::Time dt)
         try
         {
             Resource extractedResource = tile->extractResource(dt);
+
             if (resources.find(extractedResource.getName()) != resources.end())
             {
                 resources[extractedResource.getName()] += extractedResource;
@@ -34,6 +35,7 @@ void Empire::update(sf::Time dt)
         }
     }
 
+    hrSource.consume(resources, dt);
     Resource hr = hrSource.extract(dt);
     resources[hr.getName()] += hr;
 }
