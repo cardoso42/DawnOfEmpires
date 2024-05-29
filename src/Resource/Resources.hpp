@@ -52,11 +52,27 @@ public:
         this->amount -= amount;
         return *this;
     }
+    
+    friend Resource operator-(const Resource& lhs, Resource& rhs)
+    {
+        if (lhs.name == rhs.name && lhs.icon == rhs.icon)
+        {
+            return Resource(lhs.name, lhs.amount - rhs.amount, lhs.icon);
+        } 
+        else 
+        {
+            throw std::invalid_argument("Resources must have the same name and icon to be subtracted.");
+        }
+    }
 
-    friend Resource operator+(const Resource& lhs, const Resource& rhs) {
-        if (lhs.name == rhs.name && lhs.icon == rhs.icon) {
+    friend Resource operator+(const Resource& lhs, const Resource& rhs) 
+    {
+        if (lhs.name == rhs.name && lhs.icon == rhs.icon) 
+        {
             return Resource(lhs.name, lhs.amount + rhs.amount, lhs.icon);
-        } else {
+        } 
+        else 
+        {
             throw std::invalid_argument("Resources must have the same name and icon to be added.");
         }
     }
@@ -84,6 +100,12 @@ class FoodResource : public Resource
 {
 public:
     FoodResource(float amount) : Resource("Food", amount, "meat.png") {}
+};
+
+class HumanResource : public Resource
+{
+public:
+    HumanResource(float amount) : Resource("Human", amount, "human.png") {}
 };
 
 #endif // RESOURCES_HPP

@@ -113,9 +113,14 @@ bool TilePiece::isOwnedBySomeone()
     return ownerId != -1;
 }
 
+bool TilePiece::isImprovable()
+{
+    return !(status & ~TileStatus::MODIFIED);
+}
+
 bool TilePiece::isConstructable()
 {
-    return type == TileType::GRASS && !(status & ~TileStatus::MODIFIED);
+    return type == TileType::GRASS && isImprovable();
 }
 
 void TilePiece::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -270,6 +275,51 @@ int TilePiece::setNeighbors(std::vector<TilePiece*> newNeighbors)
     neighbors = newNeighbors;
 
     return neighbors.size();
+}
+
+std::vector<Resource> TilePiece::getConstructionCost()
+{
+    if (!isConstructable())
+    {
+        throw std::invalid_argument("Tile should be constructable for this function to be called");
+    }
+
+    return std::vector<Resource>({
+        HumanResource(30),
+        WoodResource(50),
+        MineralResource(20)
+    });
+}
+
+std::vector<Resource> TilePiece::getImprovementCost()
+{
+    std::vector<Resource> costs;
+
+    // I just wanted to make sure that I know that it would be best if this was
+    // a base class and each tile piece type extended it with its own data,
+    // but to change this now would be time consuming and I prefer to focus
+    // on other priorities.
+    // TODO: change this class according to previous comment.
+    switch (type)
+    {
+    case TileType::FOREST:
+        costs.push_back(HumanResource(1));
+        break;
+    
+    case TileType::MINE:
+        costs.push_back(HumanResource(1));
+        costs.push_back(WoodResource(30));
+        break;
+    
+    case TileType::GRASS:
+        costs.push_back(HumanResource(2));
+        break;
+
+    default:
+        break;
+    }
+
+    return costs;
 }
 
 // Getters

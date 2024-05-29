@@ -40,9 +40,12 @@ public:
 
     bool isOwnedBy(uint empireId);
     bool isOwnedBySomeone();
+    bool isImprovable();
     bool isConstructable();
 
     // getters
+    std::vector<Resource> getConstructionCost();
+    std::vector<Resource> getImprovementCost();
     std::vector<TilePiece*> getNeighbors();
     sf::FloatRect getGlobalBounds();
     sf::Vector2f getPosition();

@@ -17,6 +17,7 @@ public:
     static TilePiece* getTile();
     static Empire* getPlayer();
     static int getTileHrCost();
+    static int getTileImprovementHrCost();
 private:
     TilePiece* tile;
     Empire* empire;

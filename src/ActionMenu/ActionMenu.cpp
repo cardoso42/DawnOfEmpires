@@ -44,7 +44,6 @@ void ActionMenu::annexTileBtnCb(std::vector<void *> parameters)
     }
 
     bool isAdjacent{false};
-    // O(6) = O(1) :D
     for (auto neighbor : tile->getNeighbors())
     {
         if (neighbor->isOwnedBy(empire->getId()))
@@ -109,7 +108,10 @@ void ActionMenu::improveTileBtnCb(std::vector<void*> parameters)
         return;
     }
 
-    tile->improve();
+    if (tile->isImprovable() && empire->expendResources(tile->getImprovementCost()))
+    {
+        tile->improve();
+    }
 }
 
 void ActionMenu::constructTileBtnCb(std::vector<void*> parameters)
@@ -134,7 +136,7 @@ void ActionMenu::constructTileBtnCb(std::vector<void*> parameters)
         return;
     }
 
-    if (tile->isConstructable())
+    if (tile->isConstructable() && empire->expendResources(tile->getConstructionCost()))
     {
         tile->construct();
     }

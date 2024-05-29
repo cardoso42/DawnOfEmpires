@@ -12,22 +12,22 @@ public:
     
     void setStartingTerritory(TilePiece *startingTile);
     void annexNewTile(TilePiece *tile);
+
+    bool expendResources(std::vector<Resource> costs);
+
     std::vector<TilePiece*> getTerritory();
     std::vector<Resource> getResources();
-    void update(sf::Time dt);
     uint getId();
+
+    void update(sf::Time dt);
 private:
     uint empireId;
     std::vector<TilePiece*> territory;
     std::map<std::string, Resource> resources;
     sf::Color color;
 
-    class HumanResource : public Resource
-    {
-    public:
-        HumanResource(float amount) : Resource("Human", amount, "human.png") {}
-    };
-
+    bool canPayResource(Resource resource);
+    
     class HumanResourceSource : public ResourceSource 
     {
     public:

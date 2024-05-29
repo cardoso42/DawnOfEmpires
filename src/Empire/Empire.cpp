@@ -38,6 +38,20 @@ void Empire::update(sf::Time dt)
     resources[hr.getName()] += hr;
 }
 
+bool Empire::canPayResource(Resource resource)
+{
+    auto empireResource = resources.find(resource.getName());
+
+    if (empireResource == resources.end())
+    {
+        return false;
+    }
+
+    float remaining = (empireResource->second - resource).getAmount();
+
+    return remaining > 0;
+}
+
 std::vector<Resource> Empire::getResources()
 {
     std::vector<Resource> returnResources;
@@ -83,6 +97,31 @@ void Empire::annexNewTile(TilePiece *newTile)
 
     territory.push_back(newTile);
     newTile->annexTo(empireId, color);
+}
+
+bool Empire::expendResources(std::vector<Resource> costs)
+{
+    for (auto cost : costs)
+    {
+        if (!canPayResource(cost))
+        {
+            std::cout << "You need to improve this tile:" << std::endl;
+            for (auto cost : costs)
+            {
+                std::cout << cost.getName() << ": " << cost.getAmount() << std::endl;
+            }
+            std::cout << std::endl;
+
+            return false;
+        }
+    }
+
+    for (auto cost : costs)
+    {
+        resources[cost.getName()] -= cost.getAmount();
+    }
+
+    return true;
 }
 
 std::vector<TilePiece*> Empire::getTerritory() { return territory; }
