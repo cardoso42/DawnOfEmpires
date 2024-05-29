@@ -7,7 +7,7 @@
 class GenericMenu : public sf::Drawable
 {
 public:
-    GenericMenu(sf::Vector2f windowSize);
+    GenericMenu(sf::Vector2f windowSize, sf::Color bgColor = sf::Color::White);
 
     void click(float x, float y);
 

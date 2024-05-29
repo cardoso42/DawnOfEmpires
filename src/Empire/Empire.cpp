@@ -51,6 +51,7 @@ bool Empire::canPayResource(Resource resource)
 
     float remaining = (empireResource->second - resource).getAmount();
 
+    // TODO: >=
     return remaining > 0;
 }
 

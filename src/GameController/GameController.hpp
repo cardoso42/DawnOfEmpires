@@ -8,6 +8,7 @@
 #include "WindowManager.hpp"
 #include "ResourceBar.hpp"
 #include "Empire.hpp"
+#include "HelpArea.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -31,6 +32,7 @@ private:
     ResourceBar *bar;
     ActionMenu *menu;
     TileMap *map;
+    HelpArea *help;
 
     std::vector<Empire> players;
 

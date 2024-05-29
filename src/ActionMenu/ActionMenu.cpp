@@ -2,7 +2,7 @@
 #include <iostream>
 #include "GameContext.hpp"
 
-ActionMenu::ActionMenu(sf::Vector2f windowSize) : GenericMenu(windowSize)
+ActionMenu::ActionMenu(sf::Vector2f windowSize) : GenericMenu(windowSize, sf::Color(0b10111111, 0b10111111, 0b10111111))
 {
     sf::Vector2f size = {windowSize.x * 0.6f, windowSize.y * 0.05f};
 

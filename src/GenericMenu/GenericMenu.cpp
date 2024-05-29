@@ -1,9 +1,9 @@
 #include "GenericMenu.hpp"
 #include <iostream>
 
-GenericMenu::GenericMenu(sf::Vector2f windowSize) : frame(windowSize)
+GenericMenu::GenericMenu(sf::Vector2f windowSize, sf::Color bgColor) : frame(windowSize)
 {
-    frame.setFillColor(sf::Color::White);
+    frame.setFillColor(bgColor);
     frame.setOrigin(windowSize * 0.5f);
     frame.setPosition(windowSize * 0.5f);
 }
