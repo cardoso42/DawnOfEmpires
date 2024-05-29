@@ -16,7 +16,7 @@ void ResourceBar::update()
 
     for (auto resource : empireResources)
     {
-        newText += resource.name + ": " + std::to_string(resource.amount) + "\t";
+        newText += resource.getName() + ": " + std::to_string(resource.getAmount()) + "\t";
     }
 
     resourcesInfo.setString(newText);

@@ -17,13 +17,13 @@ void Empire::update(sf::Time dt)
         try
         {
             Resource extractedResource = tile->extractResource(dt);
-            if (resources.find(extractedResource.name) != resources.end())
+            if (resources.find(extractedResource.getName()) != resources.end())
             {
-                resources[extractedResource.name] += extractedResource;
+                resources[extractedResource.getName()] += extractedResource;
             }
             else
             {
-                resources[extractedResource.name] = extractedResource;
+                resources[extractedResource.getName()] = extractedResource;
             }
         }
         catch(const std::exception& e)

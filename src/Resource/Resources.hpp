@@ -4,16 +4,17 @@
 #include <string>
 #include <stdexcept>
 
-struct Resource
+class Resource
 {
-    std::string name;
-    std::string icon;
-    float amount;
-
+public:
     Resource() : name(""), amount(0), icon("") {}
 
     Resource(std::string name, float amount, std::string icon)
         : name(name), amount(amount), icon(icon) {}
+
+    std::string getName() { return name; }
+    std::string getIcon() { return icon; }
+    float getAmount() { return amount; }
 
     Resource& operator+=(const Resource& other) {
         if (this->name == other.name && this->icon == other.icon) {
@@ -32,21 +33,36 @@ struct Resource
             throw std::invalid_argument("Resources must have the same name and icon to be added.");
         }
     }
+private:
+    friend class ResourceSource;
+
+    std::string name;
+    std::string icon;
+    float amount;
 };
 
-struct WoodResource : public Resource
+class WoodResource : public Resource
 {
+public:
     WoodResource(float amount) : Resource("Wood", amount, "wood.png") {}
 };
 
-struct MineralResource : public Resource
+class MineralResource : public Resource
 {
+public:
     MineralResource(float amount) : Resource("Mineral", amount, "mineral.png") {}
 };
 
-struct FoodResource : public Resource
+class FoodResource : public Resource
 {
+public:
     FoodResource(float amount) : Resource("Food", amount, "meat.png") {}
+};
+
+class HumanResource : public Resource
+{
+public:
+    HumanResource(float amount) : Resource("Human", amount, "human.png") {}
 };
 
 #endif // RESOURCES_HPP
