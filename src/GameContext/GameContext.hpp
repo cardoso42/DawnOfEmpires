@@ -16,6 +16,7 @@ public:
     // Setters
     static TilePiece* getTile();
     static Empire* getPlayer();
+    static int getTileHrCost();
 private:
     TilePiece* tile;
     Empire* empire;

@@ -1,9 +1,9 @@
 #include "Empire.hpp"
 #include "GameContext.hpp"
 
-Empire::Empire() : color(sf::Color::Red), hr(3), 
-    empireId(IdGenerator::GenerateEmpireId())
+Empire::Empire() : color(sf::Color::Red), empireId(IdGenerator::GenerateEmpireId())
 {
+    HumanResource hr(3);
     resources[hr.getName()] = hr;
 }
 
@@ -73,6 +73,13 @@ void Empire::annexNewTile(TilePiece *newTile)
             return;
         }
     }
+
+    if (resources["Human"].getAmount() < 3)
+    {
+        return;
+    }
+
+    resources["Human"] -= GameContext::getTileHrCost();
 
     territory.push_back(newTile);
     newTile->annexTo(empireId, color);

@@ -4,30 +4,6 @@
 #include "TilePiece.hpp"
 #include "ResourceSource.hpp"
 
-class HumanResourceSource : public ResourceSource 
-{
-public:
-    HumanResourceSource()
-        : ResourceSource(HumanResource(3), 0) {}
-
-    Resource extract(sf::Time dt) override 
-    {
-        float realGeneration = generation * resource.getAmount() * dt.asSeconds();
-        return Resource(resource.getName(), realGeneration, resource.getIcon());
-    }
-
-    bool activate()
-    {
-        if (this->generation == 0)
-        {
-            this->generation = 0.001;
-            return true;
-        }
-
-        return false;
-    }
-};
-
 class Empire
 {
 public:
@@ -46,7 +22,36 @@ private:
     std::map<std::string, Resource> resources;
     sf::Color color;
 
-    HumanResource hr;
+    class HumanResource : public Resource
+    {
+    public:
+        HumanResource(float amount) : Resource("Human", amount, "human.png") {}
+    };
+
+    class HumanResourceSource : public ResourceSource 
+    {
+    public:
+        HumanResourceSource()
+            : ResourceSource(HumanResource(3), 0) {}
+
+        Resource extract(sf::Time dt) override 
+        {
+            float realGeneration = generation * resource.getAmount() * dt.asSeconds();
+            return Resource(resource.getName(), realGeneration, resource.getIcon());
+        }
+
+        bool activate()
+        {
+            if (this->generation == 0)
+            {
+                this->generation = 0.001;
+                return true;
+            }
+
+            return false;
+        }
+    };
+
     HumanResourceSource hrSource;
 };
 

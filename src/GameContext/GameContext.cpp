@@ -18,3 +18,4 @@ void GameContext::setEmpire(Empire* newEmpire) { sInstance->empire = newEmpire; 
 
 Empire* GameContext::getPlayer() { return sInstance->empire; }
 TilePiece* GameContext::getTile() { return sInstance->tile; }
+int GameContext::getTileHrCost() { return 3; }

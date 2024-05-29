@@ -16,13 +16,40 @@ public:
     std::string getIcon() { return icon; }
     float getAmount() { return amount; }
 
-    Resource& operator+=(const Resource& other) {
-        if (this->name == other.name && this->icon == other.icon) {
+    Resource& operator+=(const Resource& other) 
+    {
+        if (this->name == other.name && this->icon == other.icon) 
+        {
             this->amount += other.amount;
             return *this;
-        } else {
+        } 
+        else 
+        {
             throw std::invalid_argument("Resources must have the same name and icon to be added.");
         }
+        return *this;
+    }
+
+    Resource& operator+=(const int& amount)
+    {
+        this->amount += amount;
+        return *this;
+    }
+
+    Resource& operator-=(const Resource& other)
+    {
+        if (this->name == other.name && this->icon == other.icon)
+        {
+            this->amount -= other.amount;
+            return *this;
+        }
+
+        return *this;
+    }
+
+    Resource& operator-=(const int& amount)
+    {
+        this->amount -= amount;
         return *this;
     }
 
@@ -57,12 +84,6 @@ class FoodResource : public Resource
 {
 public:
     FoodResource(float amount) : Resource("Food", amount, "meat.png") {}
-};
-
-class HumanResource : public Resource
-{
-public:
-    HumanResource(float amount) : Resource("Human", amount, "human.png") {}
 };
 
 #endif // RESOURCES_HPP
