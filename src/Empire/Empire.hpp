@@ -4,18 +4,27 @@
 #include "TilePiece.hpp"
 #include "ResourceSource.hpp"
 
-class ResourceSource;
-
 class HumanResourceSource : public ResourceSource 
 {
 public:
-    HumanResourceSource(float generation)
-        : ResourceSource(HumanResource(3), generation) {}
+    HumanResourceSource()
+        : ResourceSource(HumanResource(3), 0) {}
 
     Resource extract(sf::Time dt) override 
     {
         float realGeneration = generation * resource.getAmount() * dt.asSeconds();
         return Resource(resource.getName(), realGeneration, resource.getIcon());
+    }
+
+    bool activate()
+    {
+        if (this->generation == 0)
+        {
+            this->generation = 0.001;
+            return true;
+        }
+
+        return false;
     }
 };
 

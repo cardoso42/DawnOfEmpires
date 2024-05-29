@@ -1,8 +1,8 @@
 #include "Empire.hpp"
 #include "GameContext.hpp"
 
-Empire::Empire() : color(sf::Color::Red), empireId(IdGenerator::GenerateEmpireId()),
-    hr(3), hrSource(0.01)
+Empire::Empire() : color(sf::Color::Red), hr(3), 
+    empireId(IdGenerator::GenerateEmpireId())
 {
     resources[hr.getName()] = hr;
 }
@@ -60,6 +60,8 @@ void Empire::setStartingTerritory(TilePiece *startingTile)
 
     territory.push_back(startingTile);
     startingTile->annexTo(empireId, color);
+
+    hrSource.activate();
 }
 
 void Empire::annexNewTile(TilePiece *newTile)
