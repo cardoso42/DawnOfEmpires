@@ -32,6 +32,7 @@ public:
     void paint(sf::Color color);
     void annexTo(uint newOwner, sf::Color newColor);
     bool improve();
+    bool construct();
     void select();
     void unselect();
 
@@ -39,6 +40,7 @@ public:
 
     bool isOwnedBy(uint empireId);
     bool isOwnedBySomeone();
+    bool isConstructable();
 
     // getters
     std::vector<TilePiece*> getNeighbors();

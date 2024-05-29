@@ -135,7 +135,10 @@ void WindowManager::update()
                     finishThread();
                 }
                 stopThread.store(false);
-                contextMenuThread = std::thread(createNewWindowMenu, sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
+                contextMenuThread = std::thread(
+                    createNewWindowMenu, 
+                    sf::Vector2i(event.mouseButton.x, event.mouseButton.y
+                ));
             }
             else if (event.mouseButton.button == sf::Mouse::Button::Left)
             {

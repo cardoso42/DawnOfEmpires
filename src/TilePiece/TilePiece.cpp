@@ -78,6 +78,20 @@ bool TilePiece::improve()
     return true;
 }
 
+bool TilePiece::construct()
+{
+    if (!isConstructable())
+    {
+        return false;
+    }
+
+    status |= TileStatus::MODIFIED;
+    type = TileType::CONSTRUCTION;
+    generateDecoration();
+
+    return true;
+}
+
 Resource TilePiece::extractResource(sf::Time dt)
 {
     if (status &= TileStatus::MODIFIED)
@@ -97,6 +111,11 @@ bool TilePiece::isOwnedBy(uint empireId)
 bool TilePiece::isOwnedBySomeone()
 {
     return ownerId != -1;
+}
+
+bool TilePiece::isConstructable()
+{
+    return type == TileType::GRASS && !(status & ~TileStatus::MODIFIED);
 }
 
 void TilePiece::draw(sf::RenderTarget& target, sf::RenderStates states) const

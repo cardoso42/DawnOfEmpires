@@ -16,6 +16,7 @@ private:
     static void annexTileBtnCb(std::vector<void*> parameters);
     static void selectInitialTileBtnCb(std::vector<void*> parameters);
     static void improveTileBtnCb(std::vector<void*> parameters);
+    static void constructTileBtnCb(std::vector<void*> parameters);
 };
 
 #endif // ACTIONMENU_HPP

@@ -10,6 +10,7 @@ ActionMenu::ActionMenu(sf::Vector2f windowSize) : GenericMenu(windowSize)
     buttons.push_back(ButtonMenu("Select initial tile", size, selectInitialTileBtnCb, {}));
     buttons.push_back(ButtonMenu("Improve tile", size, improveTileBtnCb, {}));
     buttons.push_back(ButtonMenu("Annex tile", size, annexTileBtnCb, {}));
+    buttons.push_back(ButtonMenu("Construct in tile", size, constructTileBtnCb, {}));
 
     organizeButtons();
 }
@@ -109,4 +110,32 @@ void ActionMenu::improveTileBtnCb(std::vector<void*> parameters)
     }
 
     tile->improve();
+}
+
+void ActionMenu::constructTileBtnCb(std::vector<void*> parameters)
+{
+    Empire* empire = GameContext::getPlayer();
+    TilePiece* tile = GameContext::getTile();
+
+    if (empire == nullptr)
+    {
+        throw std::logic_error("At least one empire should be selected by now");
+    }
+    
+    if (tile == nullptr)
+    {
+        std::cout << "You should select a tile first!" << std::endl;
+        return;
+    }
+
+    if (!tile->isOwnedBy(empire->getId()))
+    {
+        std::cout << "You should this tile to construct in it!" << std::endl;
+        return;
+    }
+
+    if (tile->isConstructable())
+    {
+        tile->construct();
+    }
 }
