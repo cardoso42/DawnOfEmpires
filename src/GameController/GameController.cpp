@@ -20,12 +20,14 @@ GameController::GameController(): windowManager("Dawn of Empires"),
     menu = new ActionMenu(windowManager.getViewSize("menu"));
     bar = new ResourceBar(windowManager.getViewSize("resources"));
     help = new HelpArea(windowManager.getViewSize("help"));
-
 }
 
 GameController::~GameController()
 {
-
+    delete map;
+    delete menu;
+    delete bar;
+    delete help;
 }
 
 void GameController::updateFrame(sf::Time deltaTime)
@@ -42,8 +44,6 @@ void GameController::updateFrame(sf::Time deltaTime)
         hasPlayerWon = true;
     }
 }
-
-
 
 void GameController::render(sf::Color backgroundColor)
 {
