@@ -1,8 +1,10 @@
 #include "Empire.hpp"
 #include "GameContext.hpp"
 
-Empire::Empire() : color(sf::Color::Red), empireId(IdGenerator::GenerateEmpireId())
+Empire::Empire() : color(sf::Color::Red), empireId(IdGenerator::GenerateEmpireId()),
+    hr(3), hrSource(0.01)
 {
+    resources[hr.getName()] = hr;
 }
 
 Empire::~Empire()
@@ -31,6 +33,9 @@ void Empire::update(sf::Time dt)
             std::cerr << e.what() << std::endl;
         }
     }
+
+    Resource hr = hrSource.extract(dt);
+    resources[hr.getName()] += hr;
 }
 
 std::vector<Resource> Empire::getResources()

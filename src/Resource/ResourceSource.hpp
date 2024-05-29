@@ -4,33 +4,41 @@
 #include "Resources.hpp"
 #include "SFML/Graphics.hpp"
 
-struct ResourceSource {
-    Resource resource;
-    float generation;
-
+class ResourceSource {
+public:
     ResourceSource(Resource resource, float generation)
         : resource(resource), generation(generation) {}
 
-    Resource extract(sf::Time dt)
+    virtual Resource extract(sf::Time dt)
     {
         float realGeneration = std::min(resource.amount, generation * dt.asSeconds());
         resource.amount -= realGeneration;
 
         return Resource(resource.name, realGeneration, resource.icon);
     }
+
+protected:
+    Resource resource;
+    float generation;
 };
 
-struct WoodResourceSource : public ResourceSource {
+class WoodResourceSource : public ResourceSource 
+{
+public:
     WoodResourceSource(float amount, float generation)
         : ResourceSource(WoodResource(amount), generation) {}
 };
 
-struct MineralResourceSource : public ResourceSource {
+class MineralResourceSource : public ResourceSource 
+{
+public:
     MineralResourceSource(float amount, float generation)
         : ResourceSource(MineralResource(amount), generation) {}
 };
 
-struct FoodResourceSource : public ResourceSource {
+class FoodResourceSource : public ResourceSource 
+{
+public:
     FoodResourceSource(float amount, float generation)
         : ResourceSource(FoodResource(amount), generation) {}
 };
