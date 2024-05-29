@@ -118,6 +118,11 @@ bool TilePiece::isImprovable()
     return !(status & ~TileStatus::MODIFIED);
 }
 
+bool TilePiece::isConstruction()
+{
+    return type == TileType::CONSTRUCTION;
+}
+
 bool TilePiece::isConstructable()
 {
     return type == TileType::GRASS && isImprovable();

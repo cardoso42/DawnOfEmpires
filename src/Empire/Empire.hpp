@@ -17,6 +17,7 @@ public:
 
     std::vector<TilePiece*> getTerritory();
     std::vector<Resource> getResources();
+    int getConstructionsNumber();
     uint getId();
 
     void update(sf::Time dt);

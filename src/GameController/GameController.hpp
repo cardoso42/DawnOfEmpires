@@ -35,6 +35,9 @@ private:
     std::vector<Empire> players;
 
     bool wasButtonAlreadyPressed;
+    bool hasPlayerWon;
+
+    bool verifyIfWon(Empire player);
 
     sf::RectangleShape drawDebugSquare(sf::Sprite sprite, sf::Color backgroundColor);
 };

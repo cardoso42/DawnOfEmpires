@@ -5,7 +5,7 @@
 #include <sstream>
 
 GameController::GameController(): windowManager("Dawn of Empires"), 
-    wasButtonAlreadyPressed(false)
+    wasButtonAlreadyPressed(false), hasPlayerWon(false)
 {
     windowManager.createView("map", {0, 0}, {0.8, 0.9});
     windowManager.createView("menu", {0.8, 0}, {0.2, 0.9});
@@ -32,10 +32,17 @@ void GameController::updateFrame(sf::Time deltaTime)
     windowManager.update();
 
     GameContext::getPlayer()->update(deltaTime);
+    bar->update();
 
     map->animate(deltaTime);
-    bar->update();
+
+    if (verifyIfWon(*GameContext::getPlayer()))
+    {
+        hasPlayerWon = true;
+    }
 }
+
+
 
 void GameController::render(sf::Color backgroundColor)
 {
@@ -88,6 +95,11 @@ void GameController::handleInput()
     }
 }
 
+bool GameController::verifyIfWon(Empire player)
+{
+    return player.getConstructionsNumber() >= 1;
+}
+
 sf::RectangleShape GameController::drawDebugSquare(sf::Sprite sprite, sf::Color backgroundColor)
 {
     sf::RectangleShape outline({
@@ -104,4 +116,4 @@ sf::RectangleShape GameController::drawDebugSquare(sf::Sprite sprite, sf::Color 
     return outline;
 }
 
-bool GameController::isOver() { return windowManager.isDone(); }
+bool GameController::isOver() { return windowManager.isDone() || hasPlayerWon; }

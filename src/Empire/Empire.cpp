@@ -66,6 +66,21 @@ std::vector<Resource> Empire::getResources()
     return returnResources;
 }
 
+int Empire::getConstructionsNumber()
+{
+    int count{0};
+
+    for (auto& tile : territory)
+    {
+        if (tile->isConstruction())
+        {
+            count++;
+        }
+    }
+
+    return count;
+}
+
 void Empire::setStartingTerritory(TilePiece *startingTile)
 {
     for (auto& tile : startingTile->getNeighbors())
