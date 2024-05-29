@@ -17,19 +17,13 @@ public:
     enum TileStatus { NONE = 0x0, TERRITORY = 0x1, MODIFIED = 0x2, SELECTED = 0x4 };
 
     TilePiece();
-    TilePiece(float x, float y, int q, int r, sf::Color bgColor = sf::Color::White);
+    TilePiece(float x, float y, int q, int r);
 
     // Overrides
-    void setPosition(const sf::Vector2f& position);
-    friend std::ostream& operator<<(std::ostream& os, const TilePiece& obj) {
-        os << "(" << obj.q << ", " << obj.r << ")";
-        return os;
-    }
-
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
+    void setPosition(const sf::Vector2f& position);
     void animate(sf::Time deltaTime);
-    void paint(sf::Color color);
     void annexTo(uint newOwner, sf::Color newColor);
     bool improve();
     bool construct();
@@ -59,7 +53,8 @@ public:
 
     // Static
     static sf::Vector2i getSize();
-private:
+protected:
+    TileType type;
     ResourceSource *resourceSource;
     std::vector<TilePiece*> neighbors;
     AnimatedAsset *decoration;
@@ -72,13 +67,13 @@ private:
 #endif
     
     int status;
-    TileType type;
     uint tileId;
 
     int ownerId;
     int q, r; // axial coordinates
 
     void generateDecoration();
+    void paint(sf::Color color);
     void setColor();
 };
 

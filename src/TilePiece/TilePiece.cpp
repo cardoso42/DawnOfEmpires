@@ -3,20 +3,22 @@
 #include "GameContext.hpp"
 #include <Resources.hpp>
 
-TilePiece::TilePiece(float x, float y, int q, int r, sf::Color bgColor) 
-    : tileId(IdGenerator::GenerateTileId()), q(q), r(r), colorHistory({bgColor}),
+TilePiece::TilePiece(float x, float y, int q, int r) 
+    : tileId(IdGenerator::GenerateTileId()), q(q), r(r),
         status(TilePiece::TileStatus::NONE), ownerId(-1), decoration(nullptr),
         resourceSource(nullptr)
 {
 #ifdef DEBUG
     text = new sf::Text(
         "(" + std::to_string(q) + ", " + std::to_string(r) + ")",
-        AssetManager::GetFont("arial.ttf"), 12U
+        AssetManager::GetFont("anonymous.ttf"), 8U
     );
     text->setFillColor(sf::Color::Black);
 #endif
 
-    body.setColor(bgColor);
+    auto initialColor = sf::Color::White;
+    colorHistory = std::vector<sf::Color>({initialColor});
+    body.setColor(initialColor);
 
     float radius = 5;
     ownerColor = sf::CircleShape(radius);
@@ -190,7 +192,7 @@ void TilePiece::setColor()
         break;
 
     case TileType::MINE:
-        paint(sf::Color(211,211,211));
+        paint(sf::Color(157,157,157));
         break;
 
     case TileType::FARM:

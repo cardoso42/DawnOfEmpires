@@ -59,7 +59,7 @@ ResourceBar::ResourceBox::ResourceBox(sf::Vector2f size, Resource resource)
 
     display = sf::Text(
         resource.getName() + "\n" + std::to_string(resource.getAmount()), 
-        AssetManager::GetFont("arial.ttf"), 24
+        AssetManager::GetFont("anonymous.ttf"), 24
     );
 
     display.setOrigin(

@@ -10,6 +10,7 @@ target_include_directories(HelpArea
 
 target_link_libraries(HelpArea PUBLIC AssetManager)
 target_link_libraries(HelpArea PUBLIC Animator)
+target_link_libraries(HelpArea PUBLIC TilePiece)
 
 target_include_directories(HelpArea PUBLIC
                            "${PROJECT_BINARY_DIR}/src/HelpArea"

@@ -8,14 +8,13 @@ GameController::GameController(): windowManager("Dawn of Empires"),
     wasButtonAlreadyPressed(false), hasPlayerWon(false)
 {
     windowManager.createView("map", {0, 0}, {0.8, 0.9});
-    windowManager.createView("help", {0.8, 0}, {0.2, 0.45});
-    windowManager.createView("menu", {0.8, 0.45}, {0.2, 0.45});
+    windowManager.createView("menu", {0.8, 0}, {0.2, 0.9});
     windowManager.createView("resources", {0, 0.9}, {1, 0.1});
 
     players.push_back(Empire());
     GameContext::setEmpire(&players[0]);
     
-    int mapRadius = 30;
+    int mapRadius = 15;
     map = new TileMap(mapRadius, windowManager.getViewSize("map") * 0.5f);
     menu = new ActionMenu(windowManager.getViewSize("menu"));
     bar = new ResourceBar(windowManager.getViewSize("resources"));
@@ -57,10 +56,7 @@ void GameController::render(sf::Color backgroundColor)
 
     windowManager.switchToView("resources");
     windowManager.draw(*bar);
-
-    windowManager.switchToView("help");
-    windowManager.draw(*help);
-
+    
     windowManager.endDraw();
 }
 

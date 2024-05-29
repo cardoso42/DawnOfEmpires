@@ -3,7 +3,7 @@
 
 ButtonMenu::ButtonMenu(std::string text, sf::Vector2f size, 
     std::function<void(std::vector<void*>)> cb, std::vector<void*> parameters) : frame(size),
-    btnText(text, AssetManager::GetFont("arial.ttf")), btnCb(cb), cbParameters(parameters)
+    btnText(text, AssetManager::GetFont("anonymous.ttf"), 18), btnCb(cb), cbParameters(parameters)
 {
     frame.setOrigin(size * 0.5f);
     frame.setOutlineColor(sf::Color::Black);
