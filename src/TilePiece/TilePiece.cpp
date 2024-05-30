@@ -58,6 +58,7 @@ bool TilePiece::construct()
     }
 
     status |= TileStatus::MODIFIED;
+    strategy = new ConstructionTile();
     generateDecoration();
 
     return true;

@@ -7,9 +7,9 @@
 #include "IdGenerator.hpp"
 #include "Resources.hpp"
 #include "ResourceSource.hpp"
+#include "TileTypeStrategy.hpp"
 
 #include <SFML/Graphics.hpp>
-#include "ForestTile.hpp"
 
 class TilePiece : public sf::Drawable
 {

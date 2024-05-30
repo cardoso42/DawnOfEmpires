@@ -8,6 +8,8 @@ target_include_directories(TilePiece
     $<INSTALL_INTERFACE:include>
 )
 
+# add_subdirectory(TilesTypes)
+
 target_link_libraries(TilePiece PUBLIC IdGenerator)
 target_link_libraries(TilePiece PUBLIC AssetManager)
 target_link_libraries(TilePiece PUBLIC Animator)

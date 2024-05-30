@@ -2,9 +2,11 @@
 #define TILETYPESTRATEGYFACTORY_HPP
 
 #include "TileTypeStrategy.hpp"
-#include "ForestTile.hpp"
-#include "MineTile.hpp"
-#include "GrassTile.hpp"
+#include "TilesTypes/ForestTile.hpp"
+#include "TilesTypes/MineTile.hpp"
+#include "TilesTypes/GrassTile.hpp"
+#include "TilesTypes/DesertTile.hpp"
+#include "TilesTypes/WaterTile.hpp"
 #include "ConstructionTile.hpp"
 #include <cstdlib>
 #include <ctime>
@@ -18,7 +20,7 @@ public:
     {
         std::random_device rd;
         gen = std::mt19937(rd());
-        dis = std::uniform_int_distribution<>(0, 2);
+        dis = std::uniform_int_distribution<>(0, 4);
     }
 
     TileTypeStrategy* createRandomStrategy() 
@@ -33,6 +35,10 @@ public:
             return new MineTile();
         case 2:
             return new GrassTile();
+        case 3:
+            return new DesertTile();
+        case 4:
+            return new WaterTile();
         default:
             throw std::logic_error("Invalid tile type");
         }

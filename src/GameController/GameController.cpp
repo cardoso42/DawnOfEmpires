@@ -95,7 +95,7 @@ void GameController::handleInput()
 
 bool GameController::verifyIfWon(Empire player)
 {
-    return player.getConstructionsNumber() >= 1;
+    return player.getConstructionsNumber() >= 7;
 }
 
 sf::RectangleShape GameController::drawDebugSquare(sf::Sprite sprite, sf::Color backgroundColor)

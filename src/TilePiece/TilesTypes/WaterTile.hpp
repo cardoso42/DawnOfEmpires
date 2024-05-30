@@ -1,34 +1,30 @@
-#ifndef GRASSTILE_HPP
-#define GRASSTILE_HPP
+#ifndef WATERTILE_HPP
+#define WATERTILE_HPP
 
 #include "TileTypeStrategy.hpp"
 #include "Resources.hpp"
 
-class GrassTile : public TileTypeStrategy {
+class WaterTile : public TileTypeStrategy {
 public:
     ResourceSource* createResourceSource(float amount, float generation) override {
         return new FoodResourceSource(amount, generation);
     }
 
     sf::Color getColor() override {
-        return sf::Color(144, 238, 144);
+        return sf::Color(135,206,250);
     }
 
     AnimatedAsset* createDecoration() override {
-        return new AnimatedAsset("grass.png");
+        return new AnimatedAsset("fish.png", 72, { 80, 70 });
     }
 
     std::vector<Resource> getImprovementCost() override {
-        return { HumanResource(2) };
+        return { HumanResource(1), WoodResource(30) };
     }
 
     std::vector<Resource> getConstructionCost() override {
-        return { 
-            HumanResource(30),
-            WoodResource(500),
-            MineralResource(100)
-         };
+        return { NullResource() };
     }
 };
 
-#endif // GRASSTILE_HPP
+#endif // WATERTILE_HPP
