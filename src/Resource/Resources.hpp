@@ -108,4 +108,10 @@ public:
     HumanResource(float amount) : Resource("Human", amount, "human.png") {}
 };
 
+class NullResource : public Resource
+{
+public:
+    NullResource() : Resource("Null", 0, "") {}
+};
+
 #endif // RESOURCES_HPP

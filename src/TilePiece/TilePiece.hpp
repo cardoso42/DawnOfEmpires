@@ -9,14 +9,13 @@
 #include "ResourceSource.hpp"
 
 #include <SFML/Graphics.hpp>
+#include "ForestTile.hpp"
 
 class TilePiece : public sf::Drawable
 {
 public:
-    enum TileType { GRASS, FOREST, MINE, TYPES_NR_ITEMS, FARM, CONSTRUCTION };
     enum TileStatus { NONE = 0x0, TERRITORY = 0x1, MODIFIED = 0x2, SELECTED = 0x4 };
 
-    TilePiece();
     TilePiece(float x, float y, int q, int r);
 
     // Overrides
@@ -53,28 +52,25 @@ public:
 
     // Static
     static sf::Vector2i getSize();
-protected:
-    TileType type;
+private:
     ResourceSource *resourceSource;
     std::vector<TilePiece*> neighbors;
     AnimatedAsset *decoration;
+    TileTypeStrategy* strategy;
+
     std::vector<sf::Color> colorHistory;
     sf::CircleShape ownerColor;
     sf::Sprite border;
     sf::Sprite body;
-#ifdef DEBUG
-    sf::Text *text;
-#endif
     
     int status;
     uint tileId;
-
-    int ownerId;
     int q, r; // axial coordinates
+    int ownerId;
 
+    void generateRandomStrategy();
     void generateDecoration();
     void paint(sf::Color color);
-    void setColor();
 };
 
 #endif // TILE_PIECE_HPP
