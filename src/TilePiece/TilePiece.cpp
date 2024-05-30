@@ -117,7 +117,7 @@ bool TilePiece::isOwnedBySomeone()
 
 bool TilePiece::isImprovable()
 {
-    return !(status & ~TileStatus::MODIFIED);
+    return ~status & TileStatus::MODIFIED;
 }
 
 bool TilePiece::isConstruction()
