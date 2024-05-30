@@ -19,7 +19,6 @@ target_link_libraries(GameController PUBLIC ActionMenu)
 target_link_libraries(GameController PUBLIC ContextMenu)
 target_link_libraries(GameController PUBLIC GameContext)
 target_link_libraries(GameController PUBLIC ResourceBar)
-target_link_libraries(GameController PUBLIC HelpArea)
 
 target_include_directories(GameController PUBLIC
                            "${PROJECT_BINARY_DIR}/src/GameController"

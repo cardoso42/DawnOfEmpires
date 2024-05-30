@@ -18,7 +18,6 @@ GameController::GameController(): windowManager("Dawn of Empires"),
     map = new TileMap(mapRadius, windowManager.getViewSize("map") * 0.5f);
     menu = new ActionMenu(windowManager.getViewSize("menu"));
     bar = new ResourceBar(windowManager.getViewSize("resources"));
-    help = new HelpArea(windowManager.getViewSize("help"));
 }
 
 GameController::~GameController()
@@ -26,7 +25,6 @@ GameController::~GameController()
     delete map;
     delete menu;
     delete bar;
-    delete help;
 }
 
 void GameController::updateFrame(sf::Time deltaTime)
