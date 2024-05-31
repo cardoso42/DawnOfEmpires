@@ -58,7 +58,7 @@ ResourceBar::ResourceBox::ResourceBox(sf::Vector2f size, Resource resource)
     body.setOrigin(body.getSize() * 0.5f);
 
     display = sf::Text(
-        resource.getName() + "\n" + std::to_string(static_cast<int>(resource.getAmount())), 
+        resource.getName() + "\n" + std::to_string(resource.getAmount()), 
         AssetManager::GetFont("anonymous.ttf"), 24
     );
 

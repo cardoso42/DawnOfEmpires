@@ -68,7 +68,7 @@ bool TilePiece::construct()
 
 Resource TilePiece::extractResource(sf::Time dt)
 {
-    if (status &= TileStatus::MODIFIED)
+    if (isModified())
     {
         return resourceSource->extract(dt);
     }

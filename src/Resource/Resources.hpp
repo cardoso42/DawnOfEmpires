@@ -30,7 +30,7 @@ public:
         return *this;
     }
 
-    Resource& operator+=(const int& amount)
+    Resource& operator+=(const float& amount)
     {
         this->amount += amount;
         return *this;
@@ -47,7 +47,7 @@ public:
         return *this;
     }
 
-    Resource& operator-=(const int& amount)
+    Resource& operator-=(const float& amount)
     {
         this->amount -= amount;
         return *this;

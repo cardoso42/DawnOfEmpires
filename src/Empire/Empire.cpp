@@ -1,10 +1,15 @@
 #include "Empire.hpp"
 #include "GameContext.hpp"
 
+#include <cmath>
+
 Empire::Empire() : color(sf::Color::Red), empireId(IdGenerator::GenerateEmpireId())
 {
     HumanResource hr(3);
+    FoodResource food(10);
+    
     resources[hr.getName()] = hr;
+    resources[food.getName()] = food;
 }
 
 Empire::~Empire()
@@ -60,6 +65,11 @@ std::vector<Resource> Empire::getResources()
 
     for (auto it = resources.begin(); it != resources.end(); it++)
     {
+        if (it->second.getName() == "Null" || it->second.getName() == "")
+        {
+            continue;
+        }
+
         returnResources.push_back(it->second);
     }
 
@@ -139,7 +149,7 @@ uint Empire::getId() { return empireId; }
 
 // HumanResourceSource implementation
 Empire::HumanResourceSource::HumanResourceSource() : isUpdated(false), consumption(0),
-    ResourceSource(HumanResource(0), 0), foodResource(FoodResource(0)) {}
+    ResourceSource(HumanResource(0), 0), foodResource(FoodResource(10)) {}
 
 Resource Empire::HumanResourceSource::extract(sf::Time dt)
 {
@@ -147,12 +157,13 @@ Resource Empire::HumanResourceSource::extract(sf::Time dt)
     {
         throw std::logic_error("To call extract on HumanResourceSource you should first call consume");
     }
+
     isUpdated = false;
 
     float realGeneration = generation * foodResource.getAmount() * dt.asSeconds();
     
     resource += realGeneration;
-    
+
     return Resource(resource.getName(), realGeneration, resource.getIcon());
 }
 
@@ -164,8 +175,9 @@ void Empire::HumanResourceSource::consume(std::map<std::string, Resource>& resou
     }
     else
     {
-        resources["Food"] -= consumption * dt.asSeconds();
         foodResource = resources["Food"];
+        consumption = 0.1 * resource.getAmount();
+        resources["Food"] -= consumption * dt.asSeconds();
     }
 
     isUpdated = true;
@@ -173,14 +185,11 @@ void Empire::HumanResourceSource::consume(std::map<std::string, Resource>& resou
 
 bool Empire::HumanResourceSource::activate()
 {
-    if (this->generation == 0)
+    if (generation == 0)
     {
-        this->generation = 0.001;
-        this->consumption = 0.1;
+        generation = 0.01;
         return true;
     }
 
     return false;
 }
-
-
