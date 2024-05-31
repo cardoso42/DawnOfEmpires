@@ -25,6 +25,10 @@ public:
     std::vector<Resource> getConstructionCost() override {
         return { NullResource() };
     }
+
+    std::string getName() override {
+        return "Forest";
+    }
 };
 
 #endif // FORESTTILE_HPP

@@ -1,5 +1,4 @@
 #include "TilePiece.hpp"
-#include "ConstructionTile.hpp"
 #include "TileTypeStrategyFactory.hpp"
 #include "AssetManager.hpp"
 #include "GameContext.hpp"
@@ -222,6 +221,11 @@ int TilePiece::setNeighbors(std::vector<TilePiece*> newNeighbors)
     neighbors = newNeighbors;
 
     return neighbors.size();
+}
+
+std::string TilePiece::getTypeName()
+{
+    return strategy->getName();
 }
 
 std::vector<Resource> TilePiece::getConstructionCost()

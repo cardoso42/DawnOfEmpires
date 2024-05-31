@@ -14,6 +14,7 @@ public:
     virtual AnimatedAsset* createDecoration() = 0;
     virtual std::vector<Resource> getImprovementCost() = 0;
     virtual std::vector<Resource> getConstructionCost() = 0;
+    virtual std::string getName() = 0;
 };
 
 #endif // TILETYPESTRATEGY_HPP

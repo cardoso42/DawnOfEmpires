@@ -29,6 +29,10 @@ public:
             MineralResource(100)
          };
     }
+
+    std::string getName() override {
+        return "Grass";
+    }
 };
 
 #endif // GRASSTILE_HPP

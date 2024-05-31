@@ -5,6 +5,10 @@
 HelpArea::HelpArea(sf::Vector2f viewSize) : background(viewSize)
 {
     background.setFillColor(sf::Color(0, 0, 0, 200));
+    
+    sf::Text locator = sf::Text("", AssetManager::GetFont("anonymous.ttf"));
+    locator.setPosition({background.getPosition().x + 10, background.getPosition().y});
+    texts.push_back(locator);
 }
 
 void HelpArea::draw(sf::RenderTarget &target, sf::RenderStates states) const
@@ -32,76 +36,101 @@ void HelpArea::update()
         previousTile = selectedTile;
     }
 
+    updateTexts();
+}
+
+void HelpArea::updateTexts()
+{
     texts.clear();
 
-    if (selectedEmpire == nullptr)
+    if (previousEmpire == nullptr)
     {
         return;
     }
 
-    sf::Text playerTurn("Player " + std::to_string(selectedEmpire->getId()) + " turn", AssetManager::GetFont("anonymous.ttf"), 20);
-    playerTurn.setPosition(background.getPosition().x + 10, background.getPosition().y + 10);
-    texts.push_back(playerTurn);
+    addPlayerText();
 
-    if (selectedTile == nullptr)
+    if (previousTile == nullptr)
     {
         return;
     }
 
-    std::string affirmative = ((selectedTile->isOwnedBy(selectedEmpire->getId())) ? " " : " do not ");
-    createText("You" + affirmative + "own this tile!", true);
+    addAnnexationTileText(); 
+    addImprovementTileText();
+    addConstuctionTileText();
+}
 
-    if (!selectedTile->isOwnedBy(selectedEmpire->getId()))
+void HelpArea::listResources(std::vector<Resource> resources)
+{
+    for (auto resource : resources)
     {
-        createText("Annexation cost: " + std::to_string(GameContext::getTileHrCost()) + " humans");
-    }   
-
-    std::vector<Resource> improvement = selectedTile->getImprovementCost();
-    std::vector<Resource> construction = selectedTile->getConstructionCost();
-
-    if (!selectedTile->isImprovable())
-    {
-        if (selectedTile->isModified() && !selectedTile->isConstruction())
-        {
-            createText("Tile already improved", true);
-        }
-        else if (selectedTile->isConstruction())
-        {
-            createText("Tile is already a construct", true);
-        }
-        else
-        {
-            createText("Tile cannot be improved", true);
-        }
-    }
-    else
-    {
-        createText("Improvement cost", true);
-        for (int i = 0; i < improvement.size(); i++)
-        {
-            std::string resourceStr = improvement[i].getName() + ": " + std::to_string(static_cast<int>(improvement[i].getAmount()));
-            createText(resourceStr);
-        }
-    }
-
-    if (!selectedTile->isConstructable())
-    {
-        createText("Tile cannot be constructed", true);
-    }
-    else
-    {
-        createText("Construction cost", true);
-        for (int i = 0; i < construction.size(); i++)
-        {
-            std::string resourceStr = construction[i].getName() + ": " + std::to_string(static_cast<int>(construction[i].getAmount()));
-            createText(resourceStr);
-        }
+        std::string str = resource.getName() + ": " + std::to_string(static_cast<int>(resource.getAmount()));
+        createText(str);
     }
 }
 
-void HelpArea::createText(std::string newText, bool newSection)
+void HelpArea::addPlayerText()
+{
+    createText("Player " + std::to_string(previousEmpire->getId()) + " turn", 10);
+}
+
+void HelpArea::addAnnexationTileText()
+{
+    createText(previousTile->getTypeName() + " tile", 50);
+
+    std::string affirmative = ((previousTile->isOwnedBy(previousEmpire->getId())) ? " " : " do not ");
+    createText("You" + affirmative + "own this tile!");
+
+    if (!previousTile->isOwnedBy(previousEmpire->getId()))
+    {
+        createText("Annexation cost: " + std::to_string(GameContext::getTileHrCost()) + " humans");
+    }  
+}
+
+void HelpArea::addImprovementTileText()
+{
+    std::vector<Resource> improvement = previousTile->getImprovementCost();
+
+    if (!previousTile->isImprovable())
+    {
+        if (previousTile->isModified() && !previousTile->isConstruction())
+        {
+            createText("Tile already improved", 50);
+        }
+        else if (previousTile->isConstruction())
+        {
+            createText("Tile is already a construct", 50);
+        }
+        else
+        {
+            createText("Tile cannot be improved", 50);
+        }
+    }
+    else
+    {
+        createText("Improvement cost", 50);
+        listResources(improvement);
+    }
+}
+
+void HelpArea::addConstuctionTileText()
+{
+    std::vector<Resource> construction = previousTile->getConstructionCost();
+
+    if (!previousTile->isConstructable())
+    {
+        createText("Tile cannot be constructed", 50);
+    }
+    else
+    {
+        createText("Construction cost", 50);
+        listResources(construction);
+    }
+}
+
+void HelpArea::createText(std::string newText, int yDistance)
 {
     sf::Text text(newText, AssetManager::GetFont("anonymous.ttf"), 20);
-    text.setPosition(background.getPosition().x + 10, texts.back().getPosition().y + (newSection ? 50 : 20));
+    text.setPosition(texts.back().getPosition().x, texts.back().getPosition().y + yDistance);
     texts.push_back(text);
 }

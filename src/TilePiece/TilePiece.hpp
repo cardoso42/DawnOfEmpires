@@ -39,6 +39,7 @@ public:
     bool isConstructable();
 
     // getters
+    std::string getTypeName();
     std::vector<Resource> getConstructionCost();
     std::vector<Resource> getImprovementCost();
     std::vector<TilePiece*> getNeighbors();

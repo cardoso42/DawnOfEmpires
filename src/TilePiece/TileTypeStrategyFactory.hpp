@@ -7,7 +7,7 @@
 #include "TilesTypes/GrassTile.hpp"
 #include "TilesTypes/DesertTile.hpp"
 #include "TilesTypes/WaterTile.hpp"
-#include "ConstructionTile.hpp"
+#include "TilesTypes/ConstructionTile.hpp"
 #include <cstdlib>
 #include <ctime>
 #include <memory>

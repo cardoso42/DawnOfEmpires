@@ -25,6 +25,10 @@ public:
     std::vector<Resource> getConstructionCost() override {
         return { NullResource() };
     }
+
+    std::string getName() override {
+        return "Water";
+    }
 };
 
 #endif // WATERTILE_HPP

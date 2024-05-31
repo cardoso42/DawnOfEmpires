@@ -19,7 +19,13 @@ private:
     Empire* previousEmpire;
     TilePiece* previousTile;
 
-    void createText(std::string newText, bool newSection = false);
+    void createText(std::string newText, int yDistance = 20);
+    void updateTexts();
+    void listResources(std::vector<Resource> resouces);
+    void addPlayerText();
+    void addAnnexationTileText();
+    void addImprovementTileText();
+    void addConstuctionTileText();
 };
 
 #endif // HELPAREA_HPP
