@@ -8,8 +8,9 @@ GameController::GameController(): windowManager("Dawn of Empires"),
     wasButtonAlreadyPressed(false), hasPlayerWon(false)
 {
     windowManager.createView("map", {0, 0}, {0.8, 0.9});
-    windowManager.createView("menu", {0.8, 0}, {0.2, 0.9});
+    windowManager.createView("menu", {0.8, 0.3}, {0.2, 0.6});
     windowManager.createView("resources", {0, 0.9}, {1, 0.1});
+    windowManager.createView("help", {0.8, 0}, {0.2, 0.3});
 
     players.push_back(Empire());
     GameContext::setEmpire(&players[0]);
@@ -18,6 +19,7 @@ GameController::GameController(): windowManager("Dawn of Empires"),
     map = new TileMap(mapRadius, windowManager.getViewSize("map") * 0.5f);
     menu = new ActionMenu(windowManager.getViewSize("menu"));
     bar = new ResourceBar(windowManager.getViewSize("resources"));
+    help = new HelpArea(windowManager.getViewSize("help"));
 }
 
 GameController::~GameController()
@@ -25,6 +27,7 @@ GameController::~GameController()
     delete map;
     delete menu;
     delete bar;
+    delete help;
 }
 
 void GameController::updateFrame(sf::Time deltaTime)
@@ -35,6 +38,8 @@ void GameController::updateFrame(sf::Time deltaTime)
     bar->update();
 
     map->animate(deltaTime);
+
+    help->update();
 
     if (verifyIfWon(*GameContext::getPlayer()))
     {
@@ -54,6 +59,9 @@ void GameController::render(sf::Color backgroundColor)
 
     windowManager.switchToView("resources");
     windowManager.draw(*bar);
+
+    windowManager.switchToView("help");
+    windowManager.draw(*help);
     
     windowManager.endDraw();
 }

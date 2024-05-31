@@ -38,7 +38,7 @@ TilePiece::TilePiece(float x, float y, int q, int r)
 
 bool TilePiece::improve()
 {
-    if (status &= TileStatus::MODIFIED)
+    if (!isImprovable())
     {
         return false;
     }
@@ -58,7 +58,10 @@ bool TilePiece::construct()
     }
 
     status |= TileStatus::MODIFIED;
+
+    delete strategy;
     strategy = new ConstructionTile();
+    
     generateDecoration();
 
     return true;
@@ -85,8 +88,21 @@ bool TilePiece::isOwnedBySomeone()
     return ownerId != -1;
 }
 
+bool TilePiece::isModified()
+{
+    return status & TileStatus::MODIFIED;
+}
+
 bool TilePiece::isImprovable()
 {
+    for (auto resource : strategy->getImprovementCost())
+    {
+        if (resource.getName() == NullResource().getName())
+        {
+            return false;
+        }
+    } 
+
     return ~status & TileStatus::MODIFIED;
 }
 

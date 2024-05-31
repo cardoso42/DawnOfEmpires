@@ -33,6 +33,7 @@ public:
 
     bool isOwnedBy(uint empireId);
     bool isOwnedBySomeone();
+    bool isModified();
     bool isImprovable();
     bool isConstruction();
     bool isConstructable();

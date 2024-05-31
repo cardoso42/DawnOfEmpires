@@ -30,6 +30,7 @@ void TileMap::generateHexMap(sf::Vector2f center, int mapRadius)
             float x = hexWidth * (q * 3.0f / 4.0f);
             float y = hexHeight * (r + q / 2.0f);
             tiles.push_back(TilePiece(x + center.x, y + center.y, q, r));
+            // std::cout << "oi" << std::endl;
             tileMap[std::make_pair(q, r)] = tiles.size() - 1;
         }
     }
