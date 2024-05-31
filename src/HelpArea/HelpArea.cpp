@@ -55,7 +55,7 @@ void HelpArea::update()
 
     if (!selectedTile->isOwnedBy(selectedEmpire->getId()))
     {
-        sf::Text annexationCost = sf::Text("Annexation cost: 1 human", AssetManager::GetFont("anonymous.ttf"), 20);
+        sf::Text annexationCost = sf::Text("Annexation cost: 3 humans", AssetManager::GetFont("anonymous.ttf"), 20);
         annexationCost.setPosition(background.getPosition().x + 10, texts.back().getPosition().y + 20);
         texts.push_back(annexationCost);
     }   
