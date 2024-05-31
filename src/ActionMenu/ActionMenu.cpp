@@ -7,10 +7,10 @@ ActionMenu::ActionMenu(sf::Vector2f windowSize) : GenericMenu(windowSize, sf::Co
     sf::Vector2f size = {windowSize.x * 0.6f, windowSize.y * 0.05f};
 
     // TODO: think about someway to hide and show new buttons throghout the game
-    buttons.push_back(ButtonMenu("Select initial tile", size, selectInitialTileBtnCb, {}));
-    buttons.push_back(ButtonMenu("Improve tile", size, improveTileBtnCb, {}));
-    buttons.push_back(ButtonMenu("Annex tile", size, annexTileBtnCb, {}));
-    buttons.push_back(ButtonMenu("Construct in tile", size, constructTileBtnCb, {}));
+    buttons.push_back(ButtonMenu("(S)elect initial tile", size, selectInitialTileBtnCb, {}));
+    buttons.push_back(ButtonMenu("(I)mprove tile", size, improveTileBtnCb, {}));
+    buttons.push_back(ButtonMenu("(A)nnex tile", size, annexTileBtnCb, {}));
+    buttons.push_back(ButtonMenu("(C)onstruct in tile", size, constructTileBtnCb, {}));
 
     organizeButtons();
 }

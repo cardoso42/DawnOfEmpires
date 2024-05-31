@@ -148,6 +148,38 @@ void GameController::handleInput()
             lastVerticalDirectionKey = sf::Keyboard::Down;
         }
     }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+    {
+        if (currentPressedKey == sf::Keyboard::Key::Unknown)
+        {
+            ActionMenu::selectInitialTileBtnCb({});
+            currentPressedKey = sf::Keyboard::S;
+        }
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::I))
+    {
+        if (currentPressedKey == sf::Keyboard::Key::Unknown)
+        {
+            ActionMenu::improveTileBtnCb({});
+            currentPressedKey = sf::Keyboard::I;
+        }
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+    {
+        if (currentPressedKey == sf::Keyboard::Key::Unknown)
+        {
+            ActionMenu::annexTileBtnCb({});
+            currentPressedKey = sf::Keyboard::A;
+        }
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+    {
+        if (currentPressedKey == sf::Keyboard::Key::Unknown)
+        {
+            ActionMenu::constructTileBtnCb({});
+            currentPressedKey = sf::Keyboard::C;
+        }
+    }
     else
     {
         currentPressedKey = sf::Keyboard::Key::Unknown;
