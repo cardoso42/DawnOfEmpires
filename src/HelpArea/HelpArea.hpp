@@ -15,6 +15,7 @@ public:
 private:
     sf::RectangleShape background;
     std::vector<sf::Text> texts;
+    sf::Text locator;
 
     Empire* previousEmpire;
     TilePiece* previousTile;
@@ -26,6 +27,7 @@ private:
     void addAnnexationTileText();
     void addImprovementTileText();
     void addConstuctionTileText();
+    void resetTexts();
 };
 
 #endif // HELPAREA_HPP

@@ -6,7 +6,7 @@ HelpArea::HelpArea(sf::Vector2f viewSize) : background(viewSize)
 {
     background.setFillColor(sf::Color(0, 0, 0, 200));
     
-    sf::Text locator = sf::Text("", AssetManager::GetFont("anonymous.ttf"));
+    locator = sf::Text("", AssetManager::GetFont("anonymous.ttf"));
     locator.setPosition({background.getPosition().x + 10, background.getPosition().y});
     texts.push_back(locator);
 }
@@ -41,7 +41,7 @@ void HelpArea::update()
 
 void HelpArea::updateTexts()
 {
-    texts.clear();
+    resetTexts();
 
     if (previousEmpire == nullptr)
     {
@@ -126,6 +126,12 @@ void HelpArea::addConstuctionTileText()
         createText("Construction cost", 50);
         listResources(construction);
     }
+}
+
+void HelpArea::resetTexts()
+{
+    texts.clear();
+    texts.push_back(locator);
 }
 
 void HelpArea::createText(std::string newText, int yDistance)
