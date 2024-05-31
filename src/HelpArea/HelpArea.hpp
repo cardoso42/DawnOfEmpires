@@ -18,6 +18,8 @@ private:
 
     Empire* previousEmpire;
     TilePiece* previousTile;
+
+    void createText(std::string newText, bool newSection = false);
 };
 
 #endif // HELPAREA_HPP

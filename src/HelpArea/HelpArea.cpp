@@ -49,15 +49,11 @@ void HelpArea::update()
     }
 
     std::string affirmative = ((selectedTile->isOwnedBy(selectedEmpire->getId())) ? " " : " do not ");
-    sf::Text owner("You" + affirmative + "own this tile!" , AssetManager::GetFont("anonymous.ttf"), 20);
-    owner.setPosition(background.getPosition().x + 10, texts.back().getPosition().y + 50);
-    texts.push_back(owner);
+    createText("You" + affirmative + "own this tile!", true);
 
     if (!selectedTile->isOwnedBy(selectedEmpire->getId()))
     {
-        sf::Text annexationCost = sf::Text("Annexation cost: 3 humans", AssetManager::GetFont("anonymous.ttf"), 20);
-        annexationCost.setPosition(background.getPosition().x + 10, texts.back().getPosition().y + 20);
-        texts.push_back(annexationCost);
+        createText("Annexation cost: " + std::to_string(GameContext::getTileHrCost()) + " humans");
     }   
 
     std::vector<Resource> improvement = selectedTile->getImprovementCost();
@@ -67,54 +63,45 @@ void HelpArea::update()
     {
         if (selectedTile->isModified() && !selectedTile->isConstruction())
         {
-            sf::Text improvementTitle("Tile already improved", AssetManager::GetFont("anonymous.ttf"), 20);
-            improvementTitle.setPosition(background.getPosition().x + 10, texts.back().getPosition().y + 50);
-            texts.push_back(improvementTitle);
+            createText("Tile already improved", true);
         }
         else if (selectedTile->isConstruction())
         {
-            sf::Text improvementTitle("Tile is alreay a construction", AssetManager::GetFont("anonymous.ttf"), 20);
-            improvementTitle.setPosition(background.getPosition().x + 10, texts.back().getPosition().y + 50);
-            texts.push_back(improvementTitle);
+            createText("Tile is already a construct", true);
         }
         else
         {
-            sf::Text improvementTitle("Tile cannot be improved", AssetManager::GetFont("anonymous.ttf"), 20);
-            improvementTitle.setPosition(background.getPosition().x + 10, texts.back().getPosition().y+ 50);
-            texts.push_back(improvementTitle);
+            createText("Tile cannot be improved", true);
         }
     }
     else
     {
-        sf::Text improvementTitle("Improvement cost", AssetManager::GetFont("anonymous.ttf"), 20);
-        improvementTitle.setPosition(background.getPosition().x + 10, texts.back().getPosition().y + 50);
-        texts.push_back(improvementTitle);
+        createText("Improvement cost", true);
         for (int i = 0; i < improvement.size(); i++)
         {
             std::string resourceStr = improvement[i].getName() + ": " + std::to_string(static_cast<int>(improvement[i].getAmount()));
-            sf::Text resource(resourceStr, AssetManager::GetFont("anonymous.ttf"), 20);
-            resource.setPosition(background.getPosition().x + 10, texts.back().getPosition().y + 20);
-            texts.push_back(resource);
+            createText(resourceStr);
         }
     }
 
     if (!selectedTile->isConstructable())
     {
-        sf::Text improvementTitle("Tile cannot be constructed", AssetManager::GetFont("anonymous.ttf"), 20);
-        improvementTitle.setPosition(background.getPosition().x + 10, texts.back().getPosition().y + 50);
-        texts.push_back(improvementTitle);
+        createText("Tile cannot be constructed", true);
     }
     else
     {
-        sf::Text constructionTitle("Construction cost", AssetManager::GetFont("anonymous.ttf"), 20);
-        constructionTitle.setPosition(background.getPosition().x + 10, texts.back().getPosition().y + 50);
-        texts.push_back(constructionTitle);
+        createText("Construction cost", true);
         for (int i = 0; i < construction.size(); i++)
         {
             std::string resourceStr = construction[i].getName() + ": " + std::to_string(static_cast<int>(construction[i].getAmount()));
-            sf::Text resource(resourceStr, AssetManager::GetFont("anonymous.ttf"), 20);
-            resource.setPosition(background.getPosition().x + 10, texts.back().getPosition().y + 20);
-            texts.push_back(resource);
+            createText(resourceStr);
         }
     }
+}
+
+void HelpArea::createText(std::string newText, bool newSection)
+{
+    sf::Text text(newText, AssetManager::GetFont("anonymous.ttf"), 20);
+    text.setPosition(background.getPosition().x + 10, texts.back().getPosition().y + (newSection ? 50 : 20));
+    texts.push_back(text);
 }

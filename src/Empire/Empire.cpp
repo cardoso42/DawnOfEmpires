@@ -105,7 +105,7 @@ void Empire::annexNewTile(TilePiece *newTile)
         }
     }
 
-    if (resources["Human"].getAmount() < 3)
+    if (resources["Human"].getAmount() < GameContext::getTileHrCost())
     {
         return;
     }
@@ -122,13 +122,6 @@ bool Empire::expendResources(std::vector<Resource> costs)
     {
         if (!canPayResource(cost))
         {
-            std::cout << "You need to improve this tile:" << std::endl;
-            for (auto cost : costs)
-            {
-                std::cout << cost.getName() << ": " << cost.getAmount() << std::endl;
-            }
-            std::cout << std::endl;
-
             return false;
         }
     }
