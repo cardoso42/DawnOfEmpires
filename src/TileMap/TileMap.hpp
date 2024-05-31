@@ -27,6 +27,7 @@ struct hash_pair
 class TileMap : public sf::Drawable
 {
 public:
+    enum TileDirections { UP, DOWN, UP_RIGHT, DOWN_LEFT, UP_LEFT, DOWN_RIGHT };
     TileMap(int mapRadius, sf::Vector2f center);
 
     // Override
@@ -34,13 +35,13 @@ public:
 
     void animate(sf::Time deltaTime);
     void click(int x, int y);
+    void selectNeighborTile(TileDirections direction);
 
     TilePiece* getRandomTile();
 
 private:
     std::vector<TilePiece> tiles;
     std::unordered_map<std::pair<int, int>, int, hash_pair> tileMap;
-    uint selectedTileId;
 
     void generateHexMap(sf::Vector2f center, int mapRadius);
     TilePiece* getTile(uint id);

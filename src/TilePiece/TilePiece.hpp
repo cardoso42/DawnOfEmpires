@@ -64,6 +64,10 @@ private:
     sf::CircleShape ownerColor;
     sf::Sprite border;
     sf::Sprite body;
+#ifdef DEBUG
+    sf::Text *text;
+#endif
+    
     
     int status;
     uint tileId;

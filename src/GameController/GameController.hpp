@@ -36,8 +36,12 @@ private:
 
     std::vector<Empire> players;
 
-    bool wasButtonAlreadyPressed;
+    bool wasMouseButtonAlreadyPressed;
+    bool wasKeyboardButtonAlreadyPressed;
     bool hasPlayerWon;
+
+    sf::Keyboard::Key currentPressedKey;
+    sf::Keyboard::Key lastVerticalDirectionKey;
 
     bool verifyIfWon(Empire player);
 

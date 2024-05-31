@@ -8,6 +8,14 @@ TilePiece::TilePiece(float x, float y, int q, int r)
     : tileId(IdGenerator::GenerateTileId()), ownerId(-1), decoration(nullptr),
         status(TilePiece::TileStatus::NONE), q(q), r(r), resourceSource(nullptr)
 {
+#ifdef DEBUG
+    text = new sf::Text(
+        "(" + std::to_string(q) + ", " + std::to_string(r) + ")",
+        AssetManager::GetFont("anonymous.ttf"), 8U
+    );
+    text->setFillColor(sf::Color::Black);
+#endif
+
     float radius = 5;
     ownerColor = sf::CircleShape(radius);
     ownerColor.setFillColor(sf::Color(0,0,0,0));
@@ -137,6 +145,10 @@ void TilePiece::draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
         target.draw(ownerColor);
     }
+
+#ifdef DEBUG
+    target.draw(*text);
+#endif
 }
 
 void TilePiece::setPosition(const sf::Vector2f& position)
@@ -152,6 +164,10 @@ void TilePiece::setPosition(const sf::Vector2f& position)
     {
         decoration->setPosition(position);
     }
+
+#ifdef DEBUG
+    text->setPosition({position.x, position.y + 16});
+#endif
 }
 
 sf::Vector2f TilePiece::getPosition() { return body.getPosition(); }

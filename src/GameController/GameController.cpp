@@ -5,7 +5,7 @@
 #include <sstream>
 
 GameController::GameController(): windowManager("Dawn of Empires"), 
-    wasButtonAlreadyPressed(false), hasPlayerWon(false)
+    wasMouseButtonAlreadyPressed(false), hasPlayerWon(false)
 {
     windowManager.createView("map", {0, 0}, {0.8, 0.9});
     windowManager.createView("menu", {0.8, 0.3}, {0.2, 0.6});
@@ -74,9 +74,9 @@ void GameController::handleInput()
         // This is to avoid multiple calls for this block of code,
         // for example, to avoid multiple buttons clicks
 
-        if (!wasButtonAlreadyPressed)
+        if (!wasMouseButtonAlreadyPressed)
         {
-            wasButtonAlreadyPressed = true;
+            wasMouseButtonAlreadyPressed = true;
             sf::Vector2i pos = sf::Mouse::getPosition(windowManager);
             sf::Vector2f sceneCords;
 
@@ -97,7 +97,60 @@ void GameController::handleInput()
     }
     else
     {
-        wasButtonAlreadyPressed = false;
+        wasMouseButtonAlreadyPressed = false;
+    }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    {
+        if (currentPressedKey == sf::Keyboard::Key::Unknown)
+        {
+            if (lastVerticalDirectionKey == sf::Keyboard::Up)
+            {
+                map->selectNeighborTile(TileMap::TileDirections::UP_LEFT);
+            }
+            else if (lastVerticalDirectionKey == sf::Keyboard::Down)
+            {
+                map->selectNeighborTile(TileMap::TileDirections::DOWN_LEFT);
+            }
+            currentPressedKey = sf::Keyboard::Left;
+        }
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    {
+        if (currentPressedKey == sf::Keyboard::Key::Unknown)
+        {
+            if (lastVerticalDirectionKey == sf::Keyboard::Up)
+            {
+                map->selectNeighborTile(TileMap::TileDirections::UP_RIGHT);
+            }
+            else if (lastVerticalDirectionKey == sf::Keyboard::Down)
+            {
+                map->selectNeighborTile(TileMap::TileDirections::DOWN_RIGHT);
+            }
+            currentPressedKey = sf::Keyboard::Right;
+        }
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+    {
+        if (currentPressedKey == sf::Keyboard::Key::Unknown)
+        {
+            map->selectNeighborTile(TileMap::TileDirections::UP);
+            currentPressedKey = sf::Keyboard::Up;
+            lastVerticalDirectionKey = sf::Keyboard::Up;
+        }
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+    {
+        if (currentPressedKey == sf::Keyboard::Key::Unknown)
+        {
+            map->selectNeighborTile(TileMap::TileDirections::DOWN);
+            currentPressedKey = sf::Keyboard::Down;
+            lastVerticalDirectionKey = sf::Keyboard::Down;
+        }
+    }
+    else
+    {
+        currentPressedKey = sf::Keyboard::Key::Unknown;
     }
 }
 

@@ -30,7 +30,6 @@ void TileMap::generateHexMap(sf::Vector2f center, int mapRadius)
             float x = hexWidth * (q * 3.0f / 4.0f);
             float y = hexHeight * (r + q / 2.0f);
             tiles.push_back(TilePiece(x + center.x, y + center.y, q, r));
-            // std::cout << "oi" << std::endl;
             tileMap[std::make_pair(q, r)] = tiles.size() - 1;
         }
     }
@@ -86,6 +85,49 @@ void TileMap::click(int x, int y)
     if (!clickedOnTile && selected != nullptr)
     {
         selected->unselect();
+    }
+}
+
+void TileMap::selectNeighborTile(TileDirections direction)
+{
+    TilePiece* selected = GameContext::getTile();
+    if (selected == nullptr)
+    {
+        return;
+    }
+
+    int q = selected->getQ();
+    int r = selected->getR();
+
+    switch (direction)
+    {
+        case UP:
+            r -= 1;
+            break;
+        case DOWN:
+            r += 1;
+            break;
+        case UP_RIGHT:
+            q += 1;
+            r -= 1;
+            break;
+        case DOWN_LEFT:
+            q -= 1;
+            r += 1;
+            break;
+        case UP_LEFT:
+            q -= 1;
+            break;
+        case DOWN_RIGHT:
+            q += 1;
+            break;
+    }
+
+    auto it = tileMap.find(std::make_pair(q, r));
+    if (it != tileMap.end())
+    {
+        selected->unselect();
+        tiles[it->second].select();
     }
 }
 
