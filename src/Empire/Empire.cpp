@@ -65,12 +65,10 @@ std::vector<Resource> Empire::getResources()
 
     for (auto it = resources.begin(); it != resources.end(); it++)
     {
-        if (it->second.getName() == "Null" || it->second.getName() == "")
+        if (it->second.getVisibility())
         {
-            continue;
+            returnResources.push_back(it->second);
         }
-
-        returnResources.push_back(it->second);
     }
 
     return returnResources;

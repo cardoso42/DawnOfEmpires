@@ -7,14 +7,15 @@
 class Resource
 {
 public:
-    Resource() : name(""), amount(0), icon("") {}
+    Resource() : name(""), amount(0), icon(""), isVisible(false) {}
 
-    Resource(std::string name, float amount, std::string icon)
-        : name(name), amount(amount), icon(icon) {}
+    Resource(std::string name, float amount, std::string icon, bool isVisible = true)
+        : name(name), amount(amount), icon(icon), isVisible(isVisible) {}
 
     std::string getName() { return name; }
     std::string getIcon() { return icon; }
     float getAmount() { return amount; }
+    bool getVisibility() { return isVisible; }
 
     Resource& operator+=(const Resource& other) 
     {
@@ -82,6 +83,7 @@ private:
     std::string name;
     std::string icon;
     float amount;
+    bool isVisible;
 };
 
 class WoodResource : public Resource
@@ -111,13 +113,13 @@ public:
 class NullResource : public Resource
 {
 public:
-    NullResource() : Resource("Null", 0, "") {}
+    NullResource() : Resource("Null", 0, "", false) {}
 };
 
 class TileResource : public Resource
 {
 public:
-    TileResource(float amount) : Resource("Tile", amount, "tile.png") {}
+    TileResource(float amount) : Resource("Tile", amount, "tile.png", false) {}
 };
 
 #endif // RESOURCES_HPP

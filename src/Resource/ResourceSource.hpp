@@ -14,7 +14,7 @@ public:
         float realGeneration = std::min(resource.amount, generation * dt.asSeconds());
         resource.amount -= realGeneration;
 
-        return Resource(resource.name, realGeneration, resource.icon);
+        return Resource(resource.name, realGeneration, resource.icon, resource.isVisible);
     }
 
 protected:
