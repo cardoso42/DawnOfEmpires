@@ -43,4 +43,11 @@ public:
         : ResourceSource(FoodResource(amount), generation) {}
 };
 
+class TileResourceSource : public ResourceSource 
+{
+public:
+    TileResourceSource(float amount, float generation)
+        : ResourceSource(TileResource(amount), generation) {}
+};
+
 #endif // RESOURCESOURCE_HPP

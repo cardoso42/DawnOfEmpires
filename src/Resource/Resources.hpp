@@ -114,4 +114,10 @@ public:
     NullResource() : Resource("Null", 0, "") {}
 };
 
+class TileResource : public Resource
+{
+public:
+    TileResource(float amount) : Resource("Tile", amount, "tile.png") {}
+};
+
 #endif // RESOURCES_HPP

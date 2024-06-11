@@ -78,6 +78,7 @@ std::vector<Resource> Empire::getResources()
 
 int Empire::getConstructionsNumber()
 {
+    // TODO: store the number of constructions in the Empire class
     int count{0};
 
     for (auto& tile : territory)

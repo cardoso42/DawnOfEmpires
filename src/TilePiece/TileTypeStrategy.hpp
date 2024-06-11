@@ -9,7 +9,7 @@
 class TileTypeStrategy {
 public:
     virtual ~TileTypeStrategy() = default;
-    virtual ResourceSource* createResourceSource(float amount, float generation) = 0;
+    virtual ResourceSource* createResourceSource() = 0;
     virtual sf::Color getColor() = 0;
     virtual AnimatedAsset* createDecoration() = 0;
     virtual std::vector<Resource> getImprovementCost() = 0;

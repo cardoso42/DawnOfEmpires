@@ -68,12 +68,12 @@ private:
     sf::Text *text;
 #endif
     
-    
     int status;
     uint tileId;
     int q, r; // axial coordinates
     int ownerId;
 
+    void setStrategy(TileTypeStrategy* newStrategy);
     void generateRandomStrategy();
     void generateDecoration();
     void paint(sf::Color color);

@@ -4,9 +4,10 @@
 #include "GameContext.hpp"
 #include "Resources.hpp"
 
-TilePiece::TilePiece(float x, float y, int q, int r) 
+TilePiece::TilePiece(float x, float y, int q, int r)
     : tileId(IdGenerator::GenerateTileId()), ownerId(-1), decoration(nullptr),
-        status(TilePiece::TileStatus::NONE), q(q), r(r), resourceSource(nullptr)
+        strategy(nullptr), status(TileStatus::NONE), resourceSource(nullptr),
+        q(q), r(r)
 {
 #ifdef DEBUG
     text = new sf::Text(
@@ -36,11 +37,7 @@ TilePiece::TilePiece(float x, float y, int q, int r)
     );
 
     TileTypeStrategyFactory factory;
-    strategy = factory.createRandomStrategy();
-    float amount = 5000 + rand() % 10000;
-    float generation = .95 + rand() % 10 * 0.01;
-    resourceSource = strategy->createResourceSource(amount, generation);
-    paint(strategy->getColor());
+    setStrategy(factory.createRandomStrategy());
 }
 
 bool TilePiece::improve()
@@ -66,9 +63,7 @@ bool TilePiece::construct()
 
     status |= TileStatus::MODIFIED;
 
-    delete strategy;
-    strategy = new ConstructionTile();
-    
+    setStrategy(new ConstructionTile());
     generateDecoration();
 
     return true;
@@ -81,8 +76,7 @@ Resource TilePiece::extractResource(sf::Time dt)
         return resourceSource->extract(dt);
     }
     
-    // TODO: criar exceções melhores
-    throw std::logic_error("tile is not yet improved");
+    return NullResource();
 }
 
 bool TilePiece::isOwnedBy(uint empireId)
@@ -115,7 +109,7 @@ bool TilePiece::isImprovable()
 
 bool TilePiece::isConstruction()
 {
-    return dynamic_cast<ConstructionTile*>(strategy) != nullptr;
+    return dynamic_cast<ConstructionTile*>(strategy);
 }
 
 bool TilePiece::isConstructable()
@@ -180,6 +174,25 @@ void TilePiece::animate(sf::Time deltaTime)
     }
 }
 
+void TilePiece::setStrategy(TileTypeStrategy* newStrategy)
+{    
+    if (newStrategy == nullptr)
+    {
+        return;
+    }
+
+    if (strategy != nullptr)
+    {
+        delete strategy;
+    }
+
+    strategy = newStrategy;
+    
+    resourceSource = strategy->createResourceSource();
+
+    paint(strategy->getColor());
+}
+
 void TilePiece::generateDecoration()
 {
     if (decoration != nullptr)
@@ -188,6 +201,11 @@ void TilePiece::generateDecoration()
     }
 
     decoration = strategy->createDecoration();
+    if (decoration == nullptr)
+    {
+        return;
+    }
+
     decoration->setPosition(body.getPosition());
     decoration->fitTo(getSize(), 0.6f);
 }

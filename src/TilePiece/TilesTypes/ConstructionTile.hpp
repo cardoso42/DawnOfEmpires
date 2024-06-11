@@ -4,29 +4,38 @@
 #include "TileTypeStrategy.hpp"
 #include "Resources.hpp"
 
-class ConstructionTile : public TileTypeStrategy {
+class ConstructionTile : public TileTypeStrategy
+{
 public:
-    ResourceSource* createResourceSource(float amount, float generation) override {
-        return nullptr;
+    ResourceSource* createResourceSource() override
+    {
+        float generation = (1 + rand() % 3) * 0.01;
+        
+        return new TileResourceSource(18, generation);
     }
 
-    sf::Color getColor() override {
+    sf::Color getColor() override
+    {
         return sf::Color(240, 230, 140);
     }
 
-    AnimatedAsset* createDecoration() override {
+    AnimatedAsset* createDecoration() override
+    {
         return new AnimatedAsset("pyramid.png");
     }
 
-    std::vector<Resource> getImprovementCost() override {
+    std::vector<Resource> getImprovementCost() override
+    {
         return { NullResource() };
     }
 
-    std::vector<Resource> getConstructionCost() override {
+    std::vector<Resource> getConstructionCost() override
+    {
         return { NullResource() };
     }
 
-    std::string getName() override {
+    std::string getName() override
+    {
         return "Construction";
     }
 };
