@@ -261,6 +261,11 @@ void Empire::HumanResourceSource::consume(std::map<std::string, Resource>& resou
         foodResource = resources["Food"];
         consumption = 0.1 * resource.getAmount();
         resources["Food"] -= consumption * dt.asSeconds();
+
+        if (resources["Food"].getAmount() < 0)
+        {
+            resources["Food"] = FoodResource(0);
+        }
     }
 
     isUpdated = true;

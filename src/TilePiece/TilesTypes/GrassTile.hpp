@@ -11,7 +11,7 @@ public:
     {
         float amount = 5000 + rand() % 10000;
         float generation = .95 + rand() % 10 * 0.01;
-        
+
         return new FoodResourceSource(amount, generation);
     }
 
@@ -32,11 +32,15 @@ public:
 
     std::vector<Resource> getConstructionCost() override
     {
+#ifdef DEBUG
+        return { };
+#else
         return { 
-            // HumanResource(30),
-            // WoodResource(500),
-            // MineralResource(100)
-         };
+            HumanResource(30),
+            WoodResource(500),
+            MineralResource(100)
+        };
+#endif
     }
 
     std::string getName() override {

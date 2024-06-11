@@ -126,7 +126,7 @@ bool TilePiece::isImprovable()
 
 bool TilePiece::isConstruction()
 {
-    return dynamic_cast<MilitaryConstructionTile*>(strategy);
+    return dynamic_cast<ConstructionTile*>(strategy);
 }
 
 bool TilePiece::isConstructable()
@@ -285,7 +285,7 @@ Resource TilePiece::getEmptyResource()
     {
         return NullResource();
     }
-    
+
     return resourceSource->getEmptyResource();
 }
 

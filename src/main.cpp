@@ -1,11 +1,5 @@
 #include "main.hpp"
 
-#include <iostream>
-
-#include <SFML/Graphics.hpp>
-#include "IdGenerator.hpp"
-#include <X11/Xlib.h>
-
 int main()
 {
     XInitThreads();
@@ -24,6 +18,10 @@ int main()
         game.updateFrame(deltaTime);
         game.render();
     }
+
+#ifdef DEBUG
+    game.showPlayerTerritory();
+#endif
  
     return EXIT_SUCCESS;
 }

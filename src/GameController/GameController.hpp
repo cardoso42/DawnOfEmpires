@@ -24,6 +24,7 @@ public:
     void handleInput();
     void updateFrame(sf::Time deltaTime);
     void render(sf::Color backgroundColor = sf::Color::Black);
+    void showPlayerTerritory();
     
     bool isOver();
 private:
