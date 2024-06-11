@@ -10,6 +10,7 @@ Empire::Empire() : color(sf::Color::Red), empireId(IdGenerator::GenerateEmpireId
     
     resources[hr.getName()] = hr;
     resources[food.getName()] = food;
+    resources[TileResource(0).getName()] = TileResource(0);
 }
 
 Empire::~Empire()
@@ -34,7 +35,7 @@ void Empire::update(sf::Time dt)
                 resources[extractedResource.getName()] = extractedResource;
             }
         }
-        catch(const std::exception& e)
+        catch (const std::exception& e)
         {
             std::cerr << e.what() << std::endl;
         }
@@ -43,6 +44,18 @@ void Empire::update(sf::Time dt)
     hrSource.consume(resources, dt);
     Resource hr = hrSource.extract(dt);
     resources[hr.getName()] += hr;
+
+    if (resources[TileResource(0).getName()].getAmount() >= 1)
+    {
+        int index = std::rand() % neighbors.size();
+
+        auto neighborsVector = std::vector<TilePiece*>(neighbors.begin(), neighbors.end());
+        TilePiece* newTile = neighborsVector[index];
+
+        addTileToTerritory(newTile);
+
+        resources[TileResource(0).getName()] -= 1;
+    }
 }
 
 bool Empire::canPayResource(Resource resource)
@@ -57,6 +70,24 @@ bool Empire::canPayResource(Resource resource)
     float remaining = (empireResource->second - resource).getAmount();
 
     return remaining >= 0;
+}
+
+void Empire::addTileToTerritory(TilePiece *newTile)
+{
+    territory.push_back(newTile);
+    newTile->annexTo(empireId, color);
+
+    neighbors.erase(newTile);
+    
+    for (auto& tile : newTile->getNeighbors())
+    {
+        if (tile->isOwnedBy(empireId))
+        {
+            continue;
+        }
+
+        neighbors.insert(tile);
+    }
 }
 
 std::vector<Resource> Empire::getResources()
@@ -101,6 +132,27 @@ void Empire::setStartingTerritory(TilePiece *startingTile)
     territory.push_back(startingTile);
     startingTile->annexTo(empireId, color);
 
+    std::unordered_set<TilePiece*> territorySet;
+    std::unordered_set<TilePiece*> neighborsSet;
+
+    for (auto& tile : startingTile->getNeighbors())
+    {
+        territorySet.insert(tile);
+    }
+
+    for (auto& tile : startingTile->getNeighbors())
+    {
+        for (auto& neighboringTile : tile->getNeighbors())
+        {
+            if (territorySet.find(neighboringTile) == territorySet.end() &&
+                neighborsSet.find(neighboringTile) == neighborsSet.end())
+            {
+                neighborsSet.insert(neighboringTile);
+                neighbors.insert(neighboringTile);
+            }
+        }
+    }
+
     hrSource.activate();
 }
 
@@ -121,8 +173,7 @@ void Empire::annexNewTile(TilePiece *newTile)
 
     resources["Human"] -= GameContext::getTileHrCost();
 
-    territory.push_back(newTile);
-    newTile->annexTo(empireId, color);
+    addTileToTerritory(newTile);
 }
 
 bool Empire::expendResources(std::vector<Resource> costs)

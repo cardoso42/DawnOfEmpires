@@ -3,6 +3,7 @@
 
 #include "TilePiece.hpp"
 #include "ResourceSource.hpp"
+#include <unordered_set>
 
 class Empire
 {
@@ -24,10 +25,12 @@ public:
 private:
     uint empireId;
     std::vector<TilePiece*> territory;
+    std::unordered_set<TilePiece*> neighbors;
     std::map<std::string, Resource> resources;
     sf::Color color;
 
     bool canPayResource(Resource resource);
+    void addTileToTerritory(TilePiece *newTile);
     
     class HumanResourceSource : public ResourceSource 
     {
@@ -40,7 +43,6 @@ private:
     private:
         bool isUpdated;
         float consumption;
-
         Resource foodResource;
     };
 
