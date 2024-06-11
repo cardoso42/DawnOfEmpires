@@ -38,6 +38,8 @@ private:
     public:
         HumanResourceSource();
         Resource extract(sf::Time dt) override;
+        Resource getEmptyResource() override { return HumanResource(0); }
+
         void consume(std::map<std::string, Resource>& resources, sf::Time dt);
         bool activate();
 

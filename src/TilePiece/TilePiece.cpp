@@ -80,7 +80,7 @@ bool TilePiece::construct(ConstructionType type)
     default:
         break;
     }
-    
+
     generateDecoration();
 
     return true;
@@ -277,6 +277,16 @@ int TilePiece::setNeighbors(std::vector<TilePiece*> newNeighbors)
 std::string TilePiece::getTypeName()
 {
     return strategy->getName();
+}
+
+Resource TilePiece::getEmptyResource()
+{
+    if (!isModified())
+    {
+        return NullResource();
+    }
+    
+    return resourceSource->getEmptyResource();
 }
 
 std::vector<Resource> TilePiece::getConstructionCost()

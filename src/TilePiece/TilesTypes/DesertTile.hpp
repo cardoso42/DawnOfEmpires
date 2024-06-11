@@ -9,7 +9,7 @@ class DesertTile : public TileTypeStrategy
 public:
     ResourceSource* createResourceSource() override
     {
-        return nullptr;
+        return new NullResourceSource();
     }
 
     sf::Color getColor() override

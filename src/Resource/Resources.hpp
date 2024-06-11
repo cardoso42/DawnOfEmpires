@@ -119,13 +119,27 @@ public:
 class TileResource : public Resource
 {
 public:
+#ifdef DEBUG
+    TileResource(float amount) : Resource("Tile", amount, "tile.png") {}
+#else
     TileResource(float amount) : Resource("Tile", amount, "tile.png", false) {}
+#endif
 };
 
 class GoldResource : public Resource
 {
 public:
     GoldResource(float amount) : Resource("Gold", amount, "gold.png") {}
+};
+
+class CultureBonusResource : public Resource
+{
+public:
+#ifdef DEBUG
+    CultureBonusResource(float amount) : Resource("CultureBonus", amount, "culture.png") {}
+#else
+    CultureBonusResource(float amount) : Resource("CultureBonus", amount, "culture.png", false) {}
+#endif
 };
 
 #endif // RESOURCES_HPP

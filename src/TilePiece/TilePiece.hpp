@@ -41,6 +41,7 @@ public:
 
     // getters
     std::string getTypeName();
+    Resource getEmptyResource();
     std::vector<Resource> getConstructionCost();
     std::vector<Resource> getImprovementCost();
     std::vector<TilePiece*> getNeighbors();

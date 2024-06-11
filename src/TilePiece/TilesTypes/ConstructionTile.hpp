@@ -73,9 +73,8 @@ class CultureConstructionTile : public ConstructionTile
 public:
     ResourceSource* createResourceSource() override
     {
-        float generation = (1 + rand() % 3) * 0.01;
-        
-        return new TileResourceSource(18, generation);
+        float generation = (1 + rand() % 10) * 0.1;
+        return new CultureBonusResourceSource(rand() % 50 + 50, generation);
     }
 
     std::string getName() override

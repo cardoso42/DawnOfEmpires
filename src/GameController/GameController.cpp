@@ -15,7 +15,7 @@ GameController::GameController(): windowManager("Dawn of Empires"),
     players.push_back(Empire());
     GameContext::setEmpire(&players[0]);
     
-    int mapRadius = 3;
+    int mapRadius = 15;
     map = new TileMap(mapRadius, windowManager.getViewSize("map") * 0.5f);
     menu = new ActionMenu(windowManager.getViewSize("menu"));
     bar = new ResourceBar(windowManager.getViewSize("resources"));

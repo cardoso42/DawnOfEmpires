@@ -26,14 +26,35 @@ void Empire::update(sf::Time dt)
         {
             Resource extractedResource = tile->extractResource(dt);
 
-            if (resources.find(extractedResource.getName()) != resources.end())
+            if (extractedResource.getName() == CultureBonusResource(0).getName())
             {
-                resources[extractedResource.getName()] += extractedResource;
+                for (auto& neighbor : tile->getNeighbors())
+                {
+                    if (!neighbor->isOwnedBy(empireId))
+                    {
+                        continue;
+                    }
+
+                    Resource bonusResourceModel = neighbor->getEmptyResource();
+
+                    if (bonusResourceModel.getName() == NullResource().getName())
+                    {
+                        continue;
+                    }
+
+                    Resource bonusResource = Resource(
+                        bonusResourceModel.getName(), 
+                        extractedResource.getAmount(), 
+                        bonusResourceModel.getIcon(), 
+                        bonusResourceModel.getVisibility()
+                    );
+
+                    addResource(bonusResource);
+                }
+                continue;
             }
-            else
-            {
-                resources[extractedResource.getName()] = extractedResource;
-            }
+
+            addResource(extractedResource);
         }
         catch (const std::exception& e)
         {
