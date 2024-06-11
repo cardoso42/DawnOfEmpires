@@ -7,13 +7,6 @@
 class ConstructionTile : public TileTypeStrategy
 {
 public:
-    ResourceSource* createResourceSource() override
-    {
-        float generation = (1 + rand() % 3) * 0.01;
-        
-        return new TileResourceSource(18, generation);
-    }
-
     sf::Color getColor() override
     {
         return sf::Color(240, 230, 140);
@@ -33,10 +26,61 @@ public:
     {
         return { NullResource() };
     }
+};
+
+class MilitaryConstructionTile : public ConstructionTile
+{
+public:
+    ResourceSource* createResourceSource() override
+    {
+    #ifdef DEBUG
+        float generation = 0.25;
+    #else
+        float generation = (1 + rand() % 3) * 0.01;
+    #endif
+
+        return new TileResourceSource(18, generation);
+    }
 
     std::string getName() override
     {
-        return "Construction";
+        return "Military Construction";
+    }
+};
+
+class EconomyConstructionTile : public ConstructionTile
+{
+public:
+    ResourceSource* createResourceSource() override
+    {
+    #ifdef DEBUG
+        float generation = 1;
+    #else
+        float generation = (1 + rand() % 3) * 0.01;
+    #endif
+        
+        return new GoldResourceSource(5, generation);
+    }
+
+    std::string getName() override
+    {
+        return "Economy Construction";
+    }
+};
+
+class CultureConstructionTile : public ConstructionTile
+{
+public:
+    ResourceSource* createResourceSource() override
+    {
+        float generation = (1 + rand() % 3) * 0.01;
+        
+        return new TileResourceSource(18, generation);
+    }
+
+    std::string getName() override
+    {
+        return "Culture Construction";
     }
 };
 

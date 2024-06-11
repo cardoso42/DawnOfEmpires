@@ -12,11 +12,23 @@ class ActionMenu : public GenericMenu
 {
 public:
     ActionMenu(sf::Vector2f windowSize);
+    
     static void annexTileBtnCb(std::vector<void*> parameters);
     static void selectInitialTileBtnCb(std::vector<void*> parameters);
     static void improveTileBtnCb(std::vector<void*> parameters);
-    static void constructTileBtnCb(std::vector<void*> parameters);
+    static void constructMilitaryTileBtnCb(std::vector<void*> parameters);
+    static void constructEconomyTileBtnCb(std::vector<void*> parameters);
+    static void constructCultureTileBtnCb(std::vector<void*> parameters);
+    static void spendGoldCoinBtnCb(std::vector<void*> parameters);
+    static void nextTurnBtnCb(std::vector<void*> parameters);
+
+    static void buyResources(std::vector<void *> parameters);
 private:
+    sf::Vector2f size;
+    void setBuyResourceButtons();
+    void setActionButtons();
+
+    static ActionMenu* instance;
 };
 
 #endif // ACTIONMENU_HPP

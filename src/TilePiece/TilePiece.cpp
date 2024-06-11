@@ -54,7 +54,7 @@ bool TilePiece::improve()
     return true;
 }
 
-bool TilePiece::construct()
+bool TilePiece::construct(ConstructionType type)
 {
     if (!isConstructable())
     {
@@ -63,7 +63,24 @@ bool TilePiece::construct()
 
     status |= TileStatus::MODIFIED;
 
-    setStrategy(new ConstructionTile());
+    switch (type)
+    {
+    case ConstructionType::ECONOMY:
+        setStrategy(new EconomyConstructionTile());
+        break;
+    
+    case ConstructionType::CULTURE:
+        setStrategy(new CultureConstructionTile());
+        break;
+    
+    case ConstructionType::MILITARY:
+        setStrategy(new MilitaryConstructionTile());
+        break;
+
+    default:
+        break;
+    }
+    
     generateDecoration();
 
     return true;
@@ -109,7 +126,7 @@ bool TilePiece::isImprovable()
 
 bool TilePiece::isConstruction()
 {
-    return dynamic_cast<ConstructionTile*>(strategy);
+    return dynamic_cast<MilitaryConstructionTile*>(strategy);
 }
 
 bool TilePiece::isConstructable()

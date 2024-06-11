@@ -105,6 +105,18 @@ std::vector<Resource> Empire::getResources()
     return returnResources;
 }
 
+void Empire::addResource(Resource newResource)
+{
+    if (resources.find(newResource.getName()) != resources.end())
+    {
+        resources[newResource.getName()] += newResource;
+    }
+    else
+    {
+        resources[newResource.getName()] = newResource;
+    }
+}
+
 int Empire::getConstructionsNumber()
 {
     // TODO: store the number of constructions in the Empire class

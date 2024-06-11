@@ -122,4 +122,10 @@ public:
     TileResource(float amount) : Resource("Tile", amount, "tile.png", false) {}
 };
 
+class GoldResource : public Resource
+{
+public:
+    GoldResource(float amount) : Resource("Gold", amount, "gold.png") {}
+};
+
 #endif // RESOURCES_HPP

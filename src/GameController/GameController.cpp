@@ -176,8 +176,40 @@ void GameController::handleInput()
     {
         if (currentPressedKey == sf::Keyboard::Key::Unknown)
         {
-            ActionMenu::constructTileBtnCb({});
+            ActionMenu::constructCultureTileBtnCb({});
             currentPressedKey = sf::Keyboard::C;
+        }
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
+    {
+        if (currentPressedKey == sf::Keyboard::Key::Unknown)
+        {
+            ActionMenu::constructMilitaryTileBtnCb({});
+            currentPressedKey = sf::Keyboard::C;
+        }
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+    {
+        if (currentPressedKey == sf::Keyboard::Key::Unknown)
+        {
+            ActionMenu::constructEconomyTileBtnCb({});
+            currentPressedKey = sf::Keyboard::C;
+        }
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::G))
+    {
+        if (currentPressedKey == sf::Keyboard::Key::Unknown)
+        {
+            ActionMenu::spendGoldCoinBtnCb({});
+            currentPressedKey = sf::Keyboard::G;
+        }
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::N))
+    {
+        if (currentPressedKey == sf::Keyboard::Key::Unknown)
+        {
+            ActionMenu::nextTurnBtnCb({});
+            currentPressedKey = sf::Keyboard::N;
         }
     }
     else

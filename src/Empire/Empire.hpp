@@ -10,7 +10,7 @@ class Empire
 public:
     Empire();
     ~Empire();
-    
+
     void setStartingTerritory(TilePiece *startingTile);
     void annexNewTile(TilePiece *tile);
 
@@ -18,6 +18,7 @@ public:
 
     std::vector<TilePiece*> getTerritory();
     std::vector<Resource> getResources();
+    void addResource(Resource newResource);
     int getConstructionsNumber();
     uint getId();
 

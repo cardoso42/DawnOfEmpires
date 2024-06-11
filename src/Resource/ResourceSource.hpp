@@ -50,4 +50,11 @@ public:
         : ResourceSource(TileResource(amount), generation) {}
 };
 
+class GoldResourceSource : public ResourceSource 
+{
+public:
+    GoldResourceSource(float amount, float generation)
+        : ResourceSource(GoldResource(amount), generation) {}
+};
+
 #endif // RESOURCESOURCE_HPP

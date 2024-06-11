@@ -15,6 +15,7 @@ class TilePiece : public sf::Drawable
 {
 public:
     enum TileStatus { NONE = 0x0, TERRITORY = 0x1, MODIFIED = 0x2, SELECTED = 0x4 };
+    enum ConstructionType { MILITARY, CULTURE, ECONOMY };
 
     TilePiece(float x, float y, int q, int r);
 
@@ -25,7 +26,7 @@ public:
     void animate(sf::Time deltaTime);
     void annexTo(uint newOwner, sf::Color newColor);
     bool improve();
-    bool construct();
+    bool construct(ConstructionType type);
     void select();
     void unselect();
 
