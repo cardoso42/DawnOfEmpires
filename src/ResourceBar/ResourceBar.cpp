@@ -2,6 +2,9 @@
 #include "AssetManager.hpp"
 #include "GameContext.hpp"
 
+#include <sstream>
+#include <iomanip>
+
 ResourceBar::ResourceBar(sf::Vector2f viewSize) : viewSize(viewSize) { }
 
 void ResourceBar::update()
@@ -57,8 +60,11 @@ ResourceBar::ResourceBox::ResourceBox(sf::Vector2f size, Resource resource)
     body.setFillColor(sf::Color(139, 69, 19));
     body.setOrigin(body.getSize() * 0.5f);
 
+    std::stringstream stream;
+    stream << std::fixed << std::setprecision(2) << resource.getAmount();
+    std::string formattedAmount = stream.str();
     display = sf::Text(
-        resource.getName() + "\n" + std::to_string(resource.getAmount()), 
+        resource.getName() + "\n" + formattedAmount, 
         AssetManager::GetFont("anonymous.ttf"), 24
     );
 
