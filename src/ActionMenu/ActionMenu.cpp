@@ -8,6 +8,11 @@ ActionMenu::ActionMenu(sf::Vector2f windowSize) :
     GenericMenu(windowSize, sf::Color(191, 191, 191)),
     size({windowSize.x * 0.6f, windowSize.y * 0.05f})
 {
+    if (instance != nullptr)
+    {
+        throw std::logic_error("ActionMenu is a singleton class");
+    }
+
     instance = this;
 
     buttons.push_back(ButtonMenu("(S)elect initial tile", size, selectInitialTileBtnCb, {}));
@@ -69,7 +74,7 @@ void ActionMenu::selectInitialTileBtnCb(std::vector<void *> parameters)
     {
         throw std::logic_error("At least one empire should be selected by now");
     }
-    setActionButtons();
+    instance->setActionButtons();
 
     if (tile == nullptr)
     {
@@ -118,86 +123,17 @@ void ActionMenu::improveTileBtnCb(std::vector<void*> parameters)
 
 void ActionMenu::constructMilitaryTileBtnCb(std::vector<void*> parameters)
 {
-    Empire* empire = GameContext::getPlayer();
-    TilePiece* tile = GameContext::getTile();
-
-    if (empire == nullptr)
-    {
-        throw std::logic_error("At least one empire should be selected by now");
-    }
-    
-    if (tile == nullptr)
-    {
-        std::cout << "You should select a tile first!" << std::endl;
-        return;
-    }
-
-    if (!tile->isOwnedBy(empire->getId()))
-    {
-        std::cout << "You should this tile to construct in it!" << std::endl;
-        return;
-    }
-
-    if (tile->isConstructable() && empire->expendResources(tile->getConstructionCost()))
-    {
-        tile->construct(TilePiece::ConstructionType::MILITARY);
-    }
+    constructTile(TilePiece::ConstructionType::MILITARY);
 }
 
 void ActionMenu::constructEconomyTileBtnCb(std::vector<void *> parameters)
 {
-    Empire* empire = GameContext::getPlayer();
-    TilePiece* tile = GameContext::getTile();
-
-    if (empire == nullptr)
-    {
-        throw std::logic_error("At least one empire should be selected by now");
-    }
-    
-    if (tile == nullptr)
-    {
-        std::cout << "You should select a tile first!" << std::endl;
-        return;
-    }
-
-    if (!tile->isOwnedBy(empire->getId()))
-    {
-        std::cout << "You should this tile to construct in it!" << std::endl;
-        return;
-    }
-
-    if (tile->isConstructable() && empire->expendResources(tile->getConstructionCost()))
-    {
-        tile->construct(TilePiece::ConstructionType::ECONOMY);
-    }
+    constructTile(TilePiece::ConstructionType::ECONOMY);
 }
 
 void ActionMenu::constructCultureTileBtnCb(std::vector<void *> parameters)
 {
-    Empire* empire = GameContext::getPlayer();
-    TilePiece* tile = GameContext::getTile();
-
-    if (empire == nullptr)
-    {
-        throw std::logic_error("At least one empire should be selected by now");
-    }
-    
-    if (tile == nullptr)
-    {
-        std::cout << "You should select a tile first!" << std::endl;
-        return;
-    }
-
-    if (!tile->isOwnedBy(empire->getId()))
-    {
-        std::cout << "You should this tile to construct in it!" << std::endl;
-        return;
-    }
-
-    if (tile->isConstructable() && empire->expendResources(tile->getConstructionCost()))
-    {
-        tile->construct(TilePiece::ConstructionType::CULTURE);
-    }
+    constructTile(TilePiece::ConstructionType::CULTURE);
 }
 
 void ActionMenu::spendGoldCoinBtnCb(std::vector<void *> parameters)
@@ -274,4 +210,32 @@ void ActionMenu::setActionButtons()
     buttons.push_back(ButtonMenu("(N)ext turn", size, nextTurnBtnCb, {}));
 
     organizeButtons();
+}
+
+void ActionMenu::constructTile(TilePiece::ConstructionType type)
+{
+    Empire* empire = GameContext::getPlayer();
+    TilePiece* tile = GameContext::getTile();
+
+    if (empire == nullptr)
+    {
+        throw std::logic_error("At least one empire should be selected by now");
+    }
+    
+    if (tile == nullptr)
+    {
+        std::cout << "You should select a tile first!" << std::endl;
+        return;
+    }
+
+    if (!tile->isOwnedBy(empire->getId()))
+    {
+        std::cout << "You should this tile to construct in it!" << std::endl;
+        return;
+    }
+
+    if (tile->isConstructable() && empire->expendResources(tile->getConstructionCost()))
+    {
+        tile->construct(type);
+    }
 }

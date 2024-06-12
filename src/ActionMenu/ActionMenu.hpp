@@ -28,6 +28,7 @@ private:
     void setBuyResourceButtons();
     void setActionButtons();
 
+    static void constructTile(TilePiece::ConstructionType type);
     static ActionMenu* instance;
 };
 
