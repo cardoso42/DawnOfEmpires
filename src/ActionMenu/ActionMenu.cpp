@@ -200,7 +200,6 @@ void ActionMenu::setActionButtons()
 {
     buttons.clear();
 
-    // TODO: think about someway to hide and show new buttons throghout the game
     buttons.push_back(ButtonMenu("(I)mprove tile", size, improveTileBtnCb, {}));
     buttons.push_back(ButtonMenu("(A)nnex tile", size, annexTileBtnCb, {}));
     buttons.push_back(ButtonMenu("Construct in tile\n(M)ilitary", size, constructMilitaryTileBtnCb, {}));
@@ -230,12 +229,9 @@ void ActionMenu::constructTile(TilePiece::ConstructionType type)
 
     if (!tile->isOwnedBy(empire->getId()))
     {
-        std::cout << "You should this tile to construct in it!" << std::endl;
+        std::cout << "You should own this tile to construct in it!" << std::endl;
         return;
     }
 
-    if (tile->isConstructable() && empire->expendResources(tile->getConstructionCost()))
-    {
-        tile->construct(type);
-    }
+    empire->createNewConstruction(tile, type);
 }

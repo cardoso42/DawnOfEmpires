@@ -13,6 +13,7 @@ public:
 
     void setStartingTerritory(TilePiece *startingTile);
     void annexNewTile(TilePiece *tile);
+    void createNewConstruction(TilePiece *tile, TilePiece::ConstructionType type);
 
     bool expendResources(std::vector<Resource> costs);
 
@@ -29,6 +30,7 @@ private:
     std::unordered_set<TilePiece*> neighbors;
     std::map<std::string, Resource> resources;
     sf::Color color;
+    int constructions;
 
     bool canPayResource(Resource resource);
     void addTileToTerritory(TilePiece *newTile);

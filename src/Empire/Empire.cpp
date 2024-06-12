@@ -3,7 +3,8 @@
 
 #include <cmath>
 
-Empire::Empire() : color(sf::Color::Red), empireId(IdGenerator::GenerateEmpireId())
+Empire::Empire() : color(sf::Color::Red), constructions(0),
+    empireId(IdGenerator::GenerateEmpireId())
 {
     HumanResource hr(3);
     FoodResource food(10);
@@ -138,21 +139,7 @@ void Empire::addResource(Resource newResource)
     }
 }
 
-int Empire::getConstructionsNumber()
-{
-    // TODO: store the number of constructions in the Empire class
-    int count{0};
-
-    for (auto& tile : territory)
-    {
-        if (tile->isConstruction())
-        {
-            count++;
-        }
-    }
-
-    return count;
-}
+int Empire::getConstructionsNumber() { return constructions; }
 
 void Empire::setStartingTerritory(TilePiece *startingTile)
 {
@@ -207,6 +194,15 @@ void Empire::annexNewTile(TilePiece *newTile)
     resources["Human"] -= GameContext::getTileHrCost();
 
     addTileToTerritory(newTile);
+}
+
+void Empire::createNewConstruction(TilePiece *tile, TilePiece::ConstructionType type)
+{
+    if (tile->isConstructable() && expendResources(tile->getConstructionCost()))
+    {
+        tile->construct(type);
+        constructions++;
+    }
 }
 
 bool Empire::expendResources(std::vector<Resource> costs)
