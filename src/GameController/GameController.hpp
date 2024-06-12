@@ -38,13 +38,18 @@ private:
     std::vector<Empire> players;
 
     bool wasMouseButtonAlreadyPressed;
-    bool wasKeyboardButtonAlreadyPressed;
     bool hasPlayerWon;
 
     sf::Keyboard::Key currentPressedKey;
     sf::Keyboard::Key lastVerticalDirectionKey;
 
+    std::unordered_map<sf::Keyboard::Key, std::function<void()>> directionalActions;
+    std::unordered_map<sf::Keyboard::Key, std::function<void()>> keyActions;
+
     bool verifyIfWon(Empire player);
+
+    void handleMouseInput();
+    void handleKeyboardInput();
 
     sf::RectangleShape drawDebugSquare(sf::Sprite sprite, sf::Color backgroundColor);
 };

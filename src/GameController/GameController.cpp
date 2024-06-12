@@ -4,8 +4,9 @@
 #include <iostream>
 #include <sstream>
 
-GameController::GameController(): windowManager("Dawn of Empires"), 
-    wasMouseButtonAlreadyPressed(false), hasPlayerWon(false)
+GameController::GameController(): currentPressedKey(sf::Keyboard::Key::Unknown),  
+    wasMouseButtonAlreadyPressed(false), windowManager("Dawn of Empires"), 
+    lastVerticalDirectionKey(sf::Keyboard::Key::Up), hasPlayerWon(false)
 {
     windowManager.createView("map", {0, 0}, {0.8, 0.9});
     windowManager.createView("menu", {0.8, 0.3}, {0.2, 0.6});
@@ -20,6 +21,62 @@ GameController::GameController(): windowManager("Dawn of Empires"),
     menu = new ActionMenu(windowManager.getViewSize("menu"));
     bar = new ResourceBar(windowManager.getViewSize("resources"));
     help = new HelpArea(windowManager.getViewSize("help"));
+
+    directionalActions = {
+        {
+            sf::Keyboard::Left, 
+            [this]() mutable
+            {
+                if (lastVerticalDirectionKey == sf::Keyboard::Up) {
+                    map->selectNeighborTile(TileMap::TileDirections::UP_LEFT);
+                } else if (lastVerticalDirectionKey == sf::Keyboard::Down) {
+                    map->selectNeighborTile(TileMap::TileDirections::DOWN_LEFT);
+                }
+                currentPressedKey = sf::Keyboard::Left;
+            }
+        },
+        {
+            sf::Keyboard::Right, 
+            [this]() mutable
+            {
+                if (lastVerticalDirectionKey == sf::Keyboard::Up) {
+                    map->selectNeighborTile(TileMap::TileDirections::UP_RIGHT);
+                } else if (lastVerticalDirectionKey == sf::Keyboard::Down) {
+                    map->selectNeighborTile(TileMap::TileDirections::DOWN_RIGHT);
+                }
+                currentPressedKey = sf::Keyboard::Right;
+            }
+        },
+        {
+            sf::Keyboard::Up, 
+            [this]() mutable
+            {
+                map->selectNeighborTile(TileMap::TileDirections::UP);
+                currentPressedKey = sf::Keyboard::Up;
+                lastVerticalDirectionKey = sf::Keyboard::Up;
+            }
+        },
+        {
+            sf::Keyboard::Down, 
+            [this]() mutable
+            {
+                map->selectNeighborTile(TileMap::TileDirections::DOWN);
+                currentPressedKey = sf::Keyboard::Down;
+                lastVerticalDirectionKey = sf::Keyboard::Down;
+            }
+        }
+    };
+
+    keyActions = {
+        {sf::Keyboard::S, []() { ActionMenu::selectInitialTileBtnCb({}); }},
+        {sf::Keyboard::I, []() { ActionMenu::improveTileBtnCb({}); }},
+        {sf::Keyboard::A, []() { ActionMenu::annexTileBtnCb({}); }},
+        {sf::Keyboard::C, []() { ActionMenu::constructCultureTileBtnCb({}); }},
+        {sf::Keyboard::M, []() { ActionMenu::constructMilitaryTileBtnCb({}); }},
+        {sf::Keyboard::E, []() { ActionMenu::constructEconomyTileBtnCb({}); }},
+        {sf::Keyboard::G, []() { ActionMenu::spendGoldCoinBtnCb({}); }},
+        {sf::Keyboard::N, []() { ActionMenu::nextTurnBtnCb({}); }}
+    };
 }
 
 GameController::~GameController()
@@ -68,154 +125,8 @@ void GameController::render(sf::Color backgroundColor)
 
 void GameController::handleInput()
 {
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-    {
-        // Basically, act only when the button is first pressed
-        // This is to avoid multiple calls for this block of code,
-        // for example, to avoid multiple buttons clicks
-
-        if (!wasMouseButtonAlreadyPressed)
-        {
-            wasMouseButtonAlreadyPressed = true;
-            sf::Vector2i pos = sf::Mouse::getPosition(windowManager);
-            sf::Vector2f sceneCords;
-
-            if (windowManager.getViewport("menu").contains(pos))
-            {
-                windowManager.switchToView("menu");
-                sceneCords = windowManager.mapPixelToCoords({pos.x, pos.y});
-                menu->click(sceneCords.x, sceneCords.y);
-            }
-
-            if (windowManager.getViewport("map").contains({pos.x, pos.y}))
-            {
-                windowManager.switchToView("map");
-                sceneCords = windowManager.mapPixelToCoords({pos.x, pos.y});
-                map->click(sceneCords.x, sceneCords.y);
-            }
-        }
-    }
-    else
-    {
-        wasMouseButtonAlreadyPressed = false;
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-    {
-        if (currentPressedKey == sf::Keyboard::Key::Unknown)
-        {
-            if (lastVerticalDirectionKey == sf::Keyboard::Up)
-            {
-                map->selectNeighborTile(TileMap::TileDirections::UP_LEFT);
-            }
-            else if (lastVerticalDirectionKey == sf::Keyboard::Down)
-            {
-                map->selectNeighborTile(TileMap::TileDirections::DOWN_LEFT);
-            }
-            currentPressedKey = sf::Keyboard::Left;
-        }
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-    {
-        if (currentPressedKey == sf::Keyboard::Key::Unknown)
-        {
-            if (lastVerticalDirectionKey == sf::Keyboard::Up)
-            {
-                map->selectNeighborTile(TileMap::TileDirections::UP_RIGHT);
-            }
-            else if (lastVerticalDirectionKey == sf::Keyboard::Down)
-            {
-                map->selectNeighborTile(TileMap::TileDirections::DOWN_RIGHT);
-            }
-            currentPressedKey = sf::Keyboard::Right;
-        }
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-    {
-        if (currentPressedKey == sf::Keyboard::Key::Unknown)
-        {
-            map->selectNeighborTile(TileMap::TileDirections::UP);
-            currentPressedKey = sf::Keyboard::Up;
-            lastVerticalDirectionKey = sf::Keyboard::Up;
-        }
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-    {
-        if (currentPressedKey == sf::Keyboard::Key::Unknown)
-        {
-            map->selectNeighborTile(TileMap::TileDirections::DOWN);
-            currentPressedKey = sf::Keyboard::Down;
-            lastVerticalDirectionKey = sf::Keyboard::Down;
-        }
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-    {
-        if (currentPressedKey == sf::Keyboard::Key::Unknown)
-        {
-            ActionMenu::selectInitialTileBtnCb({});
-            currentPressedKey = sf::Keyboard::S;
-        }
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::I))
-    {
-        if (currentPressedKey == sf::Keyboard::Key::Unknown)
-        {
-            ActionMenu::improveTileBtnCb({});
-            currentPressedKey = sf::Keyboard::I;
-        }
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-    {
-        if (currentPressedKey == sf::Keyboard::Key::Unknown)
-        {
-            ActionMenu::annexTileBtnCb({});
-            currentPressedKey = sf::Keyboard::A;
-        }
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
-    {
-        if (currentPressedKey == sf::Keyboard::Key::Unknown)
-        {
-            ActionMenu::constructCultureTileBtnCb({});
-            currentPressedKey = sf::Keyboard::C;
-        }
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
-    {
-        if (currentPressedKey == sf::Keyboard::Key::Unknown)
-        {
-            ActionMenu::constructMilitaryTileBtnCb({});
-            currentPressedKey = sf::Keyboard::C;
-        }
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-    {
-        if (currentPressedKey == sf::Keyboard::Key::Unknown)
-        {
-            ActionMenu::constructEconomyTileBtnCb({});
-            currentPressedKey = sf::Keyboard::C;
-        }
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::G))
-    {
-        if (currentPressedKey == sf::Keyboard::Key::Unknown)
-        {
-            ActionMenu::spendGoldCoinBtnCb({});
-            currentPressedKey = sf::Keyboard::G;
-        }
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::N))
-    {
-        if (currentPressedKey == sf::Keyboard::Key::Unknown)
-        {
-            ActionMenu::nextTurnBtnCb({});
-            currentPressedKey = sf::Keyboard::N;
-        }
-    }
-    else
-    {
-        currentPressedKey = sf::Keyboard::Key::Unknown;
-    }
+    handleMouseInput();
+    handleKeyboardInput();
 }
 
 bool GameController::verifyIfWon(Empire player)
@@ -223,10 +134,78 @@ bool GameController::verifyIfWon(Empire player)
     return player.getConstructionsNumber() >= 7;
 }
 
+void GameController::handleMouseInput()
+{
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) 
+    {
+        // Basically, act only when the button is first pressed
+        // This is to avoid multiple calls for this block of code,
+        // for example, to avoid multiple buttons clicks
+
+        if (!wasMouseButtonAlreadyPressed) 
+        {
+            wasMouseButtonAlreadyPressed = true;
+            sf::Vector2i pos = sf::Mouse::getPosition(windowManager);
+            sf::Vector2f sceneCords;
+
+            if (windowManager.getViewport("menu").contains(pos)) 
+            {
+                windowManager.switchToView("menu");
+                sceneCords = windowManager.mapPixelToCoords({pos.x, pos.y});
+                menu->click(sceneCords.x, sceneCords.y);
+            }
+
+            if (windowManager.getViewport("map").contains({pos.x, pos.y})) 
+            {
+                windowManager.switchToView("map");
+                sceneCords = windowManager.mapPixelToCoords({pos.x, pos.y});
+                map->click(sceneCords.x, sceneCords.y);
+            }
+        }
+    } 
+    else 
+    {
+        wasMouseButtonAlreadyPressed = false;
+    }
+}
+
+void GameController::handleKeyboardInput()
+{
+    for (const auto& [key, action] : directionalActions) 
+    {
+        if (sf::Keyboard::isKeyPressed(key)) 
+        {
+            if (currentPressedKey == sf::Keyboard::Key::Unknown)
+            {
+                action();
+                currentPressedKey = key;
+            }
+
+            return;
+        }
+    }
+
+    for (const auto& [key, action] : keyActions) 
+    {
+        if (sf::Keyboard::isKeyPressed(key)) 
+        {
+            if (currentPressedKey == sf::Keyboard::Key::Unknown)
+            {
+                action();
+                currentPressedKey = key;
+            }
+
+            return;
+        }
+    }
+
+    currentPressedKey = sf::Keyboard::Key::Unknown;
+}
+
 void GameController::showPlayerTerritory()
 {
     // TODO: There is a bug duplicating the territory, probably construction related
-    
+
     std::vector<TilePiece*> territory = GameContext::getPlayer()->getTerritory();
 
     for (auto& tile : territory)
