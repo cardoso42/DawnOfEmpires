@@ -249,6 +249,7 @@ void ActionMenu::setBuyResourceButtons()
     buttons.push_back(ButtonMenu("Buy 100 wood", size, buyResources, {static_cast<void*>(new WoodResource(100))}));
     buttons.push_back(ButtonMenu("Buy 100 mineral", size, buyResources, {static_cast<void*>(new MineralResource(100))}));
     buttons.push_back(ButtonMenu("Buy 100 humans", size, buyResources, {static_cast<void*>(new HumanResource(100))}));
+    buttons.push_back(ButtonMenu("Buy 100 food", size, buyResources, {static_cast<void*>(new FoodResource(100))}));
     buttons.push_back(ButtonMenu("Go back", size, buyResources, {static_cast<void*>(new NullResource())}));
 
     organizeButtons();
