@@ -34,24 +34,35 @@ void GenericMenu::click(float x, float y)
 void GenericMenu::organizeButtons()
 {
     const int len = buttons.size();
-    const float buttonHeight = buttons[0].getSize().y;
+    float buttonHeight = buttons[0].getSize().y;
     const float frameHeight = frame.getSize().y;
-    float interval = (frameHeight - len * buttonHeight) / (len + 1);
+
+    float sumButtonHeights{0};
+    for (auto& btn : buttons)
+    {
+        sumButtonHeights += btn.getSize().y;
+    }
+
+    float interval = (frameHeight - sumButtonHeights) / (len + 1);
     interval = std::min(interval, 50.f);
 
-    const float remainingSpace = frameHeight - len * (buttonHeight + interval + 1);
+    const float remainingSpace = frameHeight - sumButtonHeights - len * (interval + 1);
     if (remainingSpace < 0)
     {
         throw std::logic_error("o-oh! too crowded in here!");
     }
 
-    float yDisplace = (remainingSpace + buttonHeight) / 2;
+    float previousBtnsHeight{0};
     for (int i = 0; i < len; i++)
     {
+        buttonHeight = buttons[i].getSize().y;
+        float yDisplace = (remainingSpace + buttonHeight) / 2;
         buttons[i].setPosition({
             frame.getSize().x / 2, 
-            yDisplace + (buttonHeight + interval) * i
+            yDisplace + interval * i + previousBtnsHeight
         });
+
+        previousBtnsHeight += buttons[i].getSize().y;
     }
 }
 
