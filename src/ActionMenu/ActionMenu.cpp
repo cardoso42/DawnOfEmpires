@@ -9,7 +9,9 @@ ActionMenu::ActionMenu(sf::Vector2f windowSize) :
     size({windowSize.x * 0.6f, windowSize.y * 0.05f})
 {
     instance = this;
-    setActionButtons();
+
+    buttons.push_back(ButtonMenu("(S)elect initial tile", size, selectInitialTileBtnCb, {}));
+    organizeButtons();
 }
 
 void ActionMenu::annexTileBtnCb(std::vector<void *> parameters)
@@ -67,6 +69,7 @@ void ActionMenu::selectInitialTileBtnCb(std::vector<void *> parameters)
     {
         throw std::logic_error("At least one empire should be selected by now");
     }
+    setActionButtons();
 
     if (tile == nullptr)
     {
@@ -81,6 +84,8 @@ void ActionMenu::selectInitialTileBtnCb(std::vector<void *> parameters)
     }
 
     empire->setStartingTerritory(tile);
+
+    instance->setActionButtons();
 }
 
 void ActionMenu::improveTileBtnCb(std::vector<void*> parameters)
@@ -260,7 +265,6 @@ void ActionMenu::setActionButtons()
     buttons.clear();
 
     // TODO: think about someway to hide and show new buttons throghout the game
-    buttons.push_back(ButtonMenu("(S)elect initial tile", size, selectInitialTileBtnCb, {}));
     buttons.push_back(ButtonMenu("(I)mprove tile", size, improveTileBtnCb, {}));
     buttons.push_back(ButtonMenu("(A)nnex tile", size, annexTileBtnCb, {}));
     buttons.push_back(ButtonMenu("Construct in tile\n(M)ilitary", size, constructMilitaryTileBtnCb, {}));
