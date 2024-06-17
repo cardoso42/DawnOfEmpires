@@ -8,18 +8,6 @@
 
 #include "SFML/Graphics.hpp"
 
-enum Actions 
-{ 
-    START,
-    ANNEX,
-    IMPROVE,
-    CONSTRUCT_M,
-    CONSTRUCT_E,
-    CONSTRUCT_C,
-    SPEND,
-    NEXT_TURN
-};
-
 class ActionMenu : public GenericMenu
 {
 public:
@@ -41,6 +29,7 @@ private:
     sf::Vector2f size;
     void setBuyResourceButtons();
     void setActionButtons();
+    bool isSpendingCoinsMenuOpen = false;
 
     static void constructTile(TilePiece::ConstructionType type);
     static ActionMenu* instance;

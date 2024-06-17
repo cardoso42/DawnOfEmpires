@@ -18,6 +18,20 @@ ActionMenu::ActionMenu(sf::Vector2f windowSize) :
 
 void ActionMenu::update()
 {
+    if (isSpendingCoinsMenuOpen)
+    {
+        buttons.clear();
+
+        buttons.push_back(ButtonMenu("Buy 100 wood", size, buyResources, {static_cast<void*>(new WoodResource(100))}));
+        buttons.push_back(ButtonMenu("Buy 100 mineral", size, buyResources, {static_cast<void*>(new MineralResource(100))}));
+        buttons.push_back(ButtonMenu("Buy 100 humans", size, buyResources, {static_cast<void*>(new HumanResource(100))}));
+        buttons.push_back(ButtonMenu("Buy 100 food", size, buyResources, {static_cast<void*>(new FoodResource(100))}));
+        buttons.push_back(ButtonMenu("Go back", size, buyResources, {static_cast<void*>(new NullResource())}));
+    
+        organizeButtons();
+        return;
+    }
+
     auto piece = GameContext::getTile();
     auto empire = GameContext::getPlayer();
 
@@ -109,7 +123,6 @@ void ActionMenu::selectInitialTileBtnCb(std::vector<void *> parameters)
     {
         throw std::logic_error("At least one empire should be selected by now");
     }
-    instance->setActionButtons();
 
     if (tile == nullptr)
     {
@@ -124,8 +137,6 @@ void ActionMenu::selectInitialTileBtnCb(std::vector<void *> parameters)
     }
 
     empire->setStartingTerritory(tile);
-
-    instance->setActionButtons();
 }
 
 void ActionMenu::improveTileBtnCb(std::vector<void*> parameters)
@@ -218,20 +229,12 @@ void ActionMenu::buyResources(std::vector<void *> parameters)
         empire->expendResources({GoldResource(1)});
     }
 
-    instance->setActionButtons();
+    instance->isSpendingCoinsMenuOpen = false;
 }
 
 void ActionMenu::setBuyResourceButtons()
 {
-    buttons.clear();
-
-    buttons.push_back(ButtonMenu("Buy 100 wood", size, buyResources, {static_cast<void*>(new WoodResource(100))}));
-    buttons.push_back(ButtonMenu("Buy 100 mineral", size, buyResources, {static_cast<void*>(new MineralResource(100))}));
-    buttons.push_back(ButtonMenu("Buy 100 humans", size, buyResources, {static_cast<void*>(new HumanResource(100))}));
-    buttons.push_back(ButtonMenu("Buy 100 food", size, buyResources, {static_cast<void*>(new FoodResource(100))}));
-    buttons.push_back(ButtonMenu("Go back", size, buyResources, {static_cast<void*>(new NullResource())}));
-
-    organizeButtons();
+    isSpendingCoinsMenuOpen = true;
 }
 
 void ActionMenu::setActionButtons()
