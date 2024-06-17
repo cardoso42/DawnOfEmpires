@@ -14,8 +14,54 @@ ActionMenu::ActionMenu(sf::Vector2f windowSize) :
     }
 
     instance = this;
+}
 
-    buttons.push_back(ButtonMenu("(S)elect initial tile", size, selectInitialTileBtnCb, {}));
+void ActionMenu::update()
+{
+    auto piece = GameContext::getTile();
+    auto empire = GameContext::getPlayer();
+
+    // TODO: When player has no starting tile, do not show annexation cost
+
+    if (empire == nullptr)
+    {
+        return;
+    }
+
+    buttons.clear();
+
+    if (empire->getTerritory().size() <= 0)
+    {
+        buttons.push_back(ButtonMenu("(S)elect initial tile", size, selectInitialTileBtnCb, {}));
+    }
+
+    if (piece != nullptr)
+    {
+        if (piece->isOwnedBy(empire->getId()) && piece->isImprovable()) 
+        {
+            buttons.push_back(ButtonMenu("(I)mprove tile", size, improveTileBtnCb, {}));
+        }
+
+        if (!piece->isOwnedBySomeone() && empire->isTileNeighbor(piece))
+        {
+            buttons.push_back(ButtonMenu("(A)nnex tile", size, annexTileBtnCb, {}));
+        }
+
+        if (piece->isOwnedBy(empire->getId()) && piece->isConstructable())
+        {
+            buttons.push_back(ButtonMenu("Construct in tile\n(M)ilitary", size, constructMilitaryTileBtnCb, {}));
+            buttons.push_back(ButtonMenu("Construct in tile\n(C)ulture", size, constructCultureTileBtnCb, {}));
+            buttons.push_back(ButtonMenu("Construct in tile\n(E)conomy", size, constructEconomyTileBtnCb, {}));
+        }
+
+        if (empire->hasResources({GoldResource(1)}))
+        {
+            buttons.push_back(ButtonMenu("Spend (G)old coins", size, spendGoldCoinBtnCb, {}));
+        }
+    }
+
+    buttons.push_back(ButtonMenu("(N)ext turn", size, nextTurnBtnCb, {}));
+
     organizeButtons();
 }
 
@@ -47,16 +93,7 @@ void ActionMenu::annexTileBtnCb(std::vector<void *> parameters)
         return;
     }
 
-    bool isAdjacent{false};
-    for (auto neighbor : tile->getNeighbors())
-    {
-        if (neighbor->isOwnedBy(empire->getId()))
-        {
-            isAdjacent = true;
-        }
-    }
-
-    if (!isAdjacent)
+    if (!empire->isTileNeighbor(tile))
     {
         std::cout << "New tile must be adjacent to your current territory!" << std::endl;
         return;
@@ -150,7 +187,6 @@ void ActionMenu::spendGoldCoinBtnCb(std::vector<void *> parameters)
 
 void ActionMenu::nextTurnBtnCb(std::vector<void *> parameters)
 {
-    // TODO: Fazer com que botões do menu sejam dinâmicos de acordo com o contexto
     // TODO: Quando um jogador ganhar, deixar os demais jogarem mais um turno
 
     GameContext::nextPlayer();
@@ -204,13 +240,7 @@ void ActionMenu::setActionButtons()
 {
     buttons.clear();
 
-    buttons.push_back(ButtonMenu("(I)mprove tile", size, improveTileBtnCb, {}));
-    buttons.push_back(ButtonMenu("(A)nnex tile", size, annexTileBtnCb, {}));
-    buttons.push_back(ButtonMenu("Construct in tile\n(M)ilitary", size, constructMilitaryTileBtnCb, {}));
-    buttons.push_back(ButtonMenu("Construct in tile\n(C)ulture", size, constructCultureTileBtnCb, {}));
-    buttons.push_back(ButtonMenu("Construct in tile\n(E)conomy", size, constructEconomyTileBtnCb, {}));
-    buttons.push_back(ButtonMenu("Spend (G)old coins", size, spendGoldCoinBtnCb, {}));
-    buttons.push_back(ButtonMenu("(N)ext turn", size, nextTurnBtnCb, {}));
+    
 
     organizeButtons();
 }

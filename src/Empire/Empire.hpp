@@ -16,6 +16,8 @@ public:
     void createNewConstruction(TilePiece *tile, TilePiece::ConstructionType type);
 
     bool expendResources(std::vector<Resource> costs);
+    bool hasResources(std::vector<Resource> resources);
+    bool isTileNeighbor(TilePiece *tile);
 
     std::vector<TilePiece*> getTerritory();
     std::vector<Resource> getResources();

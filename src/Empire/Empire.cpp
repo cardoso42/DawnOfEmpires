@@ -208,12 +208,9 @@ void Empire::createNewConstruction(TilePiece *tile, TilePiece::ConstructionType 
 
 bool Empire::expendResources(std::vector<Resource> costs)
 {
-    for (auto cost : costs)
+    if (!hasResources(costs))
     {
-        if (!canPayResource(cost))
-        {
-            return false;
-        }
+        return false;
     }
 
     for (auto cost : costs)
@@ -222,6 +219,32 @@ bool Empire::expendResources(std::vector<Resource> costs)
     }
 
     return true;
+}
+
+bool Empire::hasResources(std::vector<Resource> resources)
+{
+    for (auto resource : resources)
+    {
+        if (!canPayResource(resource))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool Empire::isTileNeighbor(TilePiece *tile)
+{
+    for (auto neighbor : neighbors)
+    {
+        if (neighbor->getId() == tile->getId())
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 std::vector<TilePiece*> Empire::getTerritory() { return territory; }

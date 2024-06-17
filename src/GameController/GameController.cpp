@@ -96,6 +96,8 @@ void GameController::updateFrame(sf::Time deltaTime)
 
     help->update();
 
+    menu->update();
+
     if (verifyIfWon(*GameContext::getPlayer()))
     {
         hasPlayerWon = true;

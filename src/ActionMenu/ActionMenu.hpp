@@ -8,10 +8,24 @@
 
 #include "SFML/Graphics.hpp"
 
+enum Actions 
+{ 
+    START,
+    ANNEX,
+    IMPROVE,
+    CONSTRUCT_M,
+    CONSTRUCT_E,
+    CONSTRUCT_C,
+    SPEND,
+    NEXT_TURN
+};
+
 class ActionMenu : public GenericMenu
 {
 public:
     ActionMenu(sf::Vector2f windowSize);
+
+    void update();
     
     static void annexTileBtnCb(std::vector<void*> parameters);
     static void selectInitialTileBtnCb(std::vector<void*> parameters);
