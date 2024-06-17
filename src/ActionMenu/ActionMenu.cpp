@@ -21,8 +21,6 @@ void ActionMenu::update()
     auto piece = GameContext::getTile();
     auto empire = GameContext::getPlayer();
 
-    // TODO: When player has no starting tile, do not show annexation cost
-
     if (empire == nullptr)
     {
         return;

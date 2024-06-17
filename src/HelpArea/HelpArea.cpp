@@ -85,7 +85,7 @@ void HelpArea::addPlayerText()
 
 void HelpArea::addAnnexationTileText()
 {
-    createText(currentTile->getTypeName() + " tile", 50);
+    createText(currentTile->getTypeName() + " tile", 40);
 
     bool playerOwnsTile = currentTile->isOwnedBy(currentEmpire->getId());
 
@@ -99,10 +99,23 @@ void HelpArea::addAnnexationTileText()
 
     if (currentTile->isOwnedBySomeone())
     {
-        createText("It belongs to another player", 50);
+        createText("It belongs to another player");
+    }
+    else if (currentEmpire->getTerritory().size() == 0)
+    {
+        createText("Start your empire here");
     }
     else
     {
+        if (currentEmpire->isTileNeighbor(currentTile))
+        {
+            createText("You can annex this tile");
+        }
+        else
+        {
+            createText("Unnaxebale, not adjacent");
+        }
+
         createText("Annexation cost: " + std::to_string(GameContext::getTileHrCost()) + " humans");
     }
 }
@@ -118,22 +131,22 @@ void HelpArea::addImprovementTileText()
 
     if (currentTile->isImprovable())
     {
-        createText("Improvement cost", 50);
+        createText("Improvement cost", 40);
         listResources(improvement);
         return;
     }
 
     if (currentTile->isModified() && !currentTile->isConstruction())
     {
-        createText("Tile already improved", 50);
+        createText("Tile already improved", 40);
     }
     else if (currentTile->isConstruction())
     {
-        createText("Tile is already a construction", 50);
+        createText("Tile is already a construction", 40);
     }
     else
     {
-        createText("Tile cannot be improved", 50);
+        createText("Tile cannot be improved", 40);
     }
 }
 
@@ -146,17 +159,13 @@ void HelpArea::addConstuctionTileText()
         return;
     }
 
-    if (!currentTile->isOwnedBy(currentEmpire->getId()))
-    {
-        return;
-    }
     if (!currentTile->isConstructable())
     {
-        createText("Tile cannot be constructed", 50);
+        createText("Tile cannot be constructed", 40);
     }
     else
     {
-        createText("Construction cost", 50);
+        createText("Construction cost", 40);
         listResources(construction);
     }
 }
