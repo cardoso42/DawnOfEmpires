@@ -78,38 +78,53 @@ void HelpArea::addAnnexationTileText()
 {
     createText(previousTile->getTypeName() + " tile", 50);
 
-    std::string affirmative = ((previousTile->isOwnedBy(previousEmpire->getId())) ? " " : " do not ");
+    bool playerOwnsTile = previousTile->isOwnedBy(previousEmpire->getId());
+
+    std::string affirmative = (playerOwnsTile ? " " : " do not ");
     createText("You" + affirmative + "own this tile!");
 
-    if (!previousTile->isOwnedBy(previousEmpire->getId()))
+    if (playerOwnsTile)
+    {
+        return;
+    }
+
+    if (previousTile->isOwnedBySomeone())
+    {
+        createText("It belongs to another player", 50);
+    }
+    else
     {
         createText("Annexation cost: " + std::to_string(GameContext::getTileHrCost()) + " humans");
-    }  
+    }
 }
 
 void HelpArea::addImprovementTileText()
 {
     std::vector<Resource> improvement = previousTile->getImprovementCost();
 
-    if (!previousTile->isImprovable())
+    if (previousTile->isOwnedBySomeone() && !previousTile->isOwnedBy(previousEmpire->getId()))
     {
-        if (previousTile->isModified() && !previousTile->isConstruction())
-        {
-            createText("Tile already improved", 50);
-        }
-        else if (previousTile->isConstruction())
-        {
-            createText("Tile is already a construct", 50);
-        }
-        else
-        {
-            createText("Tile cannot be improved", 50);
-        }
+        return;
     }
-    else
+
+    if (previousTile->isImprovable())
     {
         createText("Improvement cost", 50);
         listResources(improvement);
+        return;
+    }
+
+    if (previousTile->isModified() && !previousTile->isConstruction())
+    {
+        createText("Tile already improved", 50);
+    }
+    else if (previousTile->isConstruction())
+    {
+        createText("Tile is already a construction", 50);
+    }
+    else
+    {
+        createText("Tile cannot be improved", 50);
     }
 }
 
@@ -117,6 +132,15 @@ void HelpArea::addConstuctionTileText()
 {
     std::vector<Resource> construction = previousTile->getConstructionCost();
 
+    if (previousTile->isOwnedBySomeone() && !previousTile->isOwnedBy(previousEmpire->getId()))
+    {
+        return;
+    }
+
+    if (!previousTile->isOwnedBy(previousEmpire->getId()))
+    {
+        return;
+    }
     if (!previousTile->isConstructable())
     {
         createText("Tile cannot be constructed", 50);
@@ -127,6 +151,8 @@ void HelpArea::addConstuctionTileText()
         listResources(construction);
     }
 }
+
+// TODO: do not allow the player to set its starting territory in someone else's land
 
 void HelpArea::resetTexts()
 {
