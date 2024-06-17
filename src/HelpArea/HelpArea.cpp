@@ -19,6 +19,8 @@ void HelpArea::draw(sf::RenderTarget &target, sf::RenderStates states) const
     {
         target.draw(text);
     }
+
+    target.draw(currentPlayerColor);
 }
 
 void HelpArea::update()
@@ -26,14 +28,14 @@ void HelpArea::update()
     Empire* selectedEmpire = GameContext::getPlayer();
     TilePiece* selectedTile = GameContext::getTile();
 
-    if (selectedEmpire == previousEmpire && selectedTile == previousTile)
+    if (selectedEmpire == currentEmpire && selectedTile == currentTile)
     {
         return;
     }
     else
     {
-        previousEmpire = selectedEmpire;
-        previousTile = selectedTile;
+        currentEmpire = selectedEmpire;
+        currentTile = selectedTile;
     }
 
     updateTexts();
@@ -43,14 +45,14 @@ void HelpArea::updateTexts()
 {
     resetTexts();
 
-    if (previousEmpire == nullptr)
+    if (currentEmpire == nullptr)
     {
         return;
     }
 
     addPlayerText();
 
-    if (previousTile == nullptr)
+    if (currentTile == nullptr)
     {
         return;
     }
@@ -71,14 +73,21 @@ void HelpArea::listResources(std::vector<Resource> resources)
 
 void HelpArea::addPlayerText()
 {
-    createText("Player " + std::to_string(previousEmpire->getId()) + " turn", 10);
+    const int radius = 8;
+
+    createText("Player " + std::to_string(currentEmpire->getId()) + " turn", 10);
+
+    currentPlayerColor = sf::CircleShape(radius);
+    currentPlayerColor.setFillColor(currentEmpire->getColor());
+    currentPlayerColor.setOrigin({radius * 0.5f, radius * 0.5f});
+    currentPlayerColor.setPosition(background.getPosition().x + background.getLocalBounds().width * 0.55f, background.getPosition().y + 17);
 }
 
 void HelpArea::addAnnexationTileText()
 {
-    createText(previousTile->getTypeName() + " tile", 50);
+    createText(currentTile->getTypeName() + " tile", 50);
 
-    bool playerOwnsTile = previousTile->isOwnedBy(previousEmpire->getId());
+    bool playerOwnsTile = currentTile->isOwnedBy(currentEmpire->getId());
 
     std::string affirmative = (playerOwnsTile ? " " : " do not ");
     createText("You" + affirmative + "own this tile!");
@@ -88,7 +97,7 @@ void HelpArea::addAnnexationTileText()
         return;
     }
 
-    if (previousTile->isOwnedBySomeone())
+    if (currentTile->isOwnedBySomeone())
     {
         createText("It belongs to another player", 50);
     }
@@ -100,25 +109,25 @@ void HelpArea::addAnnexationTileText()
 
 void HelpArea::addImprovementTileText()
 {
-    std::vector<Resource> improvement = previousTile->getImprovementCost();
+    std::vector<Resource> improvement = currentTile->getImprovementCost();
 
-    if (previousTile->isOwnedBySomeone() && !previousTile->isOwnedBy(previousEmpire->getId()))
+    if (currentTile->isOwnedBySomeone() && !currentTile->isOwnedBy(currentEmpire->getId()))
     {
         return;
     }
 
-    if (previousTile->isImprovable())
+    if (currentTile->isImprovable())
     {
         createText("Improvement cost", 50);
         listResources(improvement);
         return;
     }
 
-    if (previousTile->isModified() && !previousTile->isConstruction())
+    if (currentTile->isModified() && !currentTile->isConstruction())
     {
         createText("Tile already improved", 50);
     }
-    else if (previousTile->isConstruction())
+    else if (currentTile->isConstruction())
     {
         createText("Tile is already a construction", 50);
     }
@@ -130,18 +139,18 @@ void HelpArea::addImprovementTileText()
 
 void HelpArea::addConstuctionTileText()
 {
-    std::vector<Resource> construction = previousTile->getConstructionCost();
+    std::vector<Resource> construction = currentTile->getConstructionCost();
 
-    if (previousTile->isOwnedBySomeone() && !previousTile->isOwnedBy(previousEmpire->getId()))
+    if (currentTile->isOwnedBySomeone() && !currentTile->isOwnedBy(currentEmpire->getId()))
     {
         return;
     }
 
-    if (!previousTile->isOwnedBy(previousEmpire->getId()))
+    if (!currentTile->isOwnedBy(currentEmpire->getId()))
     {
         return;
     }
-    if (!previousTile->isConstructable())
+    if (!currentTile->isConstructable())
     {
         createText("Tile cannot be constructed", 50);
     }

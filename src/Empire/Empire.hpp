@@ -22,6 +22,7 @@ public:
     void addResource(Resource newResource);
     int getConstructionsNumber();
     uint getId();
+    sf::Color getColor();
 
     void update(sf::Time dt);
 private:

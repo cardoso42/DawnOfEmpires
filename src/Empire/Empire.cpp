@@ -226,6 +226,7 @@ bool Empire::expendResources(std::vector<Resource> costs)
 
 std::vector<TilePiece*> Empire::getTerritory() { return territory; }
 uint Empire::getId() { return empireId; }
+sf::Color Empire::getColor() { return color; }
 
 // HumanResourceSource implementation
 Empire::HumanResourceSource::HumanResourceSource() : isUpdated(false), consumption(0),

@@ -151,7 +151,6 @@ void ActionMenu::spendGoldCoinBtnCb(std::vector<void *> parameters)
 void ActionMenu::nextTurnBtnCb(std::vector<void *> parameters)
 {
     // TODO: Fazer com que botões do menu sejam dinâmicos de acordo com o contexto
-    // TODO: Mostrar cor do jogador atual no menu de ajuda
     // TODO: Quando um jogador ganhar, deixar os demais jogarem mais um turno
 
     GameContext::nextPlayer();

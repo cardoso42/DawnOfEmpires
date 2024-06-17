@@ -16,9 +16,10 @@ private:
     sf::RectangleShape background;
     std::vector<sf::Text> texts;
     sf::Text locator;
+    sf::CircleShape currentPlayerColor;
 
-    Empire* previousEmpire;
-    TilePiece* previousTile;
+    Empire* currentEmpire;
+    TilePiece* currentTile;
 
     void createText(std::string newText, int yDistance = 20);
     void updateTexts();
