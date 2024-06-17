@@ -23,7 +23,9 @@ private:
     private:
         sf::RectangleShape frame;
         sf::RectangleShape body;
-        sf::Text display;
+        sf::CircleShape iconFrame;
+        sf::Text displayText;
+        sf::Sprite icon;
     };
     Empire* empire;
 
