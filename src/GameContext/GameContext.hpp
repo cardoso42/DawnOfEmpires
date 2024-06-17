@@ -11,16 +11,18 @@ public:
     
     // Getters
     static void setTile(TilePiece* newTile);
-    static void setEmpire(Empire* empire);
     
     // Setters
+    static void setPlayers(int playersNumber);
+    static void nextPlayer();
     static TilePiece* getTile();
     static Empire* getPlayer();
     static int getTileHrCost();
     static int getTileImprovementHrCost();
 private:
     TilePiece* tile;
-    Empire* empire;
+    std::vector<Empire> players;
+    int currentPlayer;
 
     static GameContext* sInstance;
 };

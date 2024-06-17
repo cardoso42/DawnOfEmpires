@@ -27,6 +27,7 @@ void Empire::update(sf::Time dt)
         {
             Resource extractedResource = tile->extractResource(dt);
 
+            // TODO: refactor the culture bonus resource code
             if (extractedResource.getName() == CultureBonusResource(0).getName())
             {
                 for (auto& neighbor : tile->getNeighbors())

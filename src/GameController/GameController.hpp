@@ -35,8 +35,6 @@ private:
     TileMap *map;
     HelpArea *help;
 
-    std::vector<Empire> players;
-
     bool wasMouseButtonAlreadyPressed;
     bool hasPlayerWon;
 
