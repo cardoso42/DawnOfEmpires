@@ -35,17 +35,17 @@ void ActionMenu::update()
 
     if (piece != nullptr)
     {
-        if (piece->isOwnedBy(empire->getId()) && piece->isImprovable()) 
+        if (piece->isOwnedBy(empire->getId()) && piece->isImprovable() && empire->hasResources(piece->getImprovementCost())) 
         {
             buttons.push_back(ButtonMenu("(I)mprove tile", size, improveTileBtnCb, {}));
         }
 
-        if (!piece->isOwnedBySomeone() && empire->isTileNeighbor(piece))
+        if (!piece->isOwnedBySomeone() && empire->isTileNeighbor(piece) && empire->hasResources({HumanResource(GameContext::getTileHrCost())}))
         {
             buttons.push_back(ButtonMenu("(A)nnex tile", size, annexTileBtnCb, {}));
         }
 
-        if (piece->isOwnedBy(empire->getId()) && piece->isConstructable())
+        if (piece->isOwnedBy(empire->getId()) && piece->isConstructable() && empire->hasResources(piece->getConstructionCost()))
         {
             buttons.push_back(ButtonMenu("Construct in tile\n(M)ilitary", size, constructMilitaryTileBtnCb, {}));
             buttons.push_back(ButtonMenu("Construct in tile\n(C)ulture", size, constructCultureTileBtnCb, {}));
@@ -237,8 +237,6 @@ void ActionMenu::setBuyResourceButtons()
 void ActionMenu::setActionButtons()
 {
     buttons.clear();
-
-    
 
     organizeButtons();
 }
