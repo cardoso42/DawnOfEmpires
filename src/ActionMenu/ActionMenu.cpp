@@ -152,7 +152,6 @@ void ActionMenu::nextTurnBtnCb(std::vector<void *> parameters)
 {
     // TODO: Fazer com que botões do menu sejam dinâmicos de acordo com o contexto
     // TODO: Mostrar custo de anexação apenas caso não seja de nenhum jogador
-    // TODO: Randomizar cores dos jogadores
     // TODO: Mostrar cor do jogador atual no menu de ajuda
     // TODO: Quando um jogador ganhar, deixar os demais jogarem mais um turno
 

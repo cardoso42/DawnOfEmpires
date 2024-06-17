@@ -13,7 +13,7 @@ GameController::GameController(): currentPressedKey(sf::Keyboard::Key::Unknown),
     windowManager.createView("resources", {0, 0.9}, {1, 0.1});
     windowManager.createView("help", {0.8, 0}, {0.2, 0.3});
 
-    GameContext::setPlayers(2);
+    GameContext::setPlayers(7);
 
     int mapRadius = 15;
     map = new TileMap(mapRadius, windowManager.getViewSize("map") * 0.5f);

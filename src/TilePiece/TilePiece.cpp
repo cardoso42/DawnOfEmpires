@@ -21,6 +21,8 @@ TilePiece::TilePiece(float x, float y, int q, int r)
     ownerColor = sf::CircleShape(radius);
     ownerColor.setFillColor(sf::Color(0,0,0,0));
     ownerColor.setOrigin({radius / 2, radius / 2});
+    ownerColor.setOutlineColor(sf::Color::Black);
+    ownerColor.setOutlineThickness(1);
 
     setPosition({x, y});
 

@@ -3,7 +3,7 @@
 
 #include <cmath>
 
-Empire::Empire() : color(sf::Color::Red), constructions(0),
+Empire::Empire(sf::Color empireColor) : color(empireColor), constructions(0),
     empireId(IdGenerator::GenerateEmpireId())
 {
     HumanResource hr(3);

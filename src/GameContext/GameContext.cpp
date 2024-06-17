@@ -15,10 +15,20 @@ GameContext::GameContext()
 void GameContext::setTile(TilePiece* newTile) { sInstance->tile = newTile; }
 void GameContext::setPlayers(int playersNumber)
 {
+    const std::vector<sf::Color> colors = {
+        sf::Color::Red, sf::Color::Green, sf::Color::Blue, sf::Color::Yellow, 
+        sf::Color::Black, sf::Color::Magenta, sf::Color::Cyan, sf::Color::White
+    };
+
+    if (playersNumber > colors.size())
+    {
+        throw std::logic_error("Too many players");
+    }
+
     sInstance->players.clear();
     for (int i = 0; i < playersNumber; i++)
     {
-        sInstance->players.push_back(Empire());
+        sInstance->players.push_back(Empire(colors[i]));
     }
     sInstance->currentPlayer = 0;
 }

@@ -8,7 +8,7 @@
 class Empire
 {
 public:
-    Empire();
+    Empire(sf::Color empireColor);
     ~Empire();
 
     void setStartingTerritory(TilePiece *startingTile);
