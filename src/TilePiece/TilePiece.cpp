@@ -256,6 +256,11 @@ void TilePiece::unselect()
     border.setTexture(*AssetManager::GetTexture("hexagon-border.png"));
 }
 
+void TilePiece::addBonus(float bonus)
+{
+    resourceSource->addBonus(bonus);
+}
+
 void TilePiece::annexTo(uint newOwner, sf::Color newColor)
 {
     status |= TilePiece::TileStatus::TERRITORY;

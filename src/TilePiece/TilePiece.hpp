@@ -29,6 +29,7 @@ public:
     bool construct(ConstructionType type);
     void select();
     void unselect();
+    void addBonus(float bonus);
 
     Resource extractResource(sf::Time dt);
 

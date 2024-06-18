@@ -27,35 +27,6 @@ void Empire::update(sf::Time dt)
         {
             Resource extractedResource = tile->extractResource(dt);
 
-            // TODO: refactor the culture bonus resource code
-            if (extractedResource.getName() == CultureBonusResource(0).getName())
-            {
-                for (auto& neighbor : tile->getNeighbors())
-                {
-                    if (!neighbor->isOwnedBy(empireId))
-                    {
-                        continue;
-                    }
-
-                    Resource bonusResourceModel = neighbor->getEmptyResource();
-
-                    if (bonusResourceModel.getName() == NullResource().getName())
-                    {
-                        continue;
-                    }
-
-                    Resource bonusResource = Resource(
-                        bonusResourceModel.getName(), 
-                        extractedResource.getAmount(), 
-                        bonusResourceModel.getIcon(), 
-                        bonusResourceModel.getVisibility()
-                    );
-
-                    addResource(bonusResource);
-                }
-                continue;
-            }
-
             addResource(extractedResource);
         }
         catch (const std::exception& e)
@@ -203,6 +174,21 @@ void Empire::createNewConstruction(TilePiece *tile, TilePiece::ConstructionType 
     {
         tile->construct(type);
         constructions++;
+
+        if (type == TilePiece::ConstructionType::CULTURE)
+        {
+            auto neighbors = tile->getNeighbors();
+
+            for (auto neighbor : neighbors)
+            {
+                if (!neighbor->isOwnedBy(empireId))
+                {
+                    continue;
+                }
+
+                neighbor->addBonus(tile->extractResource(sf::seconds(5)).getAmount());
+            }
+        }
     }
 }
 
