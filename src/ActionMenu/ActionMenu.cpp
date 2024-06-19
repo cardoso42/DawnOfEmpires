@@ -136,6 +136,21 @@ void ActionMenu::selectInitialTileBtnCb(std::vector<void *> parameters)
         return;
     }
 
+    if (tile->isOwnedBySomeone())
+    {
+        std::cout << "You can only use an unclaimed tile to start your empire" << std::endl;
+        return;
+    }
+
+    for (auto neighbor : tile->getNeighbors())
+    {
+        if (neighbor->isOwnedBySomeone())
+        {
+            std::cout << "All neighbors of your selected tile must be unclaimed" << std::endl;
+            return;
+        }
+    }
+
     empire->setStartingTerritory(tile);
 }
 

@@ -154,5 +154,3 @@ void HelpActionsPage::addConstuctionTileText()
         listResources(construction);
     }
 }
-
-// TODO: do not allow the player to set its starting territory in someone else's land
