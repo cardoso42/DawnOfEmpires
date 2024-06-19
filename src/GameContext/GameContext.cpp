@@ -56,7 +56,7 @@ bool GameContext::verifyIfPlayerWon()
 {
     auto empire = getPlayer();
 
-    if (empire->getConstructionsNumber() > 7)
+    if (empire->getConstructionsNumber() >= 7)
     {
         empire->setAsWinner();
     }
