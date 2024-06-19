@@ -161,6 +161,11 @@ void GameController::handleMouseInput()
                 sceneCords = windowManager.mapPixelToCoords({pos.x, pos.y});
                 map->click(sceneCords.x, sceneCords.y);
             }
+
+            if (windowManager.getViewport("help").contains({pos.x, pos.y}))
+            {
+                help->click();
+            }
         }
     } 
     else 

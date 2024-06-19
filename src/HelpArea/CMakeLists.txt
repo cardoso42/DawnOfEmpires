@@ -1,6 +1,6 @@
 set(FILES_BASE_PATH ${CMAKE_BINARY_DIR})
 
-add_library(HelpArea STATIC HelpArea.cpp HelpPage.cpp HelpActionsPage.cpp)
+add_library(HelpArea STATIC HelpArea.cpp HelpPage.cpp HelpActionsPage.cpp HelpStatsPage.cpp)
 
 target_include_directories(HelpArea
     INTERFACE

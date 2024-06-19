@@ -3,12 +3,7 @@
 #include "AssetManager.hpp"
 #include "GameContext.hpp"
 
-HelpActionsPage::HelpActionsPage(sf::Vector2f windowSize, sf::Vector2f positionReference) : HelpPage(windowSize)
-{
-    locator = sf::Text("", AssetManager::GetFont("anonymous.ttf"));
-    locator.setPosition({positionReference.x + 10, positionReference.y});
-    texts.push_back(locator);
-}
+HelpActionsPage::HelpActionsPage(sf::Vector2f windowSize) : HelpPage(windowSize) { }
 
 void HelpActionsPage::update()
 {
@@ -27,11 +22,7 @@ void HelpActionsPage::update()
 
 void HelpActionsPage::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-    for (auto& text : texts)
-    {
-        target.draw(text);
-    }
-
+    HelpPage::draw(target, states);
     target.draw(currentPlayerColor);
 }
 
@@ -165,16 +156,3 @@ void HelpActionsPage::addConstuctionTileText()
 }
 
 // TODO: do not allow the player to set its starting territory in someone else's land
-
-void HelpActionsPage::resetTexts()
-{
-    texts.clear();
-    texts.push_back(locator);
-}
-
-void HelpActionsPage::createText(std::string newText, int yDistance)
-{
-    sf::Text text(newText, AssetManager::GetFont("anonymous.ttf"), 20);
-    text.setPosition(texts.back().getPosition().x, texts.back().getPosition().y + yDistance);
-    texts.push_back(text);
-}
