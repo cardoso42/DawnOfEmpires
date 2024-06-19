@@ -9,12 +9,7 @@ class ConstructionTile : public TileTypeStrategy
 public:
     sf::Color getColor() override
     {
-        return sf::Color(240, 230, 140);
-    }
-
-    AnimatedAsset* createDecoration() override
-    {
-        return new AnimatedAsset("pyramid.png");
+        return sf::Color(255, 192, 203);
     }
 
     std::vector<Resource> getImprovementCost() override
@@ -46,6 +41,11 @@ public:
     {
         return "Military Construction";
     }
+
+    AnimatedAsset* createDecoration() override
+    {
+        return new AnimatedAsset("arc-de-triomphe.png");
+    }
 };
 
 class EconomyConstructionTile : public ConstructionTile
@@ -66,6 +66,11 @@ public:
     {
         return "Economy Construction";
     }
+
+    AnimatedAsset* createDecoration() override
+    {
+        return new AnimatedAsset("bank.png");
+    }
 };
 
 class CultureConstructionTile : public ConstructionTile
@@ -79,6 +84,11 @@ public:
     std::string getName() override
     {
         return "Culture Construction";
+    }
+
+    AnimatedAsset* createDecoration() override
+    {
+        return new AnimatedAsset("pisa.png");
     }
 };
 

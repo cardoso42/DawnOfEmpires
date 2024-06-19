@@ -17,3 +17,10 @@ To win the game, you must be the first empire to win in any of the possible cate
 ## Components
 - Single player, menu, sound, save/load progress, difficulty levels
 - Local multiplayer, simple animations
+
+## Thanks
+<a href="https://iconscout.com/icons/arc-de-triomphe" class="text-underline font-size-sm" target="_blank">Arc De Triomphe</a> by <a href="https://iconscout.com/contributors/promotion-king" class="text-underline font-size-sm" target="_blank">Rank Sol</a>
+
+<a href="https://iconscout.com/icons/bank" class="text-underline font-size-sm" target="_blank">bank</a> by <a href="https://iconscout.com/contributors/iconscout" class="text-underline font-size-sm">IconScout Store</a> on <a href="https://iconscout.com" class="text-underline font-size-sm">IconScout</a>
+
+<a href="https://iconscout.com/icons/pisa" class="text-underline font-size-sm" target="_blank">Pisa</a> by <a href="https://iconscout.com/contributors/sonisokell" class="text-underline font-size-sm">Soni Sokell</a> on <a href="https://iconscout.com" class="text-underline font-size-sm">IconScout</a>

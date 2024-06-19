@@ -226,7 +226,7 @@ void TilePiece::generateDecoration()
     }
 
     decoration->setPosition(body.getPosition());
-    decoration->fitTo(getSize(), 0.6f);
+    decoration->fitTo(getSize(), 0.7f);
 }
 
 void TilePiece::paint(sf::Color newColor)
