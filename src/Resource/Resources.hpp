@@ -3,11 +3,15 @@
 
 #include <string>
 #include <stdexcept>
+#include <iostream>
 
 class Resource
 {
 public:
     Resource() : name(""), amount(0), icon(""), isVisible(false) {}
+
+    Resource(const Resource& other)
+        : name(other.name), amount(other.amount), icon(other.icon), isVisible(other.isVisible) {}
 
     Resource(std::string name, float amount, std::string icon, bool isVisible = true)
         : name(name), amount(amount), icon(icon), isVisible(isVisible) {}
@@ -16,6 +20,11 @@ public:
     std::string getIcon() { return icon; }
     float getAmount() { return amount; }
     bool getVisibility() { return isVisible; }
+
+    bool operator==(const Resource& other) const
+    {
+        return this->name == other.name;
+    }
 
     Resource& operator+=(const Resource& other) 
     {
@@ -26,6 +35,7 @@ public:
         } 
         else 
         {
+            std::cout << "Trying to add " << other.name << " with " << this->name << std::endl;
             throw std::invalid_argument("Resources must have the same name and icon to be added.");
         }
         return *this;

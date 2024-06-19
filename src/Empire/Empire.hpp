@@ -5,6 +5,7 @@
 #include "ResourceSource.hpp"
 #include <unordered_set>
 
+// TODO: When window loses focus, stop reacting to input commands
 class Empire
 {
 public:
@@ -19,12 +20,13 @@ public:
     bool hasResources(std::vector<Resource> resources);
     bool isTileNeighbor(TilePiece *tile);
 
+    std::map<std::string, Resource> getTurnResources();
     std::vector<TilePiece*> getTerritory();
     std::vector<Resource> getResources();
     void addResource(Resource newResource);
     int getConstructionsNumber();
-    uint getId();
     sf::Color getColor();
+    uint getId();
 
     void update(sf::Time dt);
 private:
@@ -32,11 +34,15 @@ private:
     std::vector<TilePiece*> territory;
     std::unordered_set<TilePiece*> neighbors;
     std::map<std::string, Resource> resources;
+    std::map<std::string, Resource> turnResources;
     sf::Color color;
     int constructions;
 
     bool canPayResource(Resource resource);
     void addTileToTerritory(TilePiece *newTile);
+    
+    template<typename T>
+    std::vector<T> mapToVector(const std::map<std::string, T>& inputMap); 
     
     class HumanResourceSource : public ResourceSource 
     {

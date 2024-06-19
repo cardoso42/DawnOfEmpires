@@ -1,19 +1,21 @@
 #include "HelpStatsPage.hpp"
 #include <AssetManager.hpp>
+#include <GameContext.hpp>
 
-HelpStatsPage::HelpStatsPage(sf::Vector2f windowSize) : HelpPage(windowSize)
-{
-    msg = sf::Text("Hello, World!", AssetManager::GetFont("anonymous.ttf"), 30);
-    msg.setOrigin(msg.getLocalBounds().width * 0.5f, msg.getLocalBounds().height * 0.5f);
-    msg.setPosition(windowSize * 0.5f);
-    msg.setFillColor(sf::Color::White);
-}
+HelpStatsPage::HelpStatsPage(sf::Vector2f windowSize) : HelpPage(windowSize) { }
 
 void HelpStatsPage::update()
 {
+    resetTexts();
+    
+    auto empire = GameContext::getPlayer();
+    auto tile = GameContext::getTile();
+
+    // Show how many constructions they have
+    // Show how many tiles they have
 }
 
 void HelpStatsPage::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-    target.draw(msg);
+    HelpPage::draw(target, states);
 }

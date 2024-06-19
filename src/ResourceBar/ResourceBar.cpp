@@ -11,6 +11,7 @@ void ResourceBar::update()
 {
     Empire empire = *(GameContext::getPlayer());
     std::vector<Resource> empireResources = empire.getResources();
+    std::map<std::string, Resource> turnResources = empire.getTurnResources();
     sf::Vector2f size;
     
     float interval = viewSize.x * 0.02f;
@@ -31,7 +32,7 @@ void ResourceBar::update()
     resourceBoxes.clear();
     for (int i = 0; i < empireResources.size(); i++)
     {
-        ResourceBox newResourceBox(size, empireResources[i]);
+        ResourceBox newResourceBox(size, empireResources[i], turnResources[empireResources[i].getName()].getAmount());
         sf::Vector2f pos = {interval + i*(interval+size.x) + size.x * 0.5f, viewSize.y * 0.5f};
         newResourceBox.setPosition(pos);
         resourceBoxes.push_back(newResourceBox);
@@ -51,7 +52,7 @@ void ResourceBar::draw(sf::RenderTarget &target, sf::RenderStates states) const
 }
 
 // ResourceBox implementation
-ResourceBar::ResourceBox::ResourceBox(sf::Vector2f size, Resource resource) 
+ResourceBar::ResourceBox::ResourceBox(sf::Vector2f size, Resource resource, float resourceVariation) 
     : frame(size), body(size - sf::Vector2f({10,10})), iconFrame(0),
     icon(*AssetManager::GetTexture(resource.getIcon()))
 {
@@ -92,6 +93,23 @@ ResourceBar::ResourceBox::ResourceBox(sf::Vector2f size, Resource resource)
         displayText.getLocalBounds().width * 0.5f,
         displayText.getLocalBounds().height * 0.5f
     );
+
+    std::stringstream variationStream;
+    variationStream << std::fixed << std::setprecision(1) << resourceVariation;
+    amountVariation = sf::Text(variationStream.str(), AssetManager::GetFont("anonymous.ttf"), 24);
+    if (resourceVariation > 0)
+    {
+        amountVariation.setFillColor(sf::Color::Green);
+    }
+    else if (resourceVariation < 0)
+    {
+        amountVariation.setFillColor(sf::Color::Red);
+    }
+    else
+    {
+        amountVariation.setFillColor(sf::Color::White);
+    }
+    amountVariation.setOrigin(0, amountVariation.getLocalBounds().height * 0.5f);
 }
 
 void ResourceBar::ResourceBox::setPosition(sf::Vector2f pos)
@@ -99,20 +117,47 @@ void ResourceBar::ResourceBox::setPosition(sf::Vector2f pos)
     frame.setPosition(pos);
     body.setPosition(pos);
 
+    // *** {icon} *** {displayText} *** {amountVariation} ***
+    // or, if there is no available icon:
+    // *** {displayText} *** {amountVariation} ***
+    // *** = equal sized intervals
+
+    float frameWidth = frame.getSize().x;
+    float iconWidth = iconFrame.getGlobalBounds().width;
+    float displayTextWidth = displayText.getGlobalBounds().width;
+    float variationTextWidth = amountVariation.getGlobalBounds().width;
+    float freeSpace = frameWidth - iconWidth - displayTextWidth - variationTextWidth;
+    float interval = freeSpace / 4;
+
+    if (freeSpace < 0)
+    {
+        throw std::logic_error("o-oh! too crowded in here");
+    }
+
+    float iconX = pos.x - frameWidth * 0.5f + iconWidth * 0.5f + interval;
+    iconFrame.setPosition(iconX, pos.y);
+    icon.setPosition(iconX, pos.y);
+
+    float displayTextX;
     if (icon.getLocalBounds().width > 0)
     {
-        displayText.setPosition({pos.x + icon.getLocalBounds().width * icon.getScale().x * 0.5f + 15, pos.y});
+        displayTextX = iconX + (iconWidth + displayTextWidth) * 0.5f + interval;
     }
     else
     {
-        displayText.setPosition(pos);
+        interval = freeSpace / 3;
+        displayTextX = pos.x - frameWidth * 0.5f + displayTextWidth * 0.5f + interval;
     }
+    displayText.setPosition(displayTextX, pos.y);
 
-    float iconX = pos.x - frame.getSize().x * 0.5f + icon.getLocalBounds().width * icon.getScale().x * 0.5f + 25;
-    float iconY = pos.y;
+    float amountX = displayTextX + (displayTextWidth + variationTextWidth) * 0.5f + interval;
+    amountVariation.setPosition(amountX, pos.y);
 
-    iconFrame.setPosition(iconX, iconY);
-    icon.setPosition(iconX, iconY);
+#ifdef DEBUG
+    displayDebug = createDebugSquare(displayText.getGlobalBounds(), displayText.getPosition());
+    iconDebug = createDebugSquare(iconFrame.getGlobalBounds(), iconFrame.getPosition());
+    amountDebug = createDebugSquare(amountVariation.getGlobalBounds(), amountVariation.getPosition());
+#endif
 }
 
 void ResourceBar::ResourceBox::draw(sf::RenderTarget &target, sf::RenderStates states) const
@@ -120,17 +165,27 @@ void ResourceBar::ResourceBox::draw(sf::RenderTarget &target, sf::RenderStates s
     target.draw(frame);
     target.draw(body);
     target.draw(displayText);
+    target.draw(amountVariation);
     target.draw(iconFrame);
     target.draw(icon);
 
-// TODO: discover why the display text and its debug square doesn't match!
 #ifdef DEBUG
-    auto debug = sf::RectangleShape({displayText.getLocalBounds().width, displayText.getLocalBounds().height});
+// TODO: discover why the display text and its debug square doesn't match!
+    target.draw(displayDebug);
+    target.draw(iconDebug);
+    target.draw(amountDebug);
+#endif
+}
+
+#ifdef DEBUG
+sf::RectangleShape ResourceBar::ResourceBox::createDebugSquare(sf::FloatRect bounds, sf::Vector2f pos)
+{
+    auto debug = sf::RectangleShape({bounds.width, bounds.height});
     debug.setFillColor(sf::Color(1,1,1,0));
     debug.setOutlineColor(sf::Color::Red);
     debug.setOutlineThickness(3);
     debug.setOrigin(debug.getSize() * 0.5f);
-    debug.setPosition(displayText.getPosition());
-    target.draw(debug);
-#endif
+    debug.setPosition(pos);
+    return debug;
 }
+#endif

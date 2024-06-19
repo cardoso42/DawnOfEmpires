@@ -12,6 +12,9 @@ Empire::Empire(sf::Color empireColor) : color(empireColor), constructions(0),
     resources[hr.getName()] = hr;
     resources[food.getName()] = food;
     resources[TileResource(0).getName()] = TileResource(0);
+
+    turnResources[hr.getName()] = hr;
+    turnResources[food.getName()] = food;
 }
 
 Empire::~Empire()
@@ -21,6 +24,8 @@ Empire::~Empire()
 
 void Empire::update(sf::Time dt)
 {
+    turnResources.clear();
+
     for (auto& tile : territory)
     {
         try
@@ -38,8 +43,11 @@ void Empire::update(sf::Time dt)
     hrSource.consume(resources, dt);
     Resource hr = hrSource.extract(dt);
     resources[hr.getName()] += hr;
+    turnResources[hr.getName()] = hr;
 
-    if (resources[TileResource(0).getName()].getAmount() >= 1)
+    auto it = resources.find(TileResource(0).getName());
+
+    if (it != resources.end() && it->second.getAmount() >= 1)
     {
         int index = std::rand() % neighbors.size();
 
@@ -86,17 +94,18 @@ void Empire::addTileToTerritory(TilePiece *newTile)
 
 std::vector<Resource> Empire::getResources()
 {
-    std::vector<Resource> returnResources;
+    auto resourcesVector = mapToVector(resources);
+    std::vector<Resource> returnVector;
 
-    for (auto it = resources.begin(); it != resources.end(); it++)
+    for (auto resource : resourcesVector)
     {
-        if (it->second.getVisibility())
+        if (resource.getVisibility() && resource.getAmount() >= 0.1)
         {
-            returnResources.push_back(it->second);
+            returnVector.push_back(resource);
         }
     }
 
-    return returnResources;
+    return returnVector;
 }
 
 void Empire::addResource(Resource newResource)
@@ -108,6 +117,20 @@ void Empire::addResource(Resource newResource)
     else
     {
         resources[newResource.getName()] = newResource;
+    }
+
+
+    if (newResource.getVisibility())
+    {
+        auto it = turnResources.find(newResource.getName());
+        if (it != turnResources.end())
+        {
+            it->second += newResource;
+        }
+        else
+        {
+            turnResources[newResource.getName()] = newResource;
+        }
     }
 }
 
@@ -233,6 +256,7 @@ bool Empire::isTileNeighbor(TilePiece *tile)
     return false;
 }
 
+std::map<std::string, Resource> Empire::getTurnResources() { return turnResources; }
 std::vector<TilePiece*> Empire::getTerritory() { return territory; }
 uint Empire::getId() { return empireId; }
 sf::Color Empire::getColor() { return color; }
@@ -287,4 +311,17 @@ bool Empire::HumanResourceSource::activate()
     }
 
     return false;
+}
+
+template <typename T>
+inline std::vector<T> Empire::mapToVector(const std::map<std::string, T> &inputMap)
+{
+    std::vector<T> returnVector;
+
+    for (auto it = inputMap.begin(); it != inputMap.end(); it++)
+    {
+        returnVector.push_back(it->second);
+    }
+
+    return returnVector;
 }
