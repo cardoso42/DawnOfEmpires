@@ -4,7 +4,7 @@
 #include <iostream>
 #include <atomic>
 
-WindowManager::WindowManager(const std::string& title)
+WindowManager::WindowManager(const std::string& title) : focus(true)
 {
     sf::VideoMode videoMode(800, 600);
     
@@ -162,6 +162,14 @@ void WindowManager::update()
             lastMousePos = sf::Mouse::getPosition();
             break;
 
+        case sf::Event::GainedFocus:
+            focus = true;
+            break;
+
+        case sf::Event::LostFocus:
+            focus = false;
+            break;
+
         default:
             break;
         }
@@ -237,6 +245,8 @@ void WindowManager::draw(sf::Drawable& l_drawable)
 bool WindowManager::isDone() { return m_isDone; }
 
 bool WindowManager::isFullscreen() { return m_isFullscreen; }
+
+bool WindowManager::isFocused() { return focus; }
 
 sf::Vector2u WindowManager::getWindowSize() { return windowSize; }
 

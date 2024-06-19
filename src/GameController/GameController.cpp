@@ -125,8 +125,11 @@ void GameController::render(sf::Color backgroundColor)
 
 void GameController::handleInput()
 {
-    handleMouseInput();
-    handleKeyboardInput();
+    if (windowManager.isFocused())
+    {
+        handleMouseInput();
+        handleKeyboardInput();
+    }
 }
 
 bool GameController::verifyIfWon(Empire player)
@@ -205,18 +208,6 @@ void GameController::handleKeyboardInput()
     }
 
     currentPressedKey = sf::Keyboard::Key::Unknown;
-}
-
-void GameController::showPlayerTerritory()
-{
-    // TODO: There is a bug duplicating the territory, probably construction related
-
-    std::vector<TilePiece*> territory = GameContext::getPlayer()->getTerritory();
-
-    for (auto& tile : territory)
-    {
-        std::cout << tile->getId() << std::endl;
-    }
 }
 
 sf::RectangleShape GameController::drawDebugSquare(sf::Sprite sprite, sf::Color backgroundColor)

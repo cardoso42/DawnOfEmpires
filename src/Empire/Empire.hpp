@@ -5,7 +5,6 @@
 #include "ResourceSource.hpp"
 #include <unordered_set>
 
-// TODO: When window loses focus, stop reacting to input commands
 class Empire
 {
 public:

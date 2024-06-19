@@ -18,10 +18,6 @@ int main()
         game.updateFrame(deltaTime);
         game.render();
     }
-
-#ifdef DEBUG
-    game.showPlayerTerritory();
-#endif
  
     return EXIT_SUCCESS;
 }

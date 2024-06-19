@@ -20,6 +20,7 @@ public:
 
     bool isDone();
     bool isFullscreen();
+    bool isFocused();
 
     sf::Vector2u getWindowSize();
     sf::Vector2i getWindowPos();
@@ -42,6 +43,7 @@ private:
     bool m_isFullscreen;
     std::map<std::string, sf::View*> views;
     std::thread contextMenuThread;
+    bool focus;
 
     sf::Vector2i lastMousePos;
 };
