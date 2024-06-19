@@ -40,7 +40,7 @@ void Empire::update(sf::Time dt)
         }
     }
 
-    hrSource.consume(resources, dt);
+    turnResources[FoodResource(0).getName()] -= hrSource.consume(resources, dt);
     Resource hr = hrSource.extract(dt);
     resources[hr.getName()] += hr;
     turnResources[hr.getName()] = hr;
@@ -285,10 +285,11 @@ Resource Empire::HumanResourceSource::extract(sf::Time dt)
     return Resource(resource.getName(), realGeneration, resource.getIcon());
 }
 
-void Empire::HumanResourceSource::consume(std::map<std::string, Resource>& resources, sf::Time dt)
+float Empire::HumanResourceSource::consume(std::map<std::string, Resource>& resources, sf::Time dt)
 {
     if (resources.find("Food") == resources.end())
     {
+        consumption = 0;
         foodResource = FoodResource(0);
     }
     else
@@ -304,6 +305,8 @@ void Empire::HumanResourceSource::consume(std::map<std::string, Resource>& resou
     }
 
     isUpdated = true;
+
+    return consumption * dt.asSeconds();
 }
 
 bool Empire::HumanResourceSource::activate()

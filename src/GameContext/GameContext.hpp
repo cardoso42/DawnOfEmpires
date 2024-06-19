@@ -27,7 +27,7 @@ private:
 
     static GameContext* sInstance;
 
-    static bool verifyIfPlayerWon();
+    static void verifyIfPlayerWon();
 };
 
 #endif // GAMECONTEXT_HPP

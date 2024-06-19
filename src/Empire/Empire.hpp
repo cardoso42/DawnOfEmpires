@@ -53,7 +53,7 @@ private:
         Resource extract(sf::Time dt) override;
         Resource getEmptyResource() override { return HumanResource(0); }
 
-        void consume(std::map<std::string, Resource>& resources, sf::Time dt);
+        float consume(std::map<std::string, Resource>& resources, sf::Time dt);
         bool activate();
 
     private:

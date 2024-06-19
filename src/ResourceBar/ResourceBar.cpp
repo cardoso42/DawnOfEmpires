@@ -82,7 +82,7 @@ ResourceBar::ResourceBox::ResourceBox(sf::Vector2f size, Resource resource, floa
     }
 
     std::stringstream stream;
-    stream << std::fixed << std::setprecision(2) << resource.getAmount();
+    stream << std::fixed << std::setprecision(1) << resource.getAmount();
     std::string formattedAmount = stream.str();
     displayText = sf::Text(
         resource.getName() + "\n" + formattedAmount, 

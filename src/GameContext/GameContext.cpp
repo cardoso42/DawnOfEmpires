@@ -10,6 +10,7 @@ GameContext::GameContext() : gameOver(false), tile(nullptr)
 }
 
 void GameContext::setTile(TilePiece* newTile) { sInstance->tile = newTile; }
+
 void GameContext::setPlayers(int playersNumber)
 {
     const std::vector<sf::Color> colors = {
@@ -52,7 +53,7 @@ Empire* GameContext::getPlayer() { return &sInstance->players[sInstance->current
 TilePiece *GameContext::getTile() { return sInstance->tile; }
 int GameContext::getTileHrCost() { return 3; }
 
-bool GameContext::verifyIfPlayerWon()
+void GameContext::verifyIfPlayerWon()
 {
     auto empire = getPlayer();
 
