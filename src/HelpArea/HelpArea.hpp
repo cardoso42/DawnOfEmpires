@@ -3,6 +3,7 @@
 
 #include "TilePiece.hpp"
 #include "Empire.hpp"
+#include "HelpPage.hpp"
 
 #include <SFML/Graphics.hpp>
 
@@ -14,21 +15,8 @@ public:
     void update();
 private:
     sf::RectangleShape background;
-    std::vector<sf::Text> texts;
-    sf::Text locator;
-    sf::CircleShape currentPlayerColor;
-
-    Empire* currentEmpire;
-    TilePiece* currentTile;
-
-    void createText(std::string newText, int yDistance = 20);
-    void updateTexts();
-    void listResources(std::vector<Resource> resouces);
-    void addPlayerText();
-    void addAnnexationTileText();
-    void addImprovementTileText();
-    void addConstuctionTileText();
-    void resetTexts();
+    std::vector<HelpPage*> pages;
+    int currentPage = 0;
 };
 
 #endif // HELPAREA_HPP
