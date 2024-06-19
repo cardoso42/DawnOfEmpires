@@ -3,13 +3,10 @@
 
 GameContext* GameContext::sInstance = nullptr;
 
-GameContext::GameContext()
+GameContext::GameContext() : gameOver(false), tile(nullptr)
 {
     assert(sInstance == nullptr);
-
     sInstance = this;
-
-    tile = nullptr;
 }
 
 void GameContext::setTile(TilePiece* newTile) { sInstance->tile = newTile; }
@@ -35,14 +32,32 @@ void GameContext::setPlayers(int playersNumber)
 
 void GameContext::nextPlayer()
 {
+    verifyIfPlayerWon();
+
     sInstance->currentPlayer++;
     if (sInstance->currentPlayer >= sInstance->players.size())
     {
         sInstance->currentPlayer = 0;
     }
+
+    if (getPlayer()->haveWon())
+    {
+        sInstance->gameOver = true;
+    }
 }
+
+bool GameContext::isGameOver() { return sInstance->gameOver; }
 
 Empire* GameContext::getPlayer() { return &sInstance->players[sInstance->currentPlayer]; }
 TilePiece *GameContext::getTile() { return sInstance->tile; }
 int GameContext::getTileHrCost() { return 3; }
-int GameContext::getTileImprovementHrCost() { return 1; }
+
+bool GameContext::verifyIfPlayerWon()
+{
+    auto empire = getPlayer();
+
+    if (empire->getConstructionsNumber() > 7)
+    {
+        empire->setAsWinner();
+    }
+}

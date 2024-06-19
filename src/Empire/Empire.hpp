@@ -18,11 +18,13 @@ public:
     bool expendResources(std::vector<Resource> costs);
     bool hasResources(std::vector<Resource> resources);
     bool isTileNeighbor(TilePiece *tile);
+    void addResource(Resource newResource);
+    void setAsWinner();
+    bool haveWon();
 
     std::map<std::string, Resource> getTurnResources();
     std::vector<TilePiece*> getTerritory();
     std::vector<Resource> getResources();
-    void addResource(Resource newResource);
     int getConstructionsNumber();
     sf::Color getColor();
     uint getId();
@@ -36,6 +38,7 @@ private:
     std::map<std::string, Resource> turnResources;
     sf::Color color;
     int constructions;
+    bool won;
 
     bool canPayResource(Resource resource);
     void addTileToTerritory(TilePiece *newTile);

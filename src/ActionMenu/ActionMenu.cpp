@@ -211,8 +211,6 @@ void ActionMenu::spendGoldCoinBtnCb(std::vector<void *> parameters)
 
 void ActionMenu::nextTurnBtnCb(std::vector<void *> parameters)
 {
-    // TODO: Quando um jogador ganhar, deixar os demais jogarem mais um turno
-
     GameContext::nextPlayer();
     GameContext::getPlayer()->update(sf::seconds(5));
 }

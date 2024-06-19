@@ -35,15 +35,13 @@ private:
     HelpArea *help;
 
     bool wasMouseButtonAlreadyPressed;
-    bool hasPlayerWon;
+    int numPlayers;
 
     sf::Keyboard::Key currentPressedKey;
     sf::Keyboard::Key lastVerticalDirectionKey;
 
     std::unordered_map<sf::Keyboard::Key, std::function<void()>> directionalActions;
     std::unordered_map<sf::Keyboard::Key, std::function<void()>> keyActions;
-
-    bool verifyIfWon(Empire player);
 
     void handleMouseInput();
     void handleKeyboardInput();

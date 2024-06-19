@@ -8,23 +8,26 @@ class GameContext
 {
 public:
     GameContext();
+    static void nextPlayer();
+    static bool isGameOver();
     
     // Getters
-    static void setTile(TilePiece* newTile);
+    static Empire* getPlayer();
+    static int getTileHrCost();
     
     // Setters
     static void setPlayers(int playersNumber);
-    static void nextPlayer();
+    static void setTile(TilePiece* newTile);
     static TilePiece* getTile();
-    static Empire* getPlayer();
-    static int getTileHrCost();
-    static int getTileImprovementHrCost();
 private:
     TilePiece* tile;
     std::vector<Empire> players;
     int currentPlayer;
+    bool gameOver;
 
     static GameContext* sInstance;
+
+    static bool verifyIfPlayerWon();
 };
 
 #endif // GAMECONTEXT_HPP

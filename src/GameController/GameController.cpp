@@ -6,14 +6,14 @@
 
 GameController::GameController(): currentPressedKey(sf::Keyboard::Key::Unknown),  
     wasMouseButtonAlreadyPressed(false), windowManager("Dawn of Empires"), 
-    lastVerticalDirectionKey(sf::Keyboard::Key::Up), hasPlayerWon(false)
+    lastVerticalDirectionKey(sf::Keyboard::Key::Up), numPlayers(2)
 {
     windowManager.createView("map", {0, 0}, {0.8, 0.9});
     windowManager.createView("menu", {0.8, 0.3}, {0.2, 0.6});
     windowManager.createView("resources", {0, 0.9}, {1, 0.1});
     windowManager.createView("help", {0.8, 0}, {0.2, 0.3});
 
-    GameContext::setPlayers(2);
+    GameContext::setPlayers(numPlayers);
 
     int mapRadius = 15;
     map = new TileMap(mapRadius, windowManager.getViewSize("map") * 0.5f);
@@ -97,11 +97,6 @@ void GameController::updateFrame(sf::Time deltaTime)
     help->update();
 
     menu->update();
-
-    if (verifyIfWon(*GameContext::getPlayer()))
-    {
-        hasPlayerWon = true;
-    }
 }
 
 void GameController::render(sf::Color backgroundColor)
@@ -130,11 +125,6 @@ void GameController::handleInput()
         handleMouseInput();
         handleKeyboardInput();
     }
-}
-
-bool GameController::verifyIfWon(Empire player)
-{
-    return player.getConstructionsNumber() >= 7;
 }
 
 void GameController::handleMouseInput()
@@ -226,4 +216,4 @@ sf::RectangleShape GameController::drawDebugSquare(sf::Sprite sprite, sf::Color 
     return outline;
 }
 
-bool GameController::isOver() { return windowManager.isDone() || hasPlayerWon; }
+bool GameController::isOver() { return windowManager.isDone() || GameContext::isGameOver(); }

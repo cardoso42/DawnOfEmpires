@@ -4,7 +4,7 @@
 #include <cmath>
 
 Empire::Empire(sf::Color empireColor) : color(empireColor), constructions(0),
-    empireId(IdGenerator::GenerateEmpireId())
+    empireId(IdGenerator::GenerateEmpireId()), won(false)
 {
     HumanResource hr(3);
     FoodResource food(10);
@@ -133,6 +133,10 @@ void Empire::addResource(Resource newResource)
         }
     }
 }
+
+void Empire::setAsWinner() { won = true; }
+
+bool Empire::haveWon() { return won; }
 
 int Empire::getConstructionsNumber() { return constructions; }
 
