@@ -8,10 +8,11 @@ class GameContext
 {
 public:
     // GameEvents enum
-    enum GameEvents { GAME_STARTED, NEXT_TURN, GAME_OVER };
+    enum GameEvents { GAME_STARTED, NEXT_TURN, GAME_OVER, QUIT };
 
     GameContext();
     static void startGame();
+    static void exitGame();
     static void nextPlayer();
     
     // Getters

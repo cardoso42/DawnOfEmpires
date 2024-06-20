@@ -35,7 +35,6 @@ public:
         } 
         else 
         {
-            std::cout << "Trying to add " << other.name << " with " << this->name << std::endl;
             throw std::invalid_argument("Resources must have the same name and icon to be added.");
         }
         return *this;

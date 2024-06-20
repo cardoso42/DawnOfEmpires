@@ -15,7 +15,6 @@ MainMenu::MainMenu(sf::Vector2f windowSize) : GenericMenu(windowSize)
 
 void MainMenu::startGameBtnCb(std::vector<void *> parameters)
 {
-    std::cout << "startGameBtnCb" << std::endl;
     GameContext::startGame();
 }
 
@@ -31,5 +30,5 @@ void MainMenu::settingsBtnCb(std::vector<void *> parameters)
 
 void MainMenu::exitGameBtnCb(std::vector<void *> parameters)
 {
-    std::cout << "exitGameBtnCb" << std::endl;
+    GameContext::exitGame();
 }

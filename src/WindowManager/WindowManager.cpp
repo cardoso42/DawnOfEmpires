@@ -24,17 +24,11 @@ WindowManager::WindowManager(const std::string& l_title, const sf::Vector2u& l_s
     setup(l_title, l_size);
 }
 
-WindowManager::~WindowManager()
-{
-    destroy();
-}
-
 void WindowManager::setup(const std::string& l_title, const sf::Vector2u& l_size)
 {
     windowTitle = l_title;
     windowSize = l_size;
     m_isFullscreen =  false;
-    m_isDone = false;
     create();
 }
 
@@ -45,6 +39,8 @@ void WindowManager::create()
     sf::RenderWindow::create({windowSize.x, windowSize.y}, windowTitle, sytle);
 
     setFramerateLimit(60);
+
+    m_isDone = false;
 }
 
 void WindowManager::destroy()
@@ -110,7 +106,6 @@ void WindowManager::update()
         switch (event.type)
         {
         case sf::Event::Closed:
-            m_isDone = true;
             finishThread();
             close();
             break;
@@ -288,4 +283,10 @@ sf::IntRect WindowManager::getViewport(std::string name)
     }
 
     return sf::RenderWindow::getViewport(*(view->second));
+}
+
+void WindowManager::close()
+{
+    m_isDone = true;
+    RenderWindow::close();
 }

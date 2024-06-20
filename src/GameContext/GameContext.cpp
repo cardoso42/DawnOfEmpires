@@ -15,6 +15,8 @@ void GameContext::startGame()
     sInstance->tile = nullptr;
 }
 
+void GameContext::exitGame() { sInstance->events.push_back(QUIT); }
+
 void GameContext::setTile(TilePiece* newTile) { sInstance->tile = newTile; }
 
 void GameContext::setPlayers(int playersNumber)

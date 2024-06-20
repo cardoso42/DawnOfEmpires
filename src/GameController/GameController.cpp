@@ -96,6 +96,10 @@ void GameController::handleInput()
                 // I think it would be more efficient, but I don't know if this is a priority right now
                 break;
 
+            case GameContext::GameEvents::QUIT:
+                windowManager.close();
+                break;
+
             default:
                 break;
         }

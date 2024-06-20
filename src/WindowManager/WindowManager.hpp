@@ -10,7 +10,6 @@ class WindowManager : public sf::RenderWindow
 public:
     WindowManager(const std::string& title);
     WindowManager(const std::string& title, const sf::Vector2u& size);
-    ~WindowManager();
 
     bool createView(std::string name, sf::Vector2f pos, sf::Vector2f size);
     bool removeView(std::string name);
@@ -27,6 +26,8 @@ public:
     sf::Vector2i getWindowPos();
     sf::Vector2f getViewSize(std::string name);
     sf::IntRect getViewport(std::string name);
+
+    void close() override;
 
     void draw(sf::Drawable& drawable);
 
