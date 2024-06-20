@@ -12,9 +12,6 @@ Empire::Empire(sf::Color empireColor) : color(empireColor), constructions(0),
     resources[hr.getName()] = hr;
     resources[food.getName()] = food;
     resources[TileResource(0).getName()] = TileResource(0);
-
-    turnResources[hr.getName()] = hr;
-    turnResources[food.getName()] = food;
 }
 
 Empire::~Empire()
@@ -31,7 +28,6 @@ void Empire::update(sf::Time dt)
         try
         {
             Resource extractedResource = tile->extractResource(dt);
-
             addResource(extractedResource);
         }
         catch (const std::exception& e)
@@ -118,7 +114,6 @@ void Empire::addResource(Resource newResource)
     {
         resources[newResource.getName()] = newResource;
     }
-
 
     if (newResource.getVisibility())
     {
