@@ -24,3 +24,13 @@ To win the game, you must be the first empire to win in any of the possible cate
 <a href="https://iconscout.com/icons/bank" class="text-underline font-size-sm" target="_blank">bank</a> by <a href="https://iconscout.com/contributors/iconscout" class="text-underline font-size-sm">IconScout Store</a> on <a href="https://iconscout.com" class="text-underline font-size-sm">IconScout</a>
 
 <a href="https://iconscout.com/icons/pisa" class="text-underline font-size-sm" target="_blank">Pisa</a> by <a href="https://iconscout.com/contributors/sonisokell" class="text-underline font-size-sm">Soni Sokell</a> on <a href="https://iconscout.com" class="text-underline font-size-sm">IconScout</a>
+
+<a href="https://iconscout.com/lottie-animations/mining-tool" class="text-underline font-size-sm" target="_blank">Mining Tool</a> by <a href="https://iconscout.com/contributors/warishyy-naseer" class="text-underline font-size-sm">Lottie Champion</a> on <a href="https://iconscout.com" class="text-underline font-size-sm">IconScout</a>
+
+<a href="https://www.deviantart.com/genbaku/art/Mines-main-animation-509725488" class="text-underline font-size-sm" target="_blank">Mines - main animation</a> by <a href="https://www.deviantart.com/genbaku/gallery" class="text-underline font-size-sm">Genbaku</a> on <a href="https://www.deviantart.com/" class="text-underline font-size-sm">DevianArt</a>
+
+Crop items modified from "Hana Caraka Crops - Free" by Bagong Games
+
+Growing tree from Admurin in [itch.io](https://admurin.itch.io/nature-trees)
+
+Fisherman from Craftpix in [craftpix.net](https://craftpix.net/freebies/free-fishing-game-assets-pixel-art-pack/?utm_campaign=Website&utm_source=itch.io&utm_medium=public)

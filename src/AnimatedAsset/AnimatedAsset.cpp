@@ -1,15 +1,15 @@
 #include "AnimatedAsset.hpp"
 
+AnimatedAsset::AnimatedAsset(std::string filename, int frameCount, sf::Vector2i spriteSize, sf::Time duration) : sf::Sprite()
+{
+    setAnimation(filename, frameCount, spriteSize, duration);
+}
+
+
 AnimatedAsset::AnimatedAsset(std::string filename, int frameCount, sf::Vector2i spriteSize) : sf::Sprite()
 {
-    animator = new Animator(static_cast<sf::Sprite&>(*this));
-
     sf::Time duration = sf::seconds(frameCount / 20.f);
-    auto& animation = animator->CreateAnimation(filename, filename, duration, true);
-    animation.AddFrames({0, 0}, spriteSize, frameCount);
-
-    setTextureRect({0, 0, spriteSize.x, spriteSize.y});
-    setOrigin({spriteSize.x * 0.5f, spriteSize.y * 0.5f});
+    setAnimation(filename, frameCount, spriteSize, duration);
 }
 
 AnimatedAsset::AnimatedAsset(std::string filename)
@@ -45,4 +45,15 @@ void AnimatedAsset::fitTo(sf::Vector2i size, float proportion)
     }
 
     setScale({scale, scale});
+}
+
+void AnimatedAsset::setAnimation(std::string filename, int frameCount, sf::Vector2i spriteSize, sf::Time duration)
+{
+    animator = new Animator(static_cast<sf::Sprite&>(*this));
+
+    auto& animation = animator->CreateAnimation(filename, filename, duration, true);
+    animation.AddFrames({0, 0}, spriteSize, frameCount);
+
+    setTextureRect({0, 0, spriteSize.x, spriteSize.y});
+    setOrigin({spriteSize.x * 0.5f, spriteSize.y * 0.5f});
 }

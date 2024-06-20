@@ -22,7 +22,7 @@ public:
 
     AnimatedAsset* createDecoration() override
     {
-        return new AnimatedAsset("mine.png", 36, { 120, 67 });
+        return new AnimatedAsset("Mine.png", 19, { 181, 147 }, sf::seconds(2));
     }
 
     std::vector<Resource> getImprovementCost() override

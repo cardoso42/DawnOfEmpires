@@ -20,9 +20,16 @@ public:
         return sf::Color(144, 238, 144);
     }
 
+    // TODO: diminuir a quantidade de cada fonte de recursos
+    // TODO: adicionar nova animação quando a fonte secar (eg. arvore morta)
     AnimatedAsset* createDecoration() override
     {
-        return new AnimatedAsset("barn.png");
+        const std::vector<std::string> crops = {
+            "Carrot", "Onion", "Potato", "Radish", "Spinach", "Turnip"
+        };
+        int randomCrop = rand() % crops.size();
+
+        return new AnimatedAsset(crops[randomCrop] + ".png", 3, {33, 40}, sf::seconds(3));
     }
 
     std::vector<Resource> getImprovementCost() override
