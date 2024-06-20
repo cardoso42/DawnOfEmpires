@@ -3,15 +3,18 @@
 
 #include <SFML/Graphics.hpp>
 #include <Empire.hpp>
+#include "BaseComponent.hpp"
 
-class ResourceBar : public sf::Drawable
+class ResourceBar : public BaseComponent
 {
 public:
     ResourceBar(sf::Vector2f viewSize);
 
-    void update();
-
+    void update() override;
+    void click(float x, float y) override;
+    void animate(sf::Time deltaTime) override;
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
+    void handleKeyboardInput(sf::Keyboard::Key key) override;
 
 private:
     class ResourceBox : public sf::Drawable

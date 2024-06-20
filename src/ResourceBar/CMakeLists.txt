@@ -12,6 +12,7 @@ target_link_libraries(ResourceBar PUBLIC AssetManager)
 target_link_libraries(ResourceBar PUBLIC Animator)
 target_link_libraries(ResourceBar PUBLIC Resource)
 target_link_libraries(ResourceBar PUBLIC Empire)
+target_link_libraries(ResourceBar PUBLIC BaseComponent)
 
 target_include_directories(ResourceBar PUBLIC
                            "${PROJECT_BINARY_DIR}/src/ResourceBar"

@@ -18,6 +18,14 @@ void GenericMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const
     }
 }
 
+void GenericMenu::update()
+{
+}
+
+void GenericMenu::handleKeyboardInput(sf::Keyboard::Key key)
+{
+}
+
 void GenericMenu::click(float x, float y)
 {
     for (auto& btn : buttons)
@@ -29,6 +37,10 @@ void GenericMenu::click(float x, float y)
             btn.select();
         }
     }
+}
+
+void GenericMenu::animate(sf::Time deltaTime)
+{
 }
 
 void GenericMenu::organizeButtons()
@@ -49,7 +61,7 @@ void GenericMenu::organizeButtons()
     const float remainingSpace = frameHeight - sumButtonHeights - len * (interval + 1);
     if (remainingSpace < 0)
     {
-        throw std::logic_error("o-oh! too crowded in here!");
+        throw std::logic_error("GenericMenu: o-oh! too crowded in here!");
     }
 
     float previousBtnsHeight{0};

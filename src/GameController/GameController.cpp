@@ -6,65 +6,10 @@
 
 GameController::GameController(): currentPressedKey(sf::Keyboard::Key::Unknown),  
     wasMouseButtonAlreadyPressed(false), windowManager("Dawn of Empires"), 
-    lastVerticalDirectionKey(sf::Keyboard::Key::Up), numPlayers(2)
+    numPlayers(1)
 {
-    windowManager.createView("map", {0, 0}, {0.8, 0.9});
-    windowManager.createView("menu", {0.8, 0.3}, {0.2, 0.6});
-    windowManager.createView("resources", {0, 0.9}, {1, 0.1});
-    windowManager.createView("help", {0.8, 0}, {0.2, 0.3});
-
-    GameContext::setPlayers(numPlayers);
-
-    int mapRadius = 15;
-    map = new TileMap(mapRadius, windowManager.getViewSize("map") * 0.5f);
-    menu = new ActionMenu(windowManager.getViewSize("menu"));
-    bar = new ResourceBar(windowManager.getViewSize("resources"));
-    help = new HelpArea(windowManager.getViewSize("help"));
-
-    directionalActions = {
-        {
-            sf::Keyboard::Left, 
-            [this]() mutable
-            {
-                if (lastVerticalDirectionKey == sf::Keyboard::Up) {
-                    map->selectNeighborTile(TileMap::TileDirections::UP_LEFT);
-                } else if (lastVerticalDirectionKey == sf::Keyboard::Down) {
-                    map->selectNeighborTile(TileMap::TileDirections::DOWN_LEFT);
-                }
-                currentPressedKey = sf::Keyboard::Left;
-            }
-        },
-        {
-            sf::Keyboard::Right, 
-            [this]() mutable
-            {
-                if (lastVerticalDirectionKey == sf::Keyboard::Up) {
-                    map->selectNeighborTile(TileMap::TileDirections::UP_RIGHT);
-                } else if (lastVerticalDirectionKey == sf::Keyboard::Down) {
-                    map->selectNeighborTile(TileMap::TileDirections::DOWN_RIGHT);
-                }
-                currentPressedKey = sf::Keyboard::Right;
-            }
-        },
-        {
-            sf::Keyboard::Up, 
-            [this]() mutable
-            {
-                map->selectNeighborTile(TileMap::TileDirections::UP);
-                currentPressedKey = sf::Keyboard::Up;
-                lastVerticalDirectionKey = sf::Keyboard::Up;
-            }
-        },
-        {
-            sf::Keyboard::Down, 
-            [this]() mutable
-            {
-                map->selectNeighborTile(TileMap::TileDirections::DOWN);
-                currentPressedKey = sf::Keyboard::Down;
-                lastVerticalDirectionKey = sf::Keyboard::Down;
-            }
-        }
-    };
+    windowManager.createView("mainMenu", {0, 0}, {1, 1});
+    components["mainMenu"] = new MainMenu(windowManager.getViewSize("mainMenu"));
 
     keyActions = {
         {sf::Keyboard::S, []() { ActionMenu::selectInitialTileBtnCb({}); }},
@@ -74,52 +19,88 @@ GameController::GameController(): currentPressedKey(sf::Keyboard::Key::Unknown),
         {sf::Keyboard::M, []() { ActionMenu::constructMilitaryTileBtnCb({}); }},
         {sf::Keyboard::E, []() { ActionMenu::constructEconomyTileBtnCb({}); }},
         {sf::Keyboard::G, []() { ActionMenu::spendGoldCoinBtnCb({}); }},
-        {sf::Keyboard::N, []() { ActionMenu::nextTurnBtnCb({}); }}
+        {sf::Keyboard::N, []() { ActionMenu::nextTurnBtnCb({}); }},
+        {sf::Keyboard::Left, [this]() { components["map"]->handleKeyboardInput(sf::Keyboard::Left); }},
+        {sf::Keyboard::Right, [this]() { components["map"]->handleKeyboardInput(sf::Keyboard::Right); }},
+        {sf::Keyboard::Up, [this]() { components["map"]->handleKeyboardInput(sf::Keyboard::Up); }},
+        {sf::Keyboard::Down, [this]() { components["map"]->handleKeyboardInput(sf::Keyboard::Down); }},
     };
 }
 
 GameController::~GameController()
 {
-    delete map;
-    delete menu;
-    delete bar;
-    delete help;
 }
 
 void GameController::updateFrame(sf::Time deltaTime)
 {
     windowManager.update();
 
-    bar->update();
-
-    map->animate(deltaTime);
-
-    help->update();
-
-    menu->update();
+    for (auto& [name, component] : components)
+    {
+        component->update();
+        component->animate(deltaTime);
+    }
 }
 
 void GameController::render(sf::Color backgroundColor)
 {
     windowManager.beginDraw();
 
-    windowManager.switchToView("menu");
-    windowManager.draw(*menu);
-
-    windowManager.switchToView("map");
-    windowManager.draw(*map);
-
-    windowManager.switchToView("resources");
-    windowManager.draw(*bar);
-
-    windowManager.switchToView("help");
-    windowManager.draw(*help);
+    for (auto& [name, component] : components)
+    {
+        windowManager.switchToView(name);
+        windowManager.draw(*component);
+    }
     
     windowManager.endDraw();
 }
 
 void GameController::handleInput()
 {
+    auto events = GameContext::getEvents();
+    for (auto& event : events)
+    {
+        switch (event)
+        {
+            case GameContext::GameEvents::GAME_OVER:
+                for (auto& [name, component] : components)
+                {
+                    delete component;
+                    windowManager.removeView(name);
+                }
+                components.clear();
+
+                windowManager.createView("mainMenu", {0, 0}, {1, 1});
+                components["mainMenu"] = new MainMenu(windowManager.getViewSize("mainMenu"));
+                break;
+
+            case GameContext::GameEvents::GAME_STARTED:
+                windowManager.removeView("mainMenu");
+                components.erase("mainMenu");
+
+                GameContext::setPlayers(numPlayers);
+
+                windowManager.createView("map", {0, 0}, {0.8, 0.9});
+                windowManager.createView("actionMenu", {0.8, 0.3}, {0.2, 0.6});
+                windowManager.createView("resources", {0, 0.9}, {1, 0.1});
+                windowManager.createView("help", {0.8, 0}, {0.2, 0.3});
+
+                components["map"] = new TileMap(GameContext::getMapSize(), windowManager.getViewSize("map") * 0.5f);
+                components["actionMenu"] = new ActionMenu(windowManager.getViewSize("actionMenu"));
+                components["resources"] = new ResourceBar(windowManager.getViewSize("resources"));
+                components["help"] = new HelpArea(windowManager.getViewSize("help"));
+                break;
+            
+            case GameContext::GameEvents::NEXT_TURN:
+                // It is possible to use this event to update the resources bar only at this moment
+                // I think it would be more efficient, but I don't know if this is a priority right now
+                break;
+
+            default:
+                break;
+        }
+    }
+
     if (windowManager.isFocused())
     {
         handleMouseInput();
@@ -141,23 +122,14 @@ void GameController::handleMouseInput()
             sf::Vector2i pos = sf::Mouse::getPosition(windowManager);
             sf::Vector2f sceneCords;
 
-            if (windowManager.getViewport("menu").contains(pos)) 
+            for (auto& [name, component] : components)
             {
-                windowManager.switchToView("menu");
-                sceneCords = windowManager.mapPixelToCoords({pos.x, pos.y});
-                menu->click(sceneCords.x, sceneCords.y);
-            }
-
-            if (windowManager.getViewport("map").contains({pos.x, pos.y})) 
-            {
-                windowManager.switchToView("map");
-                sceneCords = windowManager.mapPixelToCoords({pos.x, pos.y});
-                map->click(sceneCords.x, sceneCords.y);
-            }
-
-            if (windowManager.getViewport("help").contains({pos.x, pos.y}))
-            {
-                help->click();
+                if (windowManager.getViewport(name).contains(pos))
+                {
+                    windowManager.switchToView(name);
+                    sceneCords = windowManager.mapPixelToCoords({pos.x, pos.y});
+                    component->click(sceneCords.x, sceneCords.y);
+                }
             }
         }
     } 
@@ -169,20 +141,6 @@ void GameController::handleMouseInput()
 
 void GameController::handleKeyboardInput()
 {
-    for (const auto& [key, action] : directionalActions) 
-    {
-        if (sf::Keyboard::isKeyPressed(key)) 
-        {
-            if (currentPressedKey == sf::Keyboard::Key::Unknown)
-            {
-                action();
-                currentPressedKey = key;
-            }
-
-            return;
-        }
-    }
-
     for (const auto& [key, action] : keyActions) 
     {
         if (sf::Keyboard::isKeyPressed(key)) 
@@ -216,4 +174,4 @@ sf::RectangleShape GameController::drawDebugSquare(sf::Sprite sprite, sf::Color 
     return outline;
 }
 
-bool GameController::isOver() { return windowManager.isDone() || GameContext::isGameOver(); }
+bool GameController::isOver() { return windowManager.isDone(); }

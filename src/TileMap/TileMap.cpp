@@ -3,7 +3,7 @@
 
 #include <cmath>
 
-TileMap::TileMap(int mapRadius, sf::Vector2f center)
+TileMap::TileMap(int mapRadius, sf::Vector2f center) : lastVerticalDirectionKey(sf::Keyboard::Up)
 {
     generateHexMap(center, mapRadius);
 
@@ -35,7 +35,9 @@ void TileMap::generateHexMap(sf::Vector2f center, int mapRadius)
     }
 }
 
-void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void TileMap::update() { }
+
+void TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     for (auto& tile : tiles)
     {
@@ -51,7 +53,7 @@ void TileMap::animate(sf::Time deltaTime)
     }
 }
 
-void TileMap::click(int x, int y)
+void TileMap::click(float x, float y)
 {
     // TODO: problema ao clicar porque como o globalBounds retorna um 
     // retângulo, não coincide exatamente com os hexagonos, fazendo com que ao 
@@ -85,6 +87,47 @@ void TileMap::click(int x, int y)
     if (!clickedOnTile && selected != nullptr)
     {
         selected->unselect();
+    }
+}
+
+void TileMap::handleKeyboardInput(sf::Keyboard::Key key)
+{
+    switch (key)
+    {
+        case sf::Keyboard::Left:
+            if (lastVerticalDirectionKey == sf::Keyboard::Up)
+            {
+                selectNeighborTile(TileMap::TileDirections::UP_LEFT);
+            }
+            else if (lastVerticalDirectionKey == sf::Keyboard::Down) 
+            {    
+                selectNeighborTile(TileMap::TileDirections::DOWN_LEFT);
+            }
+            break;
+
+        case sf::Keyboard::Right:
+            if (lastVerticalDirectionKey == sf::Keyboard::Up) 
+            {
+                selectNeighborTile(TileMap::TileDirections::UP_RIGHT);
+            } 
+            else if (lastVerticalDirectionKey == sf::Keyboard::Down) 
+            {
+                selectNeighborTile(TileMap::TileDirections::DOWN_RIGHT);
+            }
+            break;
+
+        case sf::Keyboard::Up:
+            selectNeighborTile(TileMap::TileDirections::UP);
+            lastVerticalDirectionKey = sf::Keyboard::Up;
+            break;
+
+        case sf::Keyboard::Down:
+            selectNeighborTile(TileMap::TileDirections::DOWN);
+            lastVerticalDirectionKey = sf::Keyboard::Down;
+            break;
+
+        default:
+            break;
     }
 }
 

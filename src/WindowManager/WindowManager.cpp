@@ -224,6 +224,20 @@ bool WindowManager::createView(std::string name, sf::Vector2f pos, sf::Vector2f 
     return true;
 }
 
+bool WindowManager::removeView(std::string name)
+{
+    auto view = views.find(name);
+
+    if (view != views.end())
+    {
+        delete view->second;
+        views.erase(view);
+        return true;
+    }
+
+    return false;
+}
+
 bool WindowManager::switchToView(std::string name)
 {
     auto view = views.find(name);

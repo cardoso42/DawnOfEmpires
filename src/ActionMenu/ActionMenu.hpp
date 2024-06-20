@@ -12,6 +12,7 @@ class ActionMenu : public GenericMenu
 {
 public:
     ActionMenu(sf::Vector2f windowSize);
+    ~ActionMenu();
 
     void update();
     

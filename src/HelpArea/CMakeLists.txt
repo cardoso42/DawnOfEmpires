@@ -12,6 +12,7 @@ target_link_libraries(HelpArea PUBLIC AssetManager)
 target_link_libraries(HelpArea PUBLIC Animator)
 target_link_libraries(HelpArea PUBLIC Empire)
 target_link_libraries(HelpArea PUBLIC TilePiece)
+target_link_libraries(HelpArea PUBLIC BaseComponent)
 
 target_include_directories(HelpArea PUBLIC
                            "${PROJECT_BINARY_DIR}/src/HelpArea"

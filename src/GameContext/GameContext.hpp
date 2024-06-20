@@ -7,13 +7,18 @@
 class GameContext
 {
 public:
+    // GameEvents enum
+    enum GameEvents { GAME_STARTED, NEXT_TURN, GAME_OVER };
+
     GameContext();
+    static void startGame();
     static void nextPlayer();
-    static bool isGameOver();
     
     // Getters
     static Empire* getPlayer();
     static int getTileHrCost();
+    static std::vector<GameEvents> getEvents();
+    static int getMapSize();
     
     // Setters
     static void setPlayers(int playersNumber);
@@ -21,9 +26,9 @@ public:
     static TilePiece* getTile();
 private:
     TilePiece* tile;
+    std::vector<GameEvents> events;
     std::vector<Empire> players;
     int currentPlayer;
-    bool gameOver;
 
     static GameContext* sInstance;
 

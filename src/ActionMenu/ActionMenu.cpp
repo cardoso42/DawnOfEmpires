@@ -16,6 +16,11 @@ ActionMenu::ActionMenu(sf::Vector2f windowSize) :
     instance = this;
 }
 
+ActionMenu::~ActionMenu()
+{
+    instance = nullptr;
+}
+
 void ActionMenu::update()
 {
     if (isSpendingCoinsMenuOpen)
@@ -248,13 +253,6 @@ void ActionMenu::buyResources(std::vector<void *> parameters)
 void ActionMenu::setBuyResourceButtons()
 {
     isSpendingCoinsMenuOpen = true;
-}
-
-void ActionMenu::setActionButtons()
-{
-    buttons.clear();
-
-    organizeButtons();
 }
 
 void ActionMenu::constructTile(TilePiece::ConstructionType type)

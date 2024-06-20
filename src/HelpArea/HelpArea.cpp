@@ -20,12 +20,16 @@ void HelpArea::draw(sf::RenderTarget &target, sf::RenderStates states) const
     target.draw(*pages[currentPage], states);
 }
 
+void HelpArea::animate(sf::Time deltaTime) { }
+
 void HelpArea::update()
 {
     pages[currentPage]->update();
 }
 
-void HelpArea::click()
+void HelpArea::click(float x, float y)
 {
     currentPage = (++currentPage) % pages.size();
 }
+
+void HelpArea::handleKeyboardInput(sf::Keyboard::Key key) { }

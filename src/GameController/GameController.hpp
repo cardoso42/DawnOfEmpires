@@ -14,6 +14,8 @@
 #include <SFML/Audio.hpp>
 
 #include <map>
+#include <MainMenu.hpp>
+#include <BaseComponent.hpp>
 
 class GameController
 {
@@ -29,19 +31,14 @@ public:
 private:
     WindowManager windowManager;
 
-    ResourceBar *bar;
-    ActionMenu *menu;
-    TileMap *map;
-    HelpArea *help;
-
     bool wasMouseButtonAlreadyPressed;
     int numPlayers;
 
     sf::Keyboard::Key currentPressedKey;
-    sf::Keyboard::Key lastVerticalDirectionKey;
 
     std::unordered_map<sf::Keyboard::Key, std::function<void()>> directionalActions;
     std::unordered_map<sf::Keyboard::Key, std::function<void()>> keyActions;
+    std::unordered_map<std::string, BaseComponent*> components; 
 
     void handleMouseInput();
     void handleKeyboardInput();

@@ -11,6 +11,7 @@ target_include_directories(GenericMenu
 target_link_libraries(GenericMenu PUBLIC AssetManager)
 target_link_libraries(GenericMenu PUBLIC Animator)
 target_link_libraries(GenericMenu PUBLIC ButtonMenu)
+target_link_libraries(GenericMenu PUBLIC BaseComponent)
 
 target_include_directories(GenericMenu PUBLIC
                            "${PROJECT_BINARY_DIR}/src/GenericMenu"

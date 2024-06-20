@@ -39,6 +39,10 @@ void ResourceBar::update()
     }
 }
 
+void ResourceBar::click(float x, float y) { }
+
+void ResourceBar::animate(sf::Time deltaTime) { }
+
 void ResourceBar::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     auto bg = sf::RectangleShape(static_cast<sf::Vector2f>(target.getSize()));
@@ -50,6 +54,8 @@ void ResourceBar::draw(sf::RenderTarget &target, sf::RenderStates states) const
         target.draw(box);
     }
 }
+
+void ResourceBar::handleKeyboardInput(sf::Keyboard::Key key) { }
 
 // ResourceBox implementation
 ResourceBar::ResourceBox::ResourceBox(sf::Vector2f size, Resource resource, float resourceVariation) 
@@ -131,7 +137,7 @@ void ResourceBar::ResourceBox::setPosition(sf::Vector2f pos)
 
     if (freeSpace < 0)
     {
-        throw std::logic_error("o-oh! too crowded in here");
+        throw std::logic_error("ResourceBar: o-oh! too crowded in here");
     }
 
     float iconX = pos.x - frameWidth * 0.5f + iconWidth * 0.5f + interval;

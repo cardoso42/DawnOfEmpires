@@ -2,6 +2,7 @@
 #define TILEMAP_HPP
 
 #include "TilePiece.hpp"
+#include "BaseComponent.hpp"
 
 #include <SFML/Graphics.hpp>
 
@@ -24,25 +25,27 @@ struct hash_pair
     }
 };
 
-class TileMap : public sf::Drawable
+class TileMap : public BaseComponent
 {
 public:
     enum TileDirections { UP, DOWN, UP_RIGHT, DOWN_LEFT, UP_LEFT, DOWN_RIGHT };
     TileMap(int mapRadius, sf::Vector2f center);
 
     // Override
+    void update() override;
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-
-    void animate(sf::Time deltaTime);
-    void click(int x, int y);
-    void selectNeighborTile(TileDirections direction);
+    void animate(sf::Time deltaTime) override;
+    void click(float x, float y) override;
+    void handleKeyboardInput(sf::Keyboard::Key key) override;
 
     TilePiece* getRandomTile();
 
 private:
     std::vector<TilePiece> tiles;
     std::unordered_map<std::pair<int, int>, int, hash_pair> tileMap;
+    sf::Keyboard::Key lastVerticalDirectionKey;
 
+    void selectNeighborTile(TileDirections direction);
     void generateHexMap(sf::Vector2f center, int mapRadius);
     TilePiece* getTile(uint id);
     std::vector<TilePiece*> getNeighbors(int q, int r);    

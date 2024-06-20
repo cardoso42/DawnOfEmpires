@@ -3,10 +3,16 @@
 
 GameContext* GameContext::sInstance = nullptr;
 
-GameContext::GameContext() : gameOver(false), tile(nullptr)
+GameContext::GameContext() : tile(nullptr)
 {
     assert(sInstance == nullptr);
     sInstance = this;
+}
+
+void GameContext::startGame() 
+{ 
+    sInstance->events.push_back(GAME_STARTED); 
+    sInstance->tile = nullptr;
 }
 
 void GameContext::setTile(TilePiece* newTile) { sInstance->tile = newTile; }
@@ -43,15 +49,25 @@ void GameContext::nextPlayer()
 
     if (getPlayer()->haveWon())
     {
-        sInstance->gameOver = true;
+        sInstance->events.push_back(GAME_OVER);
+        return;
     }
-}
 
-bool GameContext::isGameOver() { return sInstance->gameOver; }
+    sInstance->events.push_back(NEXT_TURN);
+}
 
 Empire* GameContext::getPlayer() { return &sInstance->players[sInstance->currentPlayer]; }
 TilePiece *GameContext::getTile() { return sInstance->tile; }
 int GameContext::getTileHrCost() { return 3; }
+
+std::vector<GameContext::GameEvents> GameContext::getEvents()
+{
+    auto events = sInstance->events;
+    sInstance->events.clear();
+    return events;
+}
+
+int GameContext::getMapSize() { return 25; }
 
 void GameContext::verifyIfPlayerWon()
 {

@@ -13,6 +13,7 @@ target_link_libraries(TileMap PRIVATE Animator)
 target_link_libraries(TileMap PRIVATE AnimatedAsset)
 target_link_libraries(TileMap PRIVATE TilePiece)
 target_link_libraries(TileMap PRIVATE GameContext)
+target_link_libraries(TileMap PRIVATE BaseComponent)
 
 target_include_directories(TileMap PUBLIC
                            "${PROJECT_BINARY_DIR}/src/TileMap"
