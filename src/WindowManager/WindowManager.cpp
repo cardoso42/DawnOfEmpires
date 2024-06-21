@@ -1,5 +1,6 @@
 #include "WindowManager.hpp"
 #include "ContextMenu.hpp"
+#include "GameContext.hpp"
 
 #include <iostream>
 #include <atomic>
@@ -261,6 +262,25 @@ bool WindowManager::switchToView(std::string name)
     sf::RenderWindow::setView(*(view->second));
 
     return true;
+}
+
+void WindowManager::centerOnSelectedTile()
+{
+    auto tile = GameContext::getTile();
+    if (tile == nullptr)
+    {
+        return;
+    }
+
+    auto it = views.find("map");
+    if (it == views.end())
+    {
+        throw std::logic_error("Map view not found");
+    }
+
+    sf::View& view = *it->second;
+    view.setCenter(tile->getPosition());
+    setView(view);
 }
 
 void WindowManager::draw(sf::Drawable& l_drawable)

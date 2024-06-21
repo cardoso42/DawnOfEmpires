@@ -11,6 +11,7 @@ target_include_directories(WindowManager
 target_link_libraries(WindowManager PRIVATE AssetManager)
 target_link_libraries(WindowManager PRIVATE Animator)
 target_link_libraries(WindowManager PRIVATE ContextMenu)
+target_link_libraries(WindowManager PRIVATE GameContext)
 
 target_include_directories(WindowManager PUBLIC
                            "${PROJECT_BINARY_DIR}/src/WindowManager"

@@ -29,6 +29,9 @@ public:
     sf::Color getColor();
     uint getId();
 
+    void setLastSelectedTile(TilePiece *tile);
+    TilePiece* getLastSelectedTile();
+
     void update(sf::Time dt);
 private:
     uint empireId;
@@ -37,6 +40,7 @@ private:
     std::map<std::string, Resource> resources;
     std::map<std::string, Resource> turnResources;
     sf::Color color;
+    TilePiece *lastSelectedTile;
     int constructions;
     bool won;
 

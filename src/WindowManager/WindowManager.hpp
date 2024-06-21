@@ -15,6 +15,7 @@ public:
     bool createView(std::string name, sf::Vector2f pos, sf::Vector2f size);
     bool removeView(std::string name);
     bool switchToView(std::string name);
+    void centerOnSelectedTile();
     void beginDraw();
     void endDraw();
     void update();

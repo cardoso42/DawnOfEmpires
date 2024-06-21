@@ -228,3 +228,17 @@ TilePiece* TileMap::getRandomTile()
     int i = rand() % tiles.size();
     return &tiles[i];
 }
+
+void TileMap::selectTile(TilePiece* tileToSelect)
+{
+    auto selected = GameContext::getTile();
+    if (selected != nullptr)
+    {
+        selected->unselect();
+    }
+
+    if (tileToSelect != nullptr)
+    {
+        tileToSelect->select();
+    }
+}

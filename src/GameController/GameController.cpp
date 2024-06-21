@@ -30,7 +30,6 @@ GameController::GameController(): currentPressedKey(sf::Keyboard::Key::Unknown),
     music.setLoop(true);
 
     // TODO: add menu pressing ESC (control volume, etc)
-    // TODO: save last selected tile from player to restaure it when its their turn again, also center the map on it
     // TODO: on game context, do not allow to map size be bigger than a number and players bigger than the amount of colors available
     // TODO: find out why the color of the player disappeared from the help area
     // TODO: check if culture bonus is really working
@@ -87,6 +86,7 @@ void GameController::handleInput()
                 break;
 
             case GameContext::GameEvents::GAME_STARTED:
+            {
                 for (auto& [name, component] : components)
                 {
                     delete component;
@@ -106,18 +106,31 @@ void GameController::handleInput()
 
                 music.play();
                 break;
-            
+            }
             case GameContext::GameEvents::NEXT_TURN:
+            {
+                // Restores the last selected tile of the current player
+                auto it = components.find("map");
+                if (it == components.end())
+                    throw std::logic_error("Map component not found");
+                
+                auto map = dynamic_cast<TileMap*>(it->second);
+                map->selectTile(GameContext::getPlayer()->getLastSelectedTile());
+                windowManager.centerOnSelectedTile();
+
                 // It is possible to use this event to update the resources bar only at this moment
                 // I think it would be more efficient, but I don't know if this is a priority right now
                 break;
-
+            }
             case GameContext::GameEvents::QUIT:
+            {
                 windowManager.close();
                 break;
-
+            }
             default:
+            {
                 break;
+            }
         }
     }
 

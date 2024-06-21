@@ -39,6 +39,7 @@ public:
     void handleKeyboardInput(sf::Keyboard::Key key) override;
 
     TilePiece* getRandomTile();
+    void selectTile(TilePiece* tile);
 
 private:
     std::vector<TilePiece> tiles;

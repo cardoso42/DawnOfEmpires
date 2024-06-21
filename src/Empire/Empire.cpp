@@ -4,7 +4,7 @@
 #include <cmath>
 
 Empire::Empire(sf::Color empireColor) : color(empireColor), constructions(0),
-    empireId(IdGenerator::GenerateEmpireId()), won(false)
+    empireId(IdGenerator::GenerateEmpireId()), won(false), lastSelectedTile(nullptr)
 {
     HumanResource hr(3);
     FoodResource food(10);
@@ -18,6 +18,10 @@ Empire::~Empire()
 {
 
 }
+
+void Empire::setLastSelectedTile(TilePiece *tile) { lastSelectedTile = tile; }
+
+TilePiece *Empire::getLastSelectedTile() { return lastSelectedTile; }
 
 void Empire::update(sf::Time dt)
 {
@@ -36,7 +40,6 @@ void Empire::update(sf::Time dt)
         }
     }
 
-    // TODO: add music
     // TODO: add condition to player to quit the game, without it ending
     turnResources[FoodResource(0).getName()] -= hrSource.consume(resources, dt);
     Resource hr = hrSource.extract(dt);

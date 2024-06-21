@@ -51,6 +51,7 @@ void GameContext::setPlayers(int playersNumber)
 void GameContext::nextPlayer()
 {
     verifyIfPlayerWon();
+    getPlayer()->setLastSelectedTile(getTile());
 
     sInstance->currentPlayer++;
     if (sInstance->currentPlayer >= sInstance->players.size())
