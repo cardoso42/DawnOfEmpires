@@ -10,6 +10,7 @@ class MainMenu : public StackMenu
 {
 public:
     MainMenu(sf::Vector2f windowSize);
+    ~MainMenu();
 
     static void startGameBtnCb(std::vector<void *> parameters)
     {

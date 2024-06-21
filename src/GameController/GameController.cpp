@@ -74,8 +74,12 @@ void GameController::handleInput()
                 break;
 
             case GameContext::GameEvents::GAME_STARTED:
-                windowManager.removeView("mainMenu");
-                components.erase("mainMenu");
+                for (auto& [name, component] : components)
+                {
+                    delete component;
+                    windowManager.removeView(name);
+                }
+                components.clear();
 
                 windowManager.createView("map", {0, 0}, {0.8, 0.9});
                 windowManager.createView("actionMenu", {0.8, 0.3}, {0.2, 0.6});

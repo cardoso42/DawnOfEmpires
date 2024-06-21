@@ -11,6 +11,11 @@ MainMenu::MainMenu(sf::Vector2f windowSize) : StackMenu(new StartingPage(windowS
     instance = this;
 }
 
+MainMenu::~MainMenu()
+{
+    instance = nullptr;
+}
+
 void MainMenu::addSubMenu(GenericMenu *submenu)
 {
     if (instance == nullptr)
