@@ -1,9 +1,9 @@
 #include "ButtonMenu.hpp"
 #include "AssetManager.hpp"
 
-ButtonMenu::ButtonMenu(std::string text, sf::Vector2f size, 
-    std::function<void(std::vector<void*>)> cb, std::vector<void*> parameters) : frame(size),
-    btnText(text, AssetManager::GetFont("anonymous.ttf"), 18), btnCb(cb), cbParameters(parameters)
+ButtonMenu::ButtonMenu(std::string text, sf::Vector2f size) : frame(size),
+    btnText(text, AssetManager::GetFont("anonymous.ttf"), 18), selectable(true),
+    btnCb(nullptr), cbParameters({}), isSelected(false)
 {
     frame.setOutlineColor(sf::Color::Black);
     frame.setOutlineThickness(5);
@@ -27,6 +27,16 @@ ButtonMenu::ButtonMenu(std::string text, sf::Vector2f size,
     btnText.setFillColor(sf::Color::Black);
     btnText.setPosition(frame.getPosition());
 }
+
+void ButtonMenu::setCallback(CallbackFunction cb, std::vector<void *> parameters)
+{
+    btnCb = cb;
+    cbParameters = parameters;
+}
+
+void ButtonMenu::setSelectable(bool selectable) { this->selectable = selectable; }
+
+void ButtonMenu::setOutlineThickness(float thickness) { frame.setOutlineThickness(thickness); }
 
 void ButtonMenu::setPosition(sf::Vector2f pos)
 {
@@ -58,10 +68,16 @@ void ButtonMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void ButtonMenu::select()
 {
-    frame.setOutlineColor(sf::Color::Magenta);
-    frame.setOutlineThickness(12);
+    if (!selectable || isSelected)
+    {
+        return;
+    }
 
-    if (btnCb)
+    isSelected = true;
+    frame.setOutlineColor(sf::Color::Magenta);
+    frame.setOutlineThickness(frame.getOutlineThickness() * 2);
+
+    if (btnCb != nullptr)
     {
         btnCb(cbParameters);
     }
@@ -69,10 +85,44 @@ void ButtonMenu::select()
 
 void ButtonMenu::unselect()
 {
+    if (!selectable || !isSelected)
+    {
+        return;
+    }
+    
+    isSelected = false;
     frame.setOutlineColor(sf::Color::Black);
-    frame.setOutlineThickness(5);
+    frame.setOutlineThickness(frame.getOutlineThickness() / 2);
+}
+
+void ButtonMenu::updateText(std::string newText)
+{
+    btnText.setString(newText);
+
+    if (frame.getSize().x < btnText.getLocalBounds().width + 20)
+    {
+        frame.setSize({btnText.getLocalBounds().width + 20, frame.getSize().y});
+    }
+
+    if (frame.getSize().y < btnText.getLocalBounds().height + 20)
+    {
+        frame.setSize({frame.getSize().x, btnText.getLocalBounds().height + 20});
+    }
+
+    frame.setOrigin(frame.getSize() * 0.5f);
+
+    btnText.setOrigin({
+        btnText.getLocalBounds().width * 0.5f,
+        btnText.getLocalBounds().height * 0.5f
+    });
+    btnText.setPosition(frame.getPosition());
 }
 
 sf::FloatRect ButtonMenu::getGlobalBounds() { return frame.getGlobalBounds(); }
 
 sf::Vector2f ButtonMenu::getSize() { return frame.getSize(); }
+
+std::string ButtonMenu::getText()
+{
+    return btnText.getString();
+}

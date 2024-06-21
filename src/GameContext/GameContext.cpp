@@ -3,21 +3,30 @@
 
 GameContext* GameContext::sInstance = nullptr;
 
-GameContext::GameContext() : tile(nullptr)
+GameContext::GameContext(int numPlayers, int mapSize) : tile(nullptr), mapSize(mapSize),
+    windowManager("Dawn of Empires"), currentPlayer(0), playersNumber(numPlayers)
 {
     assert(sInstance == nullptr);
     sInstance = this;
 }
 
 void GameContext::startGame() 
-{ 
+{
+    setPlayers(sInstance->playersNumber);
     sInstance->events.push_back(GAME_STARTED); 
     sInstance->tile = nullptr;
 }
 
 void GameContext::exitGame() { sInstance->events.push_back(QUIT); }
 
-void GameContext::setTile(TilePiece* newTile) { sInstance->tile = newTile; }
+void GameContext::setNumPlayers(int numPlayers)
+{
+    sInstance->playersNumber = numPlayers;
+}
+
+void GameContext::setTile(TilePiece *newTile) { sInstance->tile = newTile; }
+
+void GameContext::setMapSize(int size) { sInstance->mapSize = size; }
 
 void GameContext::setPlayers(int playersNumber)
 {
@@ -69,7 +78,11 @@ std::vector<GameContext::GameEvents> GameContext::getEvents()
     return events;
 }
 
-int GameContext::getMapSize() { return 25; }
+int GameContext::getMapSize() { return sInstance->mapSize; }
+
+WindowManager &GameContext::getWindowManager() { return sInstance->windowManager; }
+
+int GameContext::getPlayersNumber() { return sInstance->playersNumber; }
 
 void GameContext::verifyIfPlayerWon()
 {

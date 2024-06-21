@@ -12,6 +12,7 @@ target_link_libraries(GameContext PUBLIC AssetManager)
 target_link_libraries(GameContext PUBLIC Animator)
 target_link_libraries(GameContext PUBLIC Empire)
 target_link_libraries(GameContext PUBLIC TilePiece)
+target_link_libraries(GameContext PUBLIC WindowManager)
 
 target_include_directories(GameContext PUBLIC
                            "${PROJECT_BINARY_DIR}/src/GameContext"

@@ -52,6 +52,7 @@ target_include_directories($NOME
 
 target_link_libraries($NOME PUBLIC AssetManager)
 target_link_libraries($NOME PUBLIC Animator)
+target_link_libraries($NOME PUBLIC BaseComponent)
 
 target_include_directories($NOME PUBLIC
                            "\${PROJECT_BINARY_DIR}/src/$NOME"

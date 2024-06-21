@@ -4,9 +4,8 @@
 
 ActionMenu* ActionMenu::instance = nullptr;
 
-ActionMenu::ActionMenu(sf::Vector2f windowSize) : 
-    GenericMenu(windowSize, sf::Color(191, 191, 191)),
-    size({windowSize.x * 0.6f, windowSize.y * 0.05f})
+ActionMenu::ActionMenu(sf::Vector2f windowSize) : size(windowSize),
+    GenericMenu(windowSize, sf::Color(191, 191, 191))
 {
     if (instance != nullptr)
     {
@@ -14,6 +13,8 @@ ActionMenu::ActionMenu(sf::Vector2f windowSize) :
     }
 
     instance = this;
+
+    setButtonSize({size.x * 0.6f, size.y * 0.05f});
 }
 
 ActionMenu::~ActionMenu()
@@ -25,13 +26,13 @@ void ActionMenu::update()
 {
     if (isSpendingCoinsMenuOpen)
     {
-        buttons.clear();
+        clearButtons();
 
-        buttons.push_back(ButtonMenu("Buy 500 wood", size, buyResources, {static_cast<void*>(new WoodResource(500))}));
-        buttons.push_back(ButtonMenu("Buy 100 mineral", size, buyResources, {static_cast<void*>(new MineralResource(100))}));
-        buttons.push_back(ButtonMenu("Buy 30 humans", size, buyResources, {static_cast<void*>(new HumanResource(30))}));
-        buttons.push_back(ButtonMenu("Buy 50 food", size, buyResources, {static_cast<void*>(new FoodResource(50))}));
-        buttons.push_back(ButtonMenu("Go back", size, buyResources, {static_cast<void*>(new NullResource())}));
+        addButton("Buy 500 wood", buyResources, {new WoodResource(500)});
+        addButton("Buy 100 mineral", buyResources, {new MineralResource(100)});
+        addButton("Buy 30 humans", buyResources, {new HumanResource(30)});
+        addButton("Buy 50 food", buyResources, {new FoodResource(50)});
+        addButton("Go back", buyResources, {new NullResource()});
     
         organizeButtons();
         return;
@@ -45,39 +46,39 @@ void ActionMenu::update()
         return;
     }
 
-    buttons.clear();
+    clearButtons();
 
     if (empire->getTerritory().size() <= 0)
     {
-        buttons.push_back(ButtonMenu("(S)elect initial tile", size, selectInitialTileBtnCb, {}));
+        addButton("(S)elect initial tile", selectInitialTileBtnCb, {});
     }
 
     if (piece != nullptr)
     {
         if (piece->isOwnedBy(empire->getId()) && piece->isImprovable() && empire->hasResources(piece->getImprovementCost())) 
         {
-            buttons.push_back(ButtonMenu("(I)mprove tile", size, improveTileBtnCb, {}));
+            addButton("(I)mprove tile", improveTileBtnCb, {});
         }
 
         if (!piece->isOwnedBySomeone() && empire->isTileNeighbor(piece) && empire->hasResources({HumanResource(GameContext::getTileHrCost())}))
         {
-            buttons.push_back(ButtonMenu("(A)nnex tile", size, annexTileBtnCb, {}));
+            addButton("(A)nnex tile", annexTileBtnCb, {});
         }
 
         if (piece->isOwnedBy(empire->getId()) && piece->isConstructable() && empire->hasResources(piece->getConstructionCost()))
         {
-            buttons.push_back(ButtonMenu("Construct in tile\n(M)ilitary", size, constructMilitaryTileBtnCb, {}));
-            buttons.push_back(ButtonMenu("Construct in tile\n(C)ulture", size, constructCultureTileBtnCb, {}));
-            buttons.push_back(ButtonMenu("Construct in tile\n(E)conomy", size, constructEconomyTileBtnCb, {}));
+            addButton("Construct in tile\n(M)ilitary", constructMilitaryTileBtnCb, {});
+            addButton("Construct in tile\n(C)ulture", constructCultureTileBtnCb, {});
+            addButton("Construct in tile\n(E)conomy", constructEconomyTileBtnCb, {});
         }
 
         if (empire->hasResources({GoldResource(1)}))
         {
-            buttons.push_back(ButtonMenu("Spend (G)old coins", size, spendGoldCoinBtnCb, {}));
+            addButton("Spend (G)old coins", spendGoldCoinBtnCb, {});
         }
     }
 
-    buttons.push_back(ButtonMenu("(N)ext turn", size, nextTurnBtnCb, {}));
+    addButton("(N)ext turn", nextTurnBtnCb, {});
 
     organizeButtons();
 }

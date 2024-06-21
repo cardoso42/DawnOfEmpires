@@ -1,34 +1,32 @@
 #include "MainMenu.hpp"
 #include "GameContext.hpp"
+#include "StartingPage.hpp"
+#include <cassert>
 
-MainMenu::MainMenu(sf::Vector2f windowSize) : GenericMenu(windowSize)
+MainMenu* MainMenu::instance = nullptr;
+
+MainMenu::MainMenu(sf::Vector2f windowSize) : StackMenu(new StartingPage(windowSize))
 {
-    const sf::Vector2f buttonSize(windowSize.x * 0.3f, windowSize.y * 0.1f);
-
-    buttons.push_back(ButtonMenu("Start", buttonSize, startGameBtnCb, {}));
-    buttons.push_back(ButtonMenu("Load", buttonSize, loadGameBtnCb, {}));
-    buttons.push_back(ButtonMenu("Settings", buttonSize, settingsBtnCb, {}));
-    buttons.push_back(ButtonMenu("Exit", buttonSize, exitGameBtnCb, {}));
-
-    organizeButtons();
+    assert(instance == nullptr);
+    instance = this;
 }
 
-void MainMenu::startGameBtnCb(std::vector<void *> parameters)
+void MainMenu::addSubMenu(GenericMenu *submenu)
 {
-    GameContext::startGame();
+    if (instance == nullptr)
+    {
+        return;
+    }
+
+    instance->addMenu(submenu);
 }
 
-void MainMenu::loadGameBtnCb(std::vector<void *> parameters)
+void MainMenu::goBack()
 {
-    std::cout << "loadGameBtnCb" << std::endl;
-}
+    if (instance == nullptr)
+    {
+        return;
+    }
 
-void MainMenu::settingsBtnCb(std::vector<void *> parameters)
-{
-    std::cout << "settingsBtnCb" << std::endl;
-}
-
-void MainMenu::exitGameBtnCb(std::vector<void *> parameters)
-{
-    GameContext::exitGame();
+    instance->goBack();
 }

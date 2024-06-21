@@ -12,6 +12,8 @@ target_link_libraries(MainMenu PUBLIC AssetManager)
 target_link_libraries(MainMenu PUBLIC Animator)
 target_link_libraries(MainMenu PUBLIC GenericMenu)
 target_link_libraries(MainMenu PUBLIC GameContext)
+target_link_libraries(MainMenu PUBLIC StackMenu)
+target_link_libraries(MainMenu PUBLIC WindowManager)
 
 target_include_directories(MainMenu PUBLIC
                            "${PROJECT_BINARY_DIR}/src/MainMenu"

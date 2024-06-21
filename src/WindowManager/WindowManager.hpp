@@ -8,6 +8,7 @@
 class WindowManager : public sf::RenderWindow
 {
 public:
+    WindowManager(const WindowManager& other);
     WindowManager(const std::string& title);
     WindowManager(const std::string& title, const sf::Vector2u& size);
 

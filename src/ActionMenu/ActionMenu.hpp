@@ -14,7 +14,7 @@ public:
     ActionMenu(sf::Vector2f windowSize);
     ~ActionMenu();
 
-    void update();
+    void update() override;
     
     static void annexTileBtnCb(std::vector<void*> parameters);
     static void selectInitialTileBtnCb(std::vector<void*> parameters);
@@ -29,7 +29,6 @@ public:
 private:
     sf::Vector2f size;
     void setBuyResourceButtons();
-    void setActionButtons();
     bool isSpendingCoinsMenuOpen = false;
 
     static void constructTile(TilePiece::ConstructionType type);

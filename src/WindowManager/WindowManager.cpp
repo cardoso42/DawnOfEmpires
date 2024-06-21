@@ -4,7 +4,19 @@
 #include <iostream>
 #include <atomic>
 
-WindowManager::WindowManager(const std::string& title) : focus(true)
+WindowManager::WindowManager(const WindowManager &other)
+{
+    windowTitle = other.windowTitle;
+    windowSize = other.windowSize;
+    m_isFullscreen = other.m_isFullscreen;
+    focus = other.focus;
+    lastMousePos = other.lastMousePos;
+    views = other.views;
+
+    create();
+}
+
+WindowManager::WindowManager(const std::string &title) : focus(true)
 {
     sf::VideoMode videoMode(800, 600);
     

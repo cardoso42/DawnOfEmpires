@@ -5,8 +5,7 @@
 #include <sstream>
 
 GameController::GameController(): currentPressedKey(sf::Keyboard::Key::Unknown),  
-    wasMouseButtonAlreadyPressed(false), windowManager("Dawn of Empires"), 
-    numPlayers(1)
+    wasMouseButtonAlreadyPressed(false), windowManager(GameContext::getWindowManager())
 {
     windowManager.createView("mainMenu", {0, 0}, {1, 1});
     components["mainMenu"] = new MainMenu(windowManager.getViewSize("mainMenu"));
@@ -77,8 +76,6 @@ void GameController::handleInput()
             case GameContext::GameEvents::GAME_STARTED:
                 windowManager.removeView("mainMenu");
                 components.erase("mainMenu");
-
-                GameContext::setPlayers(numPlayers);
 
                 windowManager.createView("map", {0, 0}, {0.8, 0.9});
                 windowManager.createView("actionMenu", {0.8, 0.3}, {0.2, 0.6});

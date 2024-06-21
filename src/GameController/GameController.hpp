@@ -32,7 +32,6 @@ private:
     WindowManager windowManager;
 
     bool wasMouseButtonAlreadyPressed;
-    int numPlayers;
 
     sf::Keyboard::Key currentPressedKey;
 

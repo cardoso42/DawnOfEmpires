@@ -3,20 +3,23 @@
 
 #include <SFML/Graphics/Drawable.hpp>
 #include "GenericMenu.hpp"
+#include "StackMenu.hpp"
+#include "GameContext.hpp"
 
-class MainMenu : public GenericMenu
+class MainMenu : public StackMenu
 {
 public:
     MainMenu(sf::Vector2f windowSize);
 
-    void update() override {}
-    void animate(sf::Time deltaTime) override {}
+    static void startGameBtnCb(std::vector<void *> parameters)
+    {
+        GameContext::startGame();
+    }
 
+    static void addSubMenu(GenericMenu *submenu);
+    static void goBack();
 private:
-    static void startGameBtnCb(std::vector<void *> parameters);
-    static void loadGameBtnCb(std::vector<void *> parameters);
-    static void settingsBtnCb(std::vector<void *> parameters);
-    static void exitGameBtnCb(std::vector<void *> parameters);
+    static MainMenu* instance;
 };
 
 #endif // MAINMENU_HPP
