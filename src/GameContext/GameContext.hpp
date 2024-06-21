@@ -15,6 +15,7 @@ public:
     static void startGame();
     static void exitGame();
     static void nextPlayer();
+    static void notifyEvent(GameEvents event);
     
     // Getters
     static TilePiece* getTile();

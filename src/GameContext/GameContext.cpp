@@ -67,6 +67,11 @@ void GameContext::nextPlayer()
     sInstance->events.push_back(NEXT_TURN);
 }
 
+void GameContext::notifyEvent(GameEvents event)
+{
+    sInstance->events.push_back(event);
+}
+
 Empire* GameContext::getPlayer() { return &sInstance->players[sInstance->currentPlayer]; }
 TilePiece *GameContext::getTile() { return sInstance->tile; }
 int GameContext::getTileHrCost() { return 3; }

@@ -35,7 +35,20 @@ void TileMap::generateHexMap(sf::Vector2f center, int mapRadius)
     }
 }
 
-void TileMap::update() { }
+void TileMap::update() 
+{
+    // TODO: add a screen announcing the winner
+    
+    for (auto& tile : tiles)
+    {
+        if (tile.isConstructable() || tile.isImprovable())
+        {
+            return;
+        }
+    }
+
+    GameContext::notifyEvent(GameContext::GameEvents::GAME_OVER);
+}
 
 void TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
