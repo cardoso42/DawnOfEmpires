@@ -44,6 +44,11 @@ public:
     {
         return "Water";
     }
+
+    sf::SoundBuffer &getSoundBuffer() override
+    {
+        return AssetManager::GetSoundBuffer("water-walk.mp3");
+    }
 };
 
 #endif // WATERTILE_HPP

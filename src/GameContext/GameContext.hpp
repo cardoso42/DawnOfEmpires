@@ -15,6 +15,7 @@ public:
     static void startGame();
     static void exitGame();
     static void nextPlayer();
+    static void playSound(sf::SoundBuffer &buffer);
     static void notifyEvent(GameEvents event);
     
     // Getters
@@ -37,6 +38,7 @@ private:
     TilePiece* tile;
     std::vector<Empire> players;
     int currentPlayer;
+    sf::Sound soundEffect;
 
     int mapSize;
     int playersNumber;

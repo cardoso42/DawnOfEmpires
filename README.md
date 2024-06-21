@@ -19,6 +19,9 @@ To win the game, you must be the first empire to win in any of the possible cate
 - Local multiplayer, simple animations
 
 ## Thanks
+
+### Images and Animations
+
 <a href="https://iconscout.com/icons/arc-de-triomphe" class="text-underline font-size-sm" target="_blank">Arc De Triomphe</a> by <a href="https://iconscout.com/contributors/promotion-king" class="text-underline font-size-sm" target="_blank">Rank Sol</a>
 
 <a href="https://iconscout.com/icons/bank" class="text-underline font-size-sm" target="_blank">bank</a> by <a href="https://iconscout.com/contributors/iconscout" class="text-underline font-size-sm">IconScout Store</a> on <a href="https://iconscout.com" class="text-underline font-size-sm">IconScout</a>
@@ -38,3 +41,11 @@ Fisherman from Craftpix in [craftpix.net](https://craftpix.net/freebies/free-fis
 <a href="https://www.freepik.com/free-vector/different-wall-textures_959312.htm#query=pixel%20dirt&position=3&from_view=keyword&track=ais_user&uuid=8868f63b-cbb3-4917-b35c-283bb7f886f3">Image by 0melapics</a> on Freepik
 
 <a href="https://www.vecteezy.com/free-vector/polluted-river">Polluted River Vectors by Vecteezy</a>
+
+### Sounds
+
+Sound Effect by <a href="https://pixabay.com/users/juliush-3921568/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=8185">Julius H.</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=8185">Pixabay</a>
+
+Sound Effect from <a href="https://pixabay.com/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=54150">Pixabay</a>
+
+Sound Effect from <a href="https://pixabay.com/sound-effects/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=48741">Pixabay</a>

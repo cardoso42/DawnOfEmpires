@@ -56,6 +56,11 @@ public:
     std::string getName() override {
         return "Grass";
     }
+
+    sf::SoundBuffer &getSoundBuffer() override
+    {
+        return AssetManager::GetSoundBuffer("cow.mp3");
+    }
 };
 
 #endif // GRASSTILE_HPP

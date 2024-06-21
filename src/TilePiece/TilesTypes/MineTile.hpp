@@ -44,6 +44,11 @@ public:
     {
         return "Mine";
     }
+
+    sf::SoundBuffer &getSoundBuffer() override
+    {
+        return AssetManager::GetSoundBuffer("mine.mp3");
+    }
 };
 
 #endif // MINETILE_HPP

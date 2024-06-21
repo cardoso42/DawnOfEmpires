@@ -44,6 +44,11 @@ public:
     {
         return "Forest";
     }
+
+    sf::SoundBuffer &getSoundBuffer() override
+    {
+        return AssetManager::GetSoundBuffer("chopping-wood.mp3");
+    }
 };
 
 #endif // FORESTTILE_HPP

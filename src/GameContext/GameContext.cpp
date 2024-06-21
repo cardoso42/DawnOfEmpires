@@ -67,6 +67,17 @@ void GameContext::nextPlayer()
     sInstance->events.push_back(NEXT_TURN);
 }
 
+void GameContext::playSound(sf::SoundBuffer &buffer)
+{
+    if (sInstance->soundEffect.getStatus() == sf::Sound::Playing)
+    {
+        sInstance->soundEffect.stop();
+    }
+
+    sInstance->soundEffect.setBuffer(buffer);
+    sInstance->soundEffect.play();
+}
+
 void GameContext::notifyEvent(GameEvents event)
 {
     sInstance->events.push_back(event);

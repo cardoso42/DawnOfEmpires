@@ -51,6 +51,7 @@ bool TilePiece::improve()
 
     status |= TileStatus::MODIFIED;
 
+    GameContext::playSound(strategy->getSoundBuffer());
     generateDecoration();
 
     return true;
@@ -83,6 +84,7 @@ bool TilePiece::construct(ConstructionType type)
         break;
     }
 
+    GameContext::playSound(strategy->getSoundBuffer());
     generateDecoration();
 
     return true;

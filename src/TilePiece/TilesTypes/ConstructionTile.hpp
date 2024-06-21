@@ -26,6 +26,11 @@ public:
     {
         return { NullResource() };
     }
+
+    sf::SoundBuffer &getSoundBuffer() override
+    {
+        return AssetManager::GetSoundBuffer("construction.mp3");
+    }
 };
 
 class MilitaryConstructionTile : public ConstructionTile

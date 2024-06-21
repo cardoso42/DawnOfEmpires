@@ -44,7 +44,6 @@ void Empire::update(sf::Time dt)
     turnResources[hr.getName()] = hr;
 
     auto it = resources.find(TileResource(0).getName());
-
     if (it != resources.end() && it->second.getAmount() >= 1)
     {
         int index = std::rand() % neighbors.size();

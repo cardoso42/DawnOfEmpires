@@ -41,6 +41,11 @@ public:
     {
         return "Desert";
     }
+
+    sf::SoundBuffer &getSoundBuffer() override
+    {
+        return AssetManager::GetSoundBuffer("desert.mp3");
+    }
 };
 
 #endif // DESERTTILE_HPP
