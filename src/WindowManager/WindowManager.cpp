@@ -134,7 +134,6 @@ void WindowManager::update()
             break;
 
         case sf::Event::MouseButtonPressed:
-
             if (event.mouseButton.button == sf::Mouse::Button::Right)
             {
                 if (!stopThread.load())
@@ -155,7 +154,13 @@ void WindowManager::update()
 
         case sf::Event::MouseMoved:
             if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                sf::View& view = *views["map"];
+                auto it = views.find("map");
+                if (it == views.end())
+                {
+                    break;
+                }
+
+                sf::View& view = *it->second;
 
                 sf::Vector2i currentMousePos = sf::Mouse::getPosition();
                 sf::Vector2f displacement = static_cast<sf::Vector2f>(currentMousePos - lastMousePos);

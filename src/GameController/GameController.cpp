@@ -10,6 +10,7 @@ GameController::GameController(): currentPressedKey(sf::Keyboard::Key::Unknown),
     windowManager.createView("mainMenu", {0, 0}, {1, 1});
     components["mainMenu"] = new MainMenu(windowManager.getViewSize("mainMenu"));
 
+    // TODO: update keyactions depending on the current context
     keyActions = {
         {sf::Keyboard::S, []() { ActionMenu::selectInitialTileBtnCb({}); }},
         {sf::Keyboard::I, []() { ActionMenu::improveTileBtnCb({}); }},
