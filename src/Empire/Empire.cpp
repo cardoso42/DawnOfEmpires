@@ -36,6 +36,7 @@ void Empire::update(sf::Time dt)
         }
     }
 
+    // TODO: add music
     // TODO: add condition to player to quit the game, without it ending
     turnResources[FoodResource(0).getName()] -= hrSource.consume(resources, dt);
     Resource hr = hrSource.extract(dt);

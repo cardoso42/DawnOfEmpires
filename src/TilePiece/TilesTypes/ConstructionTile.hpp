@@ -12,6 +12,11 @@ public:
         return sf::Color(255, 192, 203);
     }
 
+    AnimatedAsset* createEmptyDecoration() override
+    {
+        return createDecoration();
+    }
+
     std::vector<Resource> getImprovementCost() override
     {
         return { NullResource() };

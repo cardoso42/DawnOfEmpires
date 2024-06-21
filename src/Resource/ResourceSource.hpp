@@ -14,16 +14,22 @@ public:
         float realGeneration = std::min(resource.amount, generation * dt.asSeconds());
         resource.amount -= realGeneration;
 
+        if (resource.amount <= 0)
+        {
+            dried = true;
+        }
+
         return Resource(resource.name, realGeneration, resource.icon, resource.isVisible);
     }
 
+    bool canExtract() { return !dried; }
     virtual Resource getEmptyResource() = 0;
-
     void addBonus(float bonus) { generation += bonus; }
 
 protected:
     Resource resource;
     float generation;
+    bool dried = false;
 };
 
 class NullResourceSource : public ResourceSource 

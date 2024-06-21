@@ -31,6 +31,10 @@ To win the game, you must be the first empire to win in any of the possible cate
 
 Crop items modified from "Hana Caraka Crops - Free" by Bagong Games
 
-Growing tree from Admurin in [itch.io](https://admurin.itch.io/nature-trees)
+Growing tree modified from Admurin in [itch.io](https://admurin.itch.io/nature-trees)
 
 Fisherman from Craftpix in [craftpix.net](https://craftpix.net/freebies/free-fishing-game-assets-pixel-art-pack/?utm_campaign=Website&utm_source=itch.io&utm_medium=public)
+
+<a href="https://www.freepik.com/free-vector/different-wall-textures_959312.htm#query=pixel%20dirt&position=3&from_view=keyword&track=ais_user&uuid=8868f63b-cbb3-4917-b35c-283bb7f886f3">Image by 0melapics</a> on Freepik
+
+<a href="https://www.vecteezy.com/free-vector/polluted-river">Polluted River Vectors by Vecteezy</a>

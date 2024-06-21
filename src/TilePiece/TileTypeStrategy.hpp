@@ -12,6 +12,7 @@ public:
     virtual ResourceSource* createResourceSource() = 0;
     virtual sf::Color getColor() = 0;
     virtual AnimatedAsset* createDecoration() = 0;
+    virtual AnimatedAsset* createEmptyDecoration() = 0;
     virtual std::vector<Resource> getImprovementCost() = 0;
     virtual std::vector<Resource> getConstructionCost() = 0;
     virtual std::string getName() = 0;

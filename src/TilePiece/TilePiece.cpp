@@ -90,9 +90,18 @@ bool TilePiece::construct(ConstructionType type)
 
 Resource TilePiece::extractResource(sf::Time dt)
 {
-    if (isModified())
+    if (isModified() && resourceSource != nullptr && (~status & TileStatus::DIED))
     {
-        return resourceSource->extract(dt);
+        if (resourceSource->canExtract())
+        {
+            auto extractedResource = resourceSource->extract(dt);
+            return extractedResource;
+        }
+        else
+        {
+            status |= TileStatus::DIED;
+            generateDecoration();
+        }
     }
     
     return NullResource();
@@ -219,14 +228,20 @@ void TilePiece::generateDecoration()
         delete decoration;
     }
 
-    decoration = strategy->createDecoration();
-    if (decoration == nullptr)
+    if (resourceSource->canExtract())
     {
-        return;
+        decoration = strategy->createDecoration();
+    }
+    else
+    {
+        decoration = strategy->createEmptyDecoration();
     }
 
-    decoration->setPosition(body.getPosition());
-    decoration->fitTo(getSize(), 0.7f);
+    if (decoration != nullptr)
+    {
+        decoration->setPosition(body.getPosition());
+        decoration->fitTo(getSize(), 0.7f);
+    }
 }
 
 void TilePiece::paint(sf::Color newColor)

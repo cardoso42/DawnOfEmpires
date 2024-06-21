@@ -9,7 +9,7 @@ class ForestTile : public TileTypeStrategy
 public:
     ResourceSource* createResourceSource() override
     {
-        float amount = 5000 + rand() % 10000;
+        float amount = 500 + rand() % 1000;
         float generation = .95 + rand() % 10 * 0.01;
 
         return new WoodResourceSource(amount, generation);
@@ -23,6 +23,11 @@ public:
     AnimatedAsset* createDecoration() override
     {
         return new AnimatedAsset("chop_tree.png", 7, {50, 92}, sf::seconds(3));
+    }
+
+    AnimatedAsset* createEmptyDecoration() override
+    {
+        return new AnimatedAsset("dead-tree.png");
     }
 
     std::vector<Resource> getImprovementCost() override

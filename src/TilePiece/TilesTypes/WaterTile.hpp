@@ -9,7 +9,7 @@ class WaterTile : public TileTypeStrategy
 public:
     ResourceSource* createResourceSource() override
     {
-        float amount = 5000 + rand() % 10000;
+        float amount = 450 + rand() % 100;
         float generation = .95 + rand() % 10 * 0.01;
         
         return new FoodResourceSource(amount, generation);
@@ -23,6 +23,11 @@ public:
     AnimatedAsset* createDecoration() override
     {
         return new AnimatedAsset("Fisherman_hook.png", 6, { 48, 48 }, sf::seconds(1));
+    }
+
+    AnimatedAsset* createEmptyDecoration() override
+    {
+        return new AnimatedAsset("river-pollution.png");
     }
 
     std::vector<Resource> getImprovementCost() override

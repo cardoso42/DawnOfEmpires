@@ -9,7 +9,7 @@ class GrassTile : public TileTypeStrategy
 public:
     ResourceSource* createResourceSource() override
     {
-        float amount = 5000 + rand() % 10000;
+        float amount = 450 + rand() % 100;
         float generation = .95 + rand() % 10 * 0.01;
 
         return new FoodResourceSource(amount, generation);
@@ -20,8 +20,6 @@ public:
         return sf::Color(144, 238, 144);
     }
 
-    // TODO: diminuir a quantidade de cada fonte de recursos
-    // TODO: adicionar nova animação quando a fonte secar (eg. arvore morta)
     AnimatedAsset* createDecoration() override
     {
         const std::vector<std::string> crops = {
@@ -30,6 +28,11 @@ public:
         int randomCrop = rand() % crops.size();
 
         return new AnimatedAsset(crops[randomCrop] + ".png", 3, {33, 40}, sf::seconds(3));
+    }
+
+    AnimatedAsset* createEmptyDecoration() override
+    {
+        return new AnimatedAsset("dry-dirt.png");
     }
 
     std::vector<Resource> getImprovementCost() override

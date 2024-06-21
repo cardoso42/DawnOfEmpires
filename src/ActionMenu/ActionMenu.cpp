@@ -79,6 +79,15 @@ void ActionMenu::update()
     }
 
     addButton("(N)ext turn", nextTurnBtnCb, {});
+#ifdef DEBUG
+    addButton("Advance 100 turns", [](std::vector<void*> parameters) {
+        for (int i = 0; i < 100; i++)
+        {
+            GameContext::nextPlayer();
+            GameContext::getPlayer()->update(sf::seconds(5));
+        }
+    }, {});
+#endif
 
     organizeButtons();
 }

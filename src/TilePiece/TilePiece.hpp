@@ -14,7 +14,7 @@
 class TilePiece : public sf::Drawable
 {
 public:
-    enum TileStatus { NONE = 0x0, TERRITORY = 0x1, MODIFIED = 0x2, SELECTED = 0x4 };
+    enum TileStatus { NONE = 0x0, TERRITORY = 0x1, MODIFIED = 0x2, DIED = 0x4, SELECTED = 0x8 };
     enum ConstructionType { MILITARY, CULTURE, ECONOMY };
 
     TilePiece(float x, float y, int q, int r);
@@ -39,6 +39,7 @@ public:
     bool isImprovable();
     bool isConstruction();
     bool isConstructable();
+    bool isExtractable();
 
     // getters
     std::string getTypeName();
@@ -77,7 +78,6 @@ private:
     int ownerId;
 
     void setStrategy(TileTypeStrategy* newStrategy);
-    void generateRandomStrategy();
     void generateDecoration();
     void paint(sf::Color color);
 };

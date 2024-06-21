@@ -22,6 +22,11 @@ public:
         return nullptr;
     }
 
+    AnimatedAsset* createEmptyDecoration() override
+    {
+        return nullptr;
+    }
+
     std::vector<Resource> getImprovementCost() override
     {
         return { NullResource() };
