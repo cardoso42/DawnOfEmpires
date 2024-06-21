@@ -26,8 +26,15 @@ GameController::GameController(): currentPressedKey(sf::Keyboard::Key::Unknown),
         {sf::Keyboard::Down, [this]() { components["map"]->handleKeyboardInput(sf::Keyboard::Down); }},
     };
 
-    music.openFromFile(AssetManager::GenerateAbsolutePathname("epicBackgroundMusic.mp3"));
+    music.openFromFile(AssetManager::GenerateAbsolutePathname("backgroundMusic.mp3"));
     music.setLoop(true);
+
+    // TODO: add menu pressing ESC (control volume, etc)
+    // TODO: save last selected tile from player to restaure it when its their turn again, also center the map on it
+    // TODO: on game context, do not allow to map size be bigger than a number and players bigger than the amount of colors available
+    // TODO: find out why the color of the player disappeared from the help area
+    // TODO: check if culture bonus is really working
+    // TODO: lower even more the amount in each resource source
 }
 
 GameController::~GameController()
