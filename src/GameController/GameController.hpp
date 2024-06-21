@@ -37,7 +37,9 @@ private:
 
     std::unordered_map<sf::Keyboard::Key, std::function<void()>> directionalActions;
     std::unordered_map<sf::Keyboard::Key, std::function<void()>> keyActions;
-    std::unordered_map<std::string, BaseComponent*> components; 
+    std::unordered_map<std::string, BaseComponent*> components;
+
+    sf::Music music;
 
     void handleMouseInput();
     void handleKeyboardInput();

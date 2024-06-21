@@ -25,6 +25,9 @@ GameController::GameController(): currentPressedKey(sf::Keyboard::Key::Unknown),
         {sf::Keyboard::Up, [this]() { components["map"]->handleKeyboardInput(sf::Keyboard::Up); }},
         {sf::Keyboard::Down, [this]() { components["map"]->handleKeyboardInput(sf::Keyboard::Down); }},
     };
+
+    music.openFromFile(AssetManager::GenerateAbsolutePathname("epicBackgroundMusic.mp3"));
+    music.setLoop(true);
 }
 
 GameController::~GameController()
@@ -63,6 +66,8 @@ void GameController::handleInput()
         switch (event)
         {
             case GameContext::GameEvents::GAME_OVER:
+                music.stop();
+
                 for (auto& [name, component] : components)
                 {
                     delete component;
@@ -91,6 +96,8 @@ void GameController::handleInput()
                 components["actionMenu"] = new ActionMenu(windowManager.getViewSize("actionMenu"));
                 components["resources"] = new ResourceBar(windowManager.getViewSize("resources"));
                 components["help"] = new HelpArea(windowManager.getViewSize("help"));
+
+                music.play();
                 break;
             
             case GameContext::GameEvents::NEXT_TURN:
