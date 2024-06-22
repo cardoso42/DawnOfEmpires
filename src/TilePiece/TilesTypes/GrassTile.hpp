@@ -7,7 +7,6 @@
 class GrassTile : public TileTypeStrategy
 {
 public:
-// TODO: pause music when window loses focus
     ResourceSource* createResourceSource() override
     {
         float amount = 200 + rand() % 50;

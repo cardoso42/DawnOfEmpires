@@ -176,11 +176,18 @@ void WindowManager::update()
             break;
 
         case sf::Event::GainedFocus:
-            focus = true;
+            if (!focus)
+            {
+                focus = true;
+            }
             break;
 
         case sf::Event::LostFocus:
-            focus = false;
+            if (focus)
+            {
+                GameContext::notifyEvent(GameContext::GameEvents::PAUSE);
+                focus = false;
+            }
             break;
 
         default:

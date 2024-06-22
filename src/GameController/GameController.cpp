@@ -7,7 +7,8 @@
 #include <sstream>
 
 GameController::GameController(): currentPressedKey(sf::Keyboard::Key::Unknown),  
-    wasMouseButtonAlreadyPressed(false), windowManager(GameContext::getWindowManager())
+    wasMouseButtonAlreadyPressed(false), windowManager(GameContext::getWindowManager()),
+    musicPlayingWhenPaused(false)
 {
     windowManager.createView("mainMenu", {0, 0}, {1, 1});
     components["mainMenu"] = new MainMenu(windowManager.getViewSize("mainMenu"));
@@ -69,84 +70,35 @@ void GameController::handleInput()
         switch (event)
         {
             case GameContext::GameEvents::GAME_OVER:
-                music.stop();
-
-                clearComponents();
-
-                windowManager.createView("winnerScreen", {0, 0}, {1, 1});
-                components["winnerScreen"] = new WinnerScreen(windowManager.getViewSize("winnerScreen"), GameContext::getWinnerPlayer());
+                handleGameOver();
                 break;
 
             case GameContext::GameEvents::GAME_STARTED:
-            {
-                clearComponents();
-
-                windowManager.createView("map", {0, 0}, {0.8, 0.9});
-                windowManager.createView("actionMenu", {0.8, 0.3}, {0.2, 0.6});
-                windowManager.createView("resources", {0, 0.9}, {1, 0.1});
-                windowManager.createView("help", {0.8, 0}, {0.2, 0.3});
-
-                components["map"] = new TileMap(GameContext::getMapSize(), windowManager.getViewSize("map") * 0.5f);
-                components["actionMenu"] = new ActionMenu(windowManager.getViewSize("actionMenu"));
-                components["resources"] = new ResourceBar(windowManager.getViewSize("resources"));
-                components["help"] = new HelpArea(windowManager.getViewSize("help"));
-
-                music.play();
+                handleGameStarted();
                 break;
-            }
+
             case GameContext::GameEvents::NEXT_TURN:
-            {
-                // Restores the last selected tile of the current player
-                auto it = components.find("map");
-                if (it == components.end())
-                    throw std::logic_error("Map component not found");
-                
-                auto map = dynamic_cast<TileMap*>(it->second);
-                map->selectTile(GameContext::getPlayer()->getLastSelectedTile());
-                windowManager.centerOnSelectedTile();
-
-                // It is possible to use this event to update the resources bar only at this moment
-                // I think it would be more efficient, but I don't know if this is a priority right now
+                handleNextTurn();
                 break;
-            }
+
             case GameContext::GameEvents::QUIT:
-            {
-                windowManager.close();
+                handleGameQuit();
                 break;
-            }
+
             case GameContext::GameEvents::MAIN_MENU:
-            {
-                clearComponents();
-
-                windowManager.createView("mainMenu", {0, 0}, {1, 1});
-                components["mainMenu"] = new MainMenu(windowManager.getViewSize("mainMenu"));
+                handleMainMenu();
                 break;
-            }
+
             case GameContext::GameEvents::PAUSE:
-            {
-                music.pause();
-
-                saveCurrentComponents();
-                windowManager.saveCurrentViews();
-
-                windowManager.createView("pauseMenu", {0, 0}, {1, 1});
-                components["pauseMenu"] = new PauseMenu(windowManager.getViewSize("pauseMenu"));
-
+                handleGamePaused();
                 break;
-            }
+
             case GameContext::GameEvents::RESUME:
-            {
-                music.play();
-
-                restoreSavedComponents();
-                windowManager.restoreSavedViews();
-
+                handleGameResumed();
                 break;
-            }
+
             default:
-            {
                 break;
-            }
         }
     }
 
@@ -236,6 +188,85 @@ void GameController::handleKeyboardInput()
     }
 
     currentPressedKey = sf::Keyboard::Key::Unknown;
+}
+
+void GameController::handleGameOver()
+{
+    music.stop();
+
+    clearComponents();
+
+    windowManager.createView("winnerScreen", {0, 0}, {1, 1});
+    components["winnerScreen"] = new WinnerScreen(
+        windowManager.getViewSize("winnerScreen"), GameContext::getWinnerPlayer());
+}
+
+void GameController::handleGameStarted()
+{
+    clearComponents();
+
+    windowManager.createView("map", {0, 0}, {0.8, 0.9});
+    windowManager.createView("actionMenu", {0.8, 0.3}, {0.2, 0.6});
+    windowManager.createView("resources", {0, 0.9}, {1, 0.1});
+    windowManager.createView("help", {0.8, 0}, {0.2, 0.3});
+
+    components["map"] = new TileMap(GameContext::getMapSize(), windowManager.getViewSize("map") * 0.5f);
+    components["actionMenu"] = new ActionMenu(windowManager.getViewSize("actionMenu"));
+    components["resources"] = new ResourceBar(windowManager.getViewSize("resources"));
+    components["help"] = new HelpArea(windowManager.getViewSize("help"));
+
+    music.play();
+}
+
+void GameController::handleNextTurn()
+{
+    // Restores the last selected tile of the current player
+    auto it = components.find("map");
+    if (it == components.end())
+        throw std::logic_error("Map component not found");
+    
+    auto map = dynamic_cast<TileMap*>(it->second);
+    map->selectTile(GameContext::getPlayer()->getLastSelectedTile());
+    windowManager.centerOnSelectedTile();
+
+    // It is possible to use this event to update the resources bar only at this moment
+    // I think it would be more efficient, but I don't know if this is a priority right now
+}
+
+void GameController::handleGameQuit()
+{
+    windowManager.close();
+}
+
+void GameController::handleMainMenu()
+{
+    clearComponents();
+
+    windowManager.createView("mainMenu", {0, 0}, {1, 1});
+    components["mainMenu"] = new MainMenu(windowManager.getViewSize("mainMenu"));
+}
+
+void GameController::handleGamePaused()
+{
+    musicPlayingWhenPaused = music.getStatus() == sf::Music::Playing;
+    music.pause();
+
+    saveCurrentComponents();
+    windowManager.saveCurrentViews();
+
+    windowManager.createView("pauseMenu", {0, 0}, {1, 1});
+    components["pauseMenu"] = new PauseMenu(windowManager.getViewSize("pauseMenu"));
+}
+
+void GameController::handleGameResumed()
+{
+    if (musicPlayingWhenPaused)
+    {
+        music.play();
+    }
+
+    restoreSavedComponents();
+    windowManager.restoreSavedViews();
 }
 
 sf::RectangleShape GameController::drawDebugSquare(sf::Sprite sprite, sf::Color backgroundColor)
