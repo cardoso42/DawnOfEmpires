@@ -9,6 +9,8 @@ GenericMenu::GenericMenu(sf::Vector2f windowSize, sf::Color bgColor)
     frame.setFillColor(bgColor);
     frame.setOrigin(windowSize * 0.5f);
     frame.setPosition(windowSize * 0.5f);
+
+    GameContext::clearAlphanumericKeyActions();
 }
 
 GenericMenu::~GenericMenu()

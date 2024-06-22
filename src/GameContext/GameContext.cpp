@@ -126,7 +126,7 @@ void GameContext::clearAlphanumericKeyActions()
 {
     for (auto it = sInstance->keyActions.begin(); it != sInstance->keyActions.end();)
     {
-        if (it->first >= sf::Keyboard::A && it->first <= sf::Keyboard::Z)
+        if (it->first >= sf::Keyboard::A && it->first <= sf::Keyboard::Num9)
         {
             it = sInstance->keyActions.erase(it);
         }

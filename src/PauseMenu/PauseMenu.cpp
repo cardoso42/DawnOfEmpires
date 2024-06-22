@@ -11,10 +11,14 @@ PauseMenu::PauseMenu(sf::Vector2f windowSize) : GenericMenu(windowSize)
     musicVolume = GameContext::getMusicVolume();
     sfxVolume = GameContext::getSfxVolume();
 
-    addButton("Resume", resumeBtnCb, {});
+    addButton("(R)esume", resumeBtnCb, {});
+    GameContext::addKeyAction(sf::Keyboard::R, resumeBtnCb);
+    
     addIncDecControl(new IncrementDecrementControl({windowSize.x * 0.8f, windowSize.y * 0.05f}, "Music volume", &musicVolume, 0, 100));
     addIncDecControl(new IncrementDecrementControl({windowSize.x * 0.8f, windowSize.y * 0.05f}, "SFX volume", &sfxVolume, 0, 100));
-    addButton("Exit", exitBtnCb, {});
+
+    addButton("(E)xit", exitBtnCb, {});
+    GameContext::addKeyAction(sf::Keyboard::E, exitBtnCb);
 
     organizeMenu();
 }

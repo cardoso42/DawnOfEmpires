@@ -28,11 +28,35 @@ void ActionMenu::update()
     {
         clearMenu();
 
-        addButton("Buy 500 wood", buyResources, {new WoodResource(500)});
-        addButton("Buy 100 mineral", buyResources, {new MineralResource(100)});
-        addButton("Buy 30 humans", buyResources, {new HumanResource(30)});
-        addButton("Buy 50 food", buyResources, {new FoodResource(50)});
-        addButton("Go back", buyResources, {new NullResource()});
+        addButton("Buy 500 (w)ood", buyResources, {new WoodResource(500)});
+        GameContext::addKeyAction(
+            sf::Keyboard::W, 
+            [](std::vector<void*> p) { buyResources({new WoodResource(500)}); }
+        );
+
+        addButton("Buy 100 (m)ineral", buyResources, {new MineralResource(100)});
+        GameContext::addKeyAction(
+            sf::Keyboard::M,
+            [](std::vector<void*> p) { buyResources({new MineralResource(100)}); }
+        );
+
+        addButton("Buy 30 (h)umans", buyResources, {new HumanResource(30)});
+        GameContext::addKeyAction(
+            sf::Keyboard::H,
+            [](std::vector<void*> p) { buyResources({new HumanResource(30)}); }
+        );
+
+        addButton("Buy 50 (f)ood", buyResources, {new FoodResource(50)});
+        GameContext::addKeyAction(
+            sf::Keyboard::F,
+            [](std::vector<void*> p) { buyResources({new FoodResource(50)}); }
+        );
+
+        addButton("Go (b)ack", buyResources, {new NullResource()});
+        GameContext::addKeyAction(
+            sf::Keyboard::B,
+            [](std::vector<void*> p) { buyResources({new NullResource()}); }
+        );
     
         organizeMenu();
         return;
