@@ -27,7 +27,7 @@ public:
 
     AnimatedAsset* createEmptyDecoration() override
     {
-        return new AnimatedAsset("river-pollution.png");
+        return new AnimatedAsset("polluted.png");
     }
 
     std::vector<Resource> getImprovementCost() override
