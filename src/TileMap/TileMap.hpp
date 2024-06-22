@@ -30,6 +30,7 @@ class TileMap : public BaseComponent
 public:
     enum TileDirections { UP, DOWN, UP_RIGHT, DOWN_LEFT, UP_LEFT, DOWN_RIGHT };
     TileMap(int mapRadius, sf::Vector2f center);
+    ~TileMap();
 
     // Override
     void update() override;

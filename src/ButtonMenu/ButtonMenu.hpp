@@ -2,8 +2,7 @@
 #define BUTTONMENU_HPP
 
 #include <SFML/Graphics.hpp>
-
-#define CallbackFunction std::function<void(std::vector<void*>)>
+#include <GameContext.hpp>
 
 class ButtonMenu : public sf::Drawable
 {

@@ -11,6 +11,16 @@ TileMap::TileMap(int mapRadius, sf::Vector2f center) : lastVerticalDirectionKey(
     {
         tile.setNeighbors(getNeighbors(tile.getQ(), tile.getR()));
     }
+
+    GameContext::addKeyAction(sf::Keyboard::Left, [this](std::vector<void*>) { handleKeyboardInput(sf::Keyboard::Left); });
+    GameContext::addKeyAction(sf::Keyboard::Right, [this](std::vector<void*>) { handleKeyboardInput(sf::Keyboard::Right); });
+    GameContext::addKeyAction(sf::Keyboard::Up, [this](std::vector<void*>) { handleKeyboardInput(sf::Keyboard::Up); });
+    GameContext::addKeyAction(sf::Keyboard::Down, [this](std::vector<void*>) { handleKeyboardInput(sf::Keyboard::Down); });
+}
+
+TileMap::~TileMap()
+{
+    GameContext::clearDirectionalKeyActions();
 }
 
 void TileMap::generateHexMap(sf::Vector2f center, int mapRadius) 

@@ -5,6 +5,10 @@
 #include "TilePiece.hpp"
 #include "Empire.hpp"
 
+#include <unordered_map>
+
+#define CallbackFunction std::function<void(std::vector<void*>)>
+
 class GameContext
 {
 public:
@@ -15,6 +19,11 @@ public:
     static void startGame();
     static void nextPlayer();
     static void playSound(sf::SoundBuffer &buffer);
+    static void addKeyAction(sf::Keyboard::Key key, CallbackFunction action);
+    static void removeKeyAction(sf::Keyboard::Key key);
+    static void clearKeyActions();
+    static void clearAlphanumericKeyActions();
+    static void clearDirectionalKeyActions();
     static void notifyEvent(GameEvents event);
     
     // Getters
@@ -28,6 +37,7 @@ public:
     static int getPlayersNumber();
     static int getMaxPlayersNumber();
     static int getMaxMapSize();
+    static std::unordered_map<sf::Keyboard::Key, CallbackFunction> getKeyActions();
     
     // Setters
     static void setNumPlayers(int numPlayers);
@@ -45,6 +55,8 @@ private:
     int mapSize;
     int playersNumber;
     static const std::vector<sf::Color> colors;
+
+    std::unordered_map<sf::Keyboard::Key, CallbackFunction> keyActions;
 
     static GameContext* sInstance;
 

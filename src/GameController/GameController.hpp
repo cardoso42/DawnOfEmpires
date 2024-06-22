@@ -36,7 +36,6 @@ private:
     sf::Keyboard::Key currentPressedKey;
 
     std::unordered_map<sf::Keyboard::Key, std::function<void()>> directionalActions;
-    std::unordered_map<sf::Keyboard::Key, std::function<void()>> keyActions;
     std::unordered_map<std::string, BaseComponent*> components;
     std::unordered_map<std::string, BaseComponent*> savedComponents;
     bool musicPlayingWhenPaused;
@@ -46,9 +45,9 @@ private:
     void clearComponents();
     void saveCurrentComponents();
     void restoreSavedComponents();
+
     void handleMouseInput();
     void handleKeyboardInput();
-
     void handleGameOver();
     void handleGameStarted();
     void handleNextTurn();
@@ -56,6 +55,8 @@ private:
     void handleMainMenu();
     void handleGamePaused();
     void handleGameResumed();
+
+    void addEscapeKeybinding();
 
     sf::RectangleShape drawDebugSquare(sf::Sprite sprite, sf::Color backgroundColor);
 };

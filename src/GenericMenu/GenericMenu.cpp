@@ -97,6 +97,8 @@ void GenericMenu::clearButtons()
     }
     buttons.clear();
 
+    GameContext::clearAlphanumericKeyActions();
+
     currentColumn = 0;
     buttons.push_back(std::vector<ButtonMenu>());
 }

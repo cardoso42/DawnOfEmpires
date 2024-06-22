@@ -13,22 +13,8 @@ GameController::GameController(): currentPressedKey(sf::Keyboard::Key::Unknown),
     windowManager.createView("mainMenu", {0, 0}, {1, 1});
     components["mainMenu"] = new MainMenu(windowManager.getViewSize("mainMenu"));
 
-    // TODO: update keyactions depending on the current context
-    keyActions = {
-        {sf::Keyboard::S, []() { ActionMenu::selectInitialTileBtnCb({}); }},
-        {sf::Keyboard::I, []() { ActionMenu::improveTileBtnCb({}); }},
-        {sf::Keyboard::A, []() { ActionMenu::annexTileBtnCb({}); }},
-        {sf::Keyboard::C, []() { ActionMenu::constructCultureTileBtnCb({}); }},
-        {sf::Keyboard::M, []() { ActionMenu::constructMilitaryTileBtnCb({}); }},
-        {sf::Keyboard::E, []() { ActionMenu::constructEconomyTileBtnCb({}); }},
-        {sf::Keyboard::G, []() { ActionMenu::spendGoldCoinBtnCb({}); }},
-        {sf::Keyboard::N, []() { ActionMenu::nextTurnBtnCb({}); }},
-        {sf::Keyboard::Left, [this]() { components["map"]->handleKeyboardInput(sf::Keyboard::Left); }},
-        {sf::Keyboard::Right, [this]() { components["map"]->handleKeyboardInput(sf::Keyboard::Right); }},
-        {sf::Keyboard::Up, [this]() { components["map"]->handleKeyboardInput(sf::Keyboard::Up); }},
-        {sf::Keyboard::Down, [this]() { components["map"]->handleKeyboardInput(sf::Keyboard::Down); }},
-        {sf::Keyboard::Escape, []() { GameContext::notifyEvent(GameContext::GameEvents::PAUSE); }},
-    };
+    // TODO: adicionar controle de volume no menu
+    // TODO: try to build for windows
 
     music.openFromFile(AssetManager::GenerateAbsolutePathname("backgroundMusic.mp3"));
     music.setLoop(true);
@@ -173,13 +159,14 @@ void GameController::handleMouseInput()
 
 void GameController::handleKeyboardInput()
 {
+    auto keyActions = GameContext::getKeyActions();
     for (const auto& [key, action] : keyActions) 
     {
         if (sf::Keyboard::isKeyPressed(key)) 
         {
             if (currentPressedKey == sf::Keyboard::Key::Unknown)
             {
-                action();
+                action({});
                 currentPressedKey = key;
             }
 
@@ -204,6 +191,8 @@ void GameController::handleGameOver()
 void GameController::handleGameStarted()
 {
     clearComponents();
+
+    addEscapeKeybinding();
 
     windowManager.createView("map", {0, 0}, {0.8, 0.9});
     windowManager.createView("actionMenu", {0.8, 0.3}, {0.2, 0.6});
@@ -248,6 +237,11 @@ void GameController::handleMainMenu()
 
 void GameController::handleGamePaused()
 {
+    GameContext::addKeyAction(
+        sf::Keyboard::Key::Escape, 
+        [](std::vector<void*>) { GameContext::notifyEvent(GameContext::GameEvents::RESUME); }
+    );
+
     musicPlayingWhenPaused = music.getStatus() == sf::Music::Playing;
     music.pause();
 
@@ -267,6 +261,16 @@ void GameController::handleGameResumed()
 
     restoreSavedComponents();
     windowManager.restoreSavedViews();
+
+    addEscapeKeybinding();
+}
+
+void GameController::addEscapeKeybinding()
+{
+    GameContext::addKeyAction(
+        sf::Keyboard::Key::Escape, 
+        [](std::vector<void*>) { GameContext::notifyEvent(GameContext::GameEvents::PAUSE); }
+    );
 }
 
 sf::RectangleShape GameController::drawDebugSquare(sf::Sprite sprite, sf::Color backgroundColor)

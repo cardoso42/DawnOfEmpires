@@ -51,6 +51,7 @@ void ActionMenu::update()
     if (empire->getTerritory().size() <= 0)
     {
         addButton("(S)elect initial tile", selectInitialTileBtnCb, {});
+        GameContext::addKeyAction(sf::Keyboard::S, selectInitialTileBtnCb);
     }
 
     if (piece != nullptr)
@@ -58,35 +59,44 @@ void ActionMenu::update()
         if (piece->isOwnedBy(empire->getId()) && piece->isImprovable() && empire->hasResources(piece->getImprovementCost())) 
         {
             addButton("(I)mprove tile", improveTileBtnCb, {});
+            GameContext::addKeyAction(sf::Keyboard::I, improveTileBtnCb);
         }
 
         if (!piece->isOwnedBySomeone() && empire->isTileNeighbor(piece) && empire->hasResources({HumanResource(GameContext::getTileHrCost())}))
         {
             addButton("(A)nnex tile", annexTileBtnCb, {});
+            GameContext::addKeyAction(sf::Keyboard::A, annexTileBtnCb);
         }
 
         if (piece->isOwnedBy(empire->getId()) && piece->isConstructable() && empire->hasResources(piece->getConstructionCost()))
         {
             addButton("Construct in tile\n(M)ilitary", constructMilitaryTileBtnCb, {});
+            GameContext::addKeyAction(sf::Keyboard::M, constructMilitaryTileBtnCb);
             addButton("Construct in tile\n(C)ulture", constructCultureTileBtnCb, {});
+            GameContext::addKeyAction(sf::Keyboard::C, constructCultureTileBtnCb);
             addButton("Construct in tile\n(E)conomy", constructEconomyTileBtnCb, {});
+            GameContext::addKeyAction(sf::Keyboard::E, constructEconomyTileBtnCb);
         }
 
         if (empire->hasResources({GoldResource(1)}))
         {
             addButton("Spend (G)old coins", spendGoldCoinBtnCb, {});
+            GameContext::addKeyAction(sf::Keyboard::G, spendGoldCoinBtnCb);
         }
     }
 
     addButton("(N)ext turn", nextTurnBtnCb, {});
+    GameContext::addKeyAction(sf::Keyboard::N, nextTurnBtnCb);
 #ifdef DEBUG
-    addButton("Advance 100 turns", [](std::vector<void*> parameters) {
+    CallbackFunction cb = [](std::vector<void*> parameters) {
         for (int i = 0; i < 100; i++)
         {
             GameContext::nextPlayer();
             GameContext::getPlayer()->update(sf::seconds(5));
         }
-    }, {});
+    };
+    addButton("Advance (1)00 turns", cb, {});
+    GameContext::addKeyAction(sf::Keyboard::Num1, cb);
 #endif
 
     organizeButtons();

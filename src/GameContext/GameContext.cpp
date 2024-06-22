@@ -77,6 +77,51 @@ void GameContext::playSound(sf::SoundBuffer &buffer)
     sInstance->soundEffect.play();
 }
 
+void GameContext::addKeyAction(sf::Keyboard::Key key, CallbackFunction action)
+{
+    sInstance->keyActions[key] = action;
+}
+
+void GameContext::removeKeyAction(sf::Keyboard::Key key)
+{
+    sInstance->keyActions.erase(key);
+}
+
+void GameContext::clearKeyActions()
+{
+    sInstance->keyActions.clear();
+}
+
+void GameContext::clearAlphanumericKeyActions()
+{
+    for (auto it = sInstance->keyActions.begin(); it != sInstance->keyActions.end();)
+    {
+        if (it->first >= sf::Keyboard::A && it->first <= sf::Keyboard::Z)
+        {
+            it = sInstance->keyActions.erase(it);
+        }
+        else
+        {
+            ++it;
+        }
+    }
+}
+
+void GameContext::clearDirectionalKeyActions()
+{
+    for (auto it = sInstance->keyActions.begin(); it != sInstance->keyActions.end();)
+    {
+        if (it->first >= sf::Keyboard::Up && it->first <= sf::Keyboard::Right)
+        {
+            it = sInstance->keyActions.erase(it);
+        }
+        else
+        {
+            ++it;
+        }
+    }
+}
+
 void GameContext::notifyEvent(GameEvents event)
 {
     sInstance->events.push_back(event);
@@ -162,6 +207,11 @@ int GameContext::getPlayersNumber() { return sInstance->playersNumber; }
 int GameContext::getMaxPlayersNumber() { return colors.size(); }
 
 int GameContext::getMaxMapSize() { return 50; }
+
+std::unordered_map<sf::Keyboard::Key, CallbackFunction> GameContext::getKeyActions()
+{
+    return sInstance->keyActions;
+}
 
 void GameContext::verifyIfPlayerWon()
 {
