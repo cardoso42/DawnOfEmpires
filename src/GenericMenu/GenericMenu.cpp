@@ -40,6 +40,19 @@ void GenericMenu::startNewColumn()
     buttons.push_back(std::vector<ButtonMenu>());
 }
 
+void GenericMenu::setButtonTransparency(float alpha)
+{
+    for (auto& btnColumn : buttons)
+    {
+        for (auto& btn : btnColumn)
+        {
+            auto currentColor = btn.getColor();
+            currentColor.a = alpha;
+            btn.setColor(currentColor);
+        }
+    }
+}
+
 void GenericMenu::click(float x, float y)
 {
     for (auto& btnColumn : buttons)

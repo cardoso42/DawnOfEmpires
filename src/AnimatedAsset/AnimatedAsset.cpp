@@ -34,15 +34,8 @@ void AnimatedAsset::fitTo(sf::Vector2i size, float proportion)
 
     sf::Vector2f maxSizeTexture = {size.x * proportion, size.y * proportion};
     
-    if (getTextureRect().width > maxSizeTexture.x)
-    {
-        scale = maxSizeTexture.x / getTextureRect().width;
-    }
-
-    if (getTextureRect().height > maxSizeTexture.y)
-    {
-        scale = std::min(scale, maxSizeTexture.y / getTextureRect().height);
-    }
+    scale = maxSizeTexture.x / getTextureRect().width;
+    scale = std::min(scale, maxSizeTexture.y / getTextureRect().height);
 
     setScale({scale, scale});
 }

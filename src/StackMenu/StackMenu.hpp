@@ -18,6 +18,8 @@ public:
     void handleKeyboardInput(sf::Keyboard::Key key) override;
     void click(float x, float y) override;
 
+    GenericMenu* getCurrentMenu();
+
 private:
     std::vector<GenericMenu*> menus;
 };

@@ -8,7 +8,7 @@
 class GenericMenu : public BaseComponent
 {
 public:
-    GenericMenu(sf::Vector2f windowSize, sf::Color bgColor = sf::Color::White);
+    GenericMenu(sf::Vector2f windowSize, sf::Color bgColor = sf::Color::Transparent);
 
     void click(float x, float y) override;
     void animate(sf::Time deltaTime) override;
@@ -17,6 +17,7 @@ public:
     void handleKeyboardInput(sf::Keyboard::Key key) override;
     void setButtonSize(sf::Vector2f size);
     void startNewColumn();
+    void setButtonTransparency(float alpha);
     virtual std::string getName() { return "GenericMenu"; };
 
 protected:

@@ -8,7 +8,7 @@
 class ButtonMenu : public sf::Drawable
 {
 public:
-    ButtonMenu(std::string text, sf::Vector2f size);
+    ButtonMenu(std::string text, sf::Vector2f size, bool visible = true);
 
     // Overrides
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -18,10 +18,12 @@ public:
     void setOutlineThickness(float thickness);
     void setPosition(sf::Vector2f pos);
     void setScale(sf::Vector2f scale);
+    void setColor(sf::Color color);
 
     sf::FloatRect getGlobalBounds();
     sf::Vector2f getSize();
     std::string getText();
+    sf::Color getColor();
 
     void select();
     void unselect();
@@ -34,6 +36,7 @@ private:
     std::vector<void*> cbParameters;
     bool selectable;
     bool isSelected;
+    bool isVisible;
     
 };
 

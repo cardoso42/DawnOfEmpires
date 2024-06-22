@@ -1,9 +1,9 @@
 #include "ButtonMenu.hpp"
 #include "AssetManager.hpp"
 
-ButtonMenu::ButtonMenu(std::string text, sf::Vector2f size) : frame(size),
+ButtonMenu::ButtonMenu(std::string text, sf::Vector2f size, bool visible) : 
     btnText(text, AssetManager::GetFont("anonymous.ttf"), 18), selectable(true),
-    btnCb(nullptr), cbParameters({}), isSelected(false)
+    btnCb(nullptr), cbParameters({}), isSelected(false), frame(size), isVisible(visible)
 {
     frame.setOutlineColor(sf::Color::Black);
     frame.setOutlineThickness(5);
@@ -26,6 +26,11 @@ ButtonMenu::ButtonMenu(std::string text, sf::Vector2f size) : frame(size),
     });
     btnText.setFillColor(sf::Color::Black);
     btnText.setPosition(frame.getPosition());
+
+    if (!isVisible)
+    {
+        frame.setFillColor(sf::Color(0, 0, 0, 0));
+    }
 }
 
 void ButtonMenu::setCallback(CallbackFunction cb, std::vector<void *> parameters)
@@ -48,6 +53,16 @@ void ButtonMenu::setScale(sf::Vector2f scale)
 {
     frame.setScale(scale);
     btnText.setScale(scale);
+}
+
+void ButtonMenu::setColor(sf::Color color)
+{
+    if (!isVisible)
+    {
+        color.a = 0;
+    }
+    
+    frame.setFillColor(color);
 }
 
 void ButtonMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -125,4 +140,9 @@ sf::Vector2f ButtonMenu::getSize() { return frame.getSize(); }
 std::string ButtonMenu::getText()
 {
     return btnText.getString();
+}
+
+sf::Color ButtonMenu::getColor()
+{
+    return frame.getFillColor();
 }

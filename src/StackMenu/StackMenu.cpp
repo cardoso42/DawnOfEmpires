@@ -40,3 +40,8 @@ void StackMenu::click(float x, float y)
 {
     menus.back()->click(x, y);
 }
+
+GenericMenu *StackMenu::getCurrentMenu()
+{
+    return menus.back();
+}

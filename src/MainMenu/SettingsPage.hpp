@@ -25,7 +25,7 @@ public:
         setButtonSize({windowSize.x * 0.2f, windowSize.y * 0.1f});
         addButton("Jogadores: " + std::to_string(GameContext::getPlayersNumber()), nullptr, {});
         addButton("Tamanho do mapa: " + std::to_string(GameContext::getMapSize()), nullptr, {});
-        addButton(ButtonMenu("", buttons[0][2].getSize())); // empty button to fill the column
+        addButton(ButtonMenu("", buttons[0][2].getSize(), false)); // empty button to fill the column
         startNewColumn();
 
         for (auto& button : buttons[1])
@@ -58,8 +58,6 @@ public:
 
 private:
     sf::Vector2f windowSize;
-
-    std::unordered_map<std::string, int> vars;
 
     static void subPlayers(std::vector<void *> parameters)
     {

@@ -6,13 +6,13 @@
 
 class StartingPage : public GenericMenu
 {
-// TODO: add a background image
 // TODO: save/load mechanisms
 
 public:
     StartingPage(sf::Vector2f windowSize) : GenericMenu(windowSize)
     {
         const sf::Vector2f buttonSize(windowSize.x * 0.3f, windowSize.y * 0.1f);
+
         setButtonSize(buttonSize);
 
         addButton("Start", MainMenu::startGameBtnCb, {});
