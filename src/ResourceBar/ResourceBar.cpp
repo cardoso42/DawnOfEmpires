@@ -140,7 +140,7 @@ void ResourceBar::ResourceBox::setPosition(sf::Vector2f pos)
         throw std::logic_error("ResourceBar: o-oh! too crowded in here");
     }
 
-    float iconX = pos.x - frameWidth * 0.5f + iconWidth * 0.5f + interval;
+    float iconX = pos.x - frameWidth * 0.5f + iconWidth * 0.5f + interval / 2;
     iconFrame.setPosition(iconX, pos.y);
     icon.setPosition(iconX, pos.y);
 

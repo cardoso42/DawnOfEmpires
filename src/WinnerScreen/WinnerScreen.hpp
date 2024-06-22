@@ -17,6 +17,8 @@ public:
     void handleKeyboardInput(sf::Keyboard::Key key) override;
 
 private:
+    sf::Sprite background;
+    sf::RectangleShape overlay;
     sf::Text winnerText;
     ButtonMenu goToMenuButton;
     ButtonMenu quitButton;

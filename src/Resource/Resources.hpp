@@ -110,13 +110,13 @@ public:
 class FoodResource : public Resource
 {
 public:
-    FoodResource(float amount) : Resource("Food", amount, "meat.png") {}
+    FoodResource(float amount) : Resource("Food", amount, "food.png") {}
 };
 
 class HumanResource : public Resource
 {
 public:
-    HumanResource(float amount) : Resource("Human", amount, "human.png") {}
+    HumanResource(float amount) : Resource("Human", amount, "farmer.png") {}
 };
 
 class NullResource : public Resource
