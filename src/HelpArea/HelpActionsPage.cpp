@@ -65,7 +65,7 @@ void HelpActionsPage::addPlayerText()
     currentPlayerColor = sf::CircleShape(radius);
     currentPlayerColor.setFillColor(currentEmpire->getColor());
     currentPlayerColor.setOrigin({radius * 0.5f, radius * 0.5f});
-    currentPlayerColor.setPosition(size.x * 0.55f, size.y + 17);
+    currentPlayerColor.setPosition(size.x * 0.55f, size.y * 0.055f);
 }
 
 void HelpActionsPage::addAnnexationTileText()

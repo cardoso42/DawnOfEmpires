@@ -30,7 +30,6 @@ GameController::GameController(): currentPressedKey(sf::Keyboard::Key::Unknown),
     music.setLoop(true);
 
     // TODO: add menu pressing ESC (control volume, etc)
-    // TODO: find out why the color of the player disappeared from the help area
     // TODO: check if culture bonus is really working
     // TODO: lower even more the amount in each resource source
 }
