@@ -14,8 +14,7 @@ namespace Callbacks
 
     void exitGameBtnCb(std::vector<void *> parameters)
     {
-        // TODO: fix segfault
-        GameContext::exitGame();
+        GameContext::notifyEvent(GameContext::GameEvents::QUIT);
     }
 }
 

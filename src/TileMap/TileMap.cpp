@@ -36,9 +36,7 @@ void TileMap::generateHexMap(sf::Vector2f center, int mapRadius)
 }
 
 void TileMap::update() 
-{
-    // TODO: add a screen announcing the winner
-    
+{    
     for (auto& tile : tiles)
     {
         if (tile.isConstructable() || tile.isImprovable())

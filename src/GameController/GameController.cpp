@@ -1,5 +1,6 @@
 #include "GameController.hpp"
 #include "ContextMenu.hpp"
+#include "WinnerScreen.hpp"
 
 #include <iostream>
 #include <sstream>
@@ -79,8 +80,8 @@ void GameController::handleInput()
                 }
                 components.clear();
 
-                windowManager.createView("mainMenu", {0, 0}, {1, 1});
-                components["mainMenu"] = new MainMenu(windowManager.getViewSize("mainMenu"));
+                windowManager.createView("winnerScreen", {0, 0}, {1, 1});
+                components["winnerScreen"] = new WinnerScreen(windowManager.getViewSize("winnerScreen"), *GameContext::getPlayer());
                 break;
 
             case GameContext::GameEvents::GAME_STARTED:
@@ -123,6 +124,19 @@ void GameController::handleInput()
             case GameContext::GameEvents::QUIT:
             {
                 windowManager.close();
+                break;
+            }
+            case GameContext::GameEvents::MAIN_MENU:
+            {
+                for (auto& [name, component] : components)
+                {
+                    delete component;
+                    windowManager.removeView(name);
+                }
+                components.clear();
+
+                windowManager.createView("mainMenu", {0, 0}, {1, 1});
+                components["mainMenu"] = new MainMenu(windowManager.getViewSize("mainMenu"));
                 break;
             }
             default:

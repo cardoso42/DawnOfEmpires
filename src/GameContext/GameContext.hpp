@@ -9,11 +9,10 @@ class GameContext
 {
 public:
     // GameEvents enum
-    enum GameEvents { GAME_STARTED, NEXT_TURN, GAME_OVER, QUIT };
+    enum GameEvents { GAME_STARTED, NEXT_TURN, GAME_OVER, MAIN_MENU, QUIT };
 
     GameContext(int numPlayers, int mapSize);
     static void startGame();
-    static void exitGame();
     static void nextPlayer();
     static void playSound(sf::SoundBuffer &buffer);
     static void notifyEvent(GameEvents event);

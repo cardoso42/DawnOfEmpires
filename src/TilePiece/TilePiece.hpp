@@ -39,7 +39,6 @@ public:
     bool isImprovable();
     bool isConstruction();
     bool isConstructable();
-    bool isExtractable();
 
     // getters
     std::string getTypeName();
