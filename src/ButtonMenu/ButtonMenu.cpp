@@ -81,30 +81,6 @@ void ButtonMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const
 #endif
 }
 
-void ButtonMenu::click(float x, float y)
-{
-    if (isSelected)
-    {
-        unselect();
-    }
-    else
-    {
-        select();
-    }
-}
-
-void ButtonMenu::animate(sf::Time deltaTime)
-{
-}
-
-void ButtonMenu::handleKeyboardInput(sf::Keyboard::Key key)
-{
-}
-
-void ButtonMenu::update()
-{
-}
-
 void ButtonMenu::select()
 {
     if (!selectable || isSelected)
