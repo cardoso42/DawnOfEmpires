@@ -29,7 +29,7 @@ public:
     
     bool isOver();
 private:
-    WindowManager windowManager;
+    WindowManager* windowManager;
 
     bool wasMouseButtonAlreadyPressed;
 

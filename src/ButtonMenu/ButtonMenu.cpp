@@ -41,6 +41,10 @@ void ButtonMenu::setCallback(CallbackFunction cb, std::vector<void *> parameters
 
 void ButtonMenu::setSelectable(bool selectable) { this->selectable = selectable; }
 
+void ButtonMenu::update()
+{
+}
+
 void ButtonMenu::setOutlineThickness(float thickness) { frame.setOutlineThickness(thickness); }
 
 void ButtonMenu::setPosition(sf::Vector2f pos)
@@ -81,7 +85,7 @@ void ButtonMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const
 #endif
 }
 
-void ButtonMenu::select()
+void ButtonMenu::select(float x, float y)
 {
     if (!selectable || isSelected)
     {

@@ -9,7 +9,8 @@ const std::vector<sf::Color> GameContext::colors ={
 };
 
 GameContext::GameContext(int numPlayers, int mapSize) : tile(nullptr), mapSize(mapSize),
-    windowManager("Dawn of Empires"), currentPlayer(0), playersNumber(numPlayers)
+    windowManager("Dawn of Empires"), currentPlayer(0), playersNumber(numPlayers),
+    musicVolume(100), sfxVolume(100)
 {
     assert(sInstance == nullptr);
     sInstance = this;
@@ -30,6 +31,17 @@ void GameContext::setNumPlayers(int numPlayers)
 void GameContext::setTile(TilePiece *newTile) { sInstance->tile = newTile; }
 
 void GameContext::setMapSize(int size) { sInstance->mapSize = size; }
+
+void GameContext::setMusicVolume(int volume)
+{
+    sInstance->musicVolume = volume;
+}
+
+void GameContext::setSfxVolume(int volume)
+{
+    sInstance->sfxVolume = volume;
+    sInstance->soundEffect.setVolume(volume);
+}
 
 void GameContext::setPlayers(int playersNumber)
 {
@@ -200,13 +212,23 @@ std::vector<GameContext::GameEvents> GameContext::getEvents()
 
 int GameContext::getMapSize() { return sInstance->mapSize; }
 
-WindowManager &GameContext::getWindowManager() { return sInstance->windowManager; }
+WindowManager *GameContext::getWindowManager() { return &sInstance->windowManager; }
 
 int GameContext::getPlayersNumber() { return sInstance->playersNumber; }
 
 int GameContext::getMaxPlayersNumber() { return colors.size(); }
 
 int GameContext::getMaxMapSize() { return 50; }
+
+int GameContext::getMusicVolume()
+{
+    return sInstance->musicVolume;
+}
+
+int GameContext::getSfxVolume()
+{
+    return sInstance->sfxVolume;
+}
 
 std::unordered_map<sf::Keyboard::Key, CallbackFunction> GameContext::getKeyActions()
 {

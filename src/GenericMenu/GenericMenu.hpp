@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <ButtonMenu.hpp>
 #include <BaseComponent.hpp>
+#include <IncrementDecrementControl.hpp>
 
 class GenericMenu : public BaseComponent
 {
@@ -21,17 +22,18 @@ public:
     virtual std::string getName() { return "GenericMenu"; };
 
 protected:
-    std::vector<std::vector<ButtonMenu>> buttons;
+    std::vector<std::vector<MenuElement*>> buttons;
     sf::RectangleShape frame;
     sf::Vector2f buttonSize;
     int currentColumn;
 
-    void addButton(ButtonMenu button);
+    void addButton(ButtonMenu* button);
     void addButton(std::string msg, CallbackFunction callback, std::vector<void*> parameters);
     void addButton(std::string msg, sf::Vector2f size, CallbackFunction callback, std::vector<void*> parameters);
-    void clearButtons();
-    void organizeButtons();
-    void organizeColumn(std::vector<ButtonMenu>& column, float x);
+    void addIncDecControl(IncrementDecrementControl* control);
+    void clearMenu();
+    void organizeMenu();
+    void organizeColumn(std::vector<MenuElement*>& column, float x);
 };
 
 #endif // GENERICMENU_HPP

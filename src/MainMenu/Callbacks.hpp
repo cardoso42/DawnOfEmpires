@@ -8,7 +8,7 @@ namespace Callbacks
 {
     void settingsBtnCb(std::vector<void *> parameters)
     {
-        auto size = static_cast<sf::Vector2f>(GameContext::getWindowManager().getSize());
+        auto size = GameContext::getWindowManager()->getViewSize("mainMenu");
         MainMenu::addSubMenu(new SettingsPage(size));
     }
 

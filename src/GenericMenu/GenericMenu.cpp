@@ -4,7 +4,7 @@
 GenericMenu::GenericMenu(sf::Vector2f windowSize, sf::Color bgColor) 
     : frame(windowSize), currentColumn(0), buttonSize({100, 10})
 {
-    buttons.push_back(std::vector<ButtonMenu>());
+    buttons.push_back(std::vector<MenuElement*>());
 
     frame.setFillColor(bgColor);
     frame.setOrigin(windowSize * 0.5f);
@@ -19,13 +19,20 @@ void GenericMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
         for (auto btn : btnColumn)
         {
-            target.draw(btn);
+            target.draw(*btn);
         }
     }
 }
 
 void GenericMenu::update()
 {
+    for (auto& btnColumn : buttons)
+    {
+        for (auto& btn : btnColumn)
+        {
+            btn->update();
+        }
+    }   
 }
 
 void GenericMenu::handleKeyboardInput(sf::Keyboard::Key key)
@@ -37,7 +44,7 @@ void GenericMenu::setButtonSize(sf::Vector2f size) { buttonSize = size; }
 void GenericMenu::startNewColumn() 
 { 
     currentColumn++; 
-    buttons.push_back(std::vector<ButtonMenu>());
+    buttons.push_back(std::vector<MenuElement*>());
 }
 
 void GenericMenu::setButtonTransparency(float alpha)
@@ -46,9 +53,9 @@ void GenericMenu::setButtonTransparency(float alpha)
     {
         for (auto& btn : btnColumn)
         {
-            auto currentColor = btn.getColor();
+            auto currentColor = btn->getColor();
             currentColor.a = alpha;
-            btn.setColor(currentColor);
+            btn->setColor(currentColor);
         }
     }
 }
@@ -57,12 +64,12 @@ void GenericMenu::click(float x, float y)
 {
     for (auto& btnColumn : buttons)
     {
-        for (auto& btn : btnColumn)
+        for (auto& element : btnColumn)
         {
-            btn.unselect();
-            if (btn.getGlobalBounds().contains({x, y}))
+            element->unselect();
+            if (element->getGlobalBounds().contains({x, y}))
             {
-                btn.select();
+                element->select(x, y);
                 return;
             }
         }
@@ -71,7 +78,7 @@ void GenericMenu::click(float x, float y)
 
 void GenericMenu::animate(sf::Time deltaTime) { }
 
-void GenericMenu::addButton(ButtonMenu button)
+void GenericMenu::addButton(ButtonMenu* button)
 {
     buttons[currentColumn].push_back(button);
 }
@@ -84,12 +91,17 @@ void GenericMenu::addButton(std::string msg, CallbackFunction callback, std::vec
 void GenericMenu::addButton(
     std::string msg, sf::Vector2f size, CallbackFunction callback, std::vector<void *> parameters)
 {
-    auto button = ButtonMenu(msg, size);
-    button.setCallback(callback, parameters);
+    auto button = new ButtonMenu(msg, size);
+    button->setCallback(callback, parameters);
     addButton(button);
 }
 
-void GenericMenu::clearButtons()
+void GenericMenu::addIncDecControl(IncrementDecrementControl* control)
+{
+    buttons[currentColumn].push_back(control);
+}
+
+void GenericMenu::clearMenu()
 {
     for (auto& btnColumn : buttons)
     {
@@ -100,10 +112,10 @@ void GenericMenu::clearButtons()
     GameContext::clearAlphanumericKeyActions();
 
     currentColumn = 0;
-    buttons.push_back(std::vector<ButtonMenu>());
+    buttons.push_back(std::vector<MenuElement*>());
 }
 
-void GenericMenu::organizeButtons()
+void GenericMenu::organizeMenu()
 {
     float xDisplace = frame.getSize().x / (buttons.size() + 1);
     float x = xDisplace;
@@ -115,16 +127,16 @@ void GenericMenu::organizeButtons()
     }
 }
 
-void GenericMenu::organizeColumn(std::vector<ButtonMenu> &column, float x)
+void GenericMenu::organizeColumn(std::vector<MenuElement*> &column, float x)
 {
     const int len = column.size();
-    float buttonHeight = column[0].getSize().y;
     const float frameHeight = frame.getSize().y;
+    float buttonHeight = 0;
 
     float sumButtonHeights{0};
     for (auto& btn : column)
     {
-        sumButtonHeights += btn.getSize().y;
+        sumButtonHeights += btn->getGlobalBounds().height;
     }
 
     float interval = (frameHeight - sumButtonHeights) / (len + 1);
@@ -139,10 +151,10 @@ void GenericMenu::organizeColumn(std::vector<ButtonMenu> &column, float x)
     float previousBtnsHeight{0};
     for (int i = 0; i < len; i++)
     {
-        buttonHeight = column[i].getSize().y;
+        buttonHeight = column[i]->getGlobalBounds().height;
         float yDisplace = (remainingSpace + buttonHeight) / 2;
-        column[i].setPosition({x, yDisplace + interval * i + previousBtnsHeight});
+        column[i]->setPosition({x, yDisplace + interval * i + previousBtnsHeight});
 
-        previousBtnsHeight += column[i].getSize().y;
+        previousBtnsHeight += column[i]->getGlobalBounds().height;
     }
 }

@@ -33,16 +33,20 @@ public:
     static int getTileHrCost();
     static std::vector<GameEvents> getEvents();
     static int getMapSize();
-    static WindowManager& getWindowManager();
+    static WindowManager* getWindowManager();
     static int getPlayersNumber();
     static int getMaxPlayersNumber();
     static int getMaxMapSize();
+    static int getMusicVolume();
+    static int getSfxVolume();
     static std::unordered_map<sf::Keyboard::Key, CallbackFunction> getKeyActions();
     
     // Setters
     static void setNumPlayers(int numPlayers);
     static void setTile(TilePiece* newTile);
     static void setMapSize(int size);
+    static void setMusicVolume(int volume);
+    static void setSfxVolume(int volume);
 private:
     WindowManager windowManager;
     std::vector<GameEvents> events;
@@ -54,6 +58,8 @@ private:
 
     int mapSize;
     int playersNumber;
+    int musicVolume;
+    int sfxVolume;
     static const std::vector<sf::Color> colors;
 
     std::unordered_map<sf::Keyboard::Key, CallbackFunction> keyActions;

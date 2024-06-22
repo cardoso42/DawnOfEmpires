@@ -39,11 +39,11 @@ void WinnerScreen::click(float x, float y)
 
     if (goToMenuButton.getGlobalBounds().contains({x, y}))
     {
-        goToMenuButton.select();
+        goToMenuButton.select(x, y);
     }
     else if (quitButton.getGlobalBounds().contains({x, y}))
     {
-        quitButton.select();
+        quitButton.select(x, y);
     }
 }
 

@@ -13,6 +13,8 @@ target_link_libraries(GenericMenu PUBLIC Animator)
 target_link_libraries(GenericMenu PUBLIC ButtonMenu)
 target_link_libraries(GenericMenu PUBLIC BaseComponent)
 target_link_libraries(GenericMenu PUBLIC GameContext)
+target_link_libraries(GenericMenu PUBLIC MenuElement)
+target_link_libraries(GenericMenu PUBLIC IncrementDecrementControl)
 
 target_include_directories(GenericMenu PUBLIC
                            "${PROJECT_BINARY_DIR}/src/GenericMenu"

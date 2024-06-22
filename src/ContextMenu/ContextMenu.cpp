@@ -9,5 +9,5 @@ ContextMenu::ContextMenu(sf::Vector2f windowSize) : GenericMenu(windowSize)
     addButton("btn1", [](std::vector<void*>) { std::cout << "btn1" << std::endl; }, {});
     addButton("btn2", [](std::vector<void*>) { std::cout << "btn2" << std::endl; }, {});
 
-    organizeButtons();
+    organizeMenu();
 }

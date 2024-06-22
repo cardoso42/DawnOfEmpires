@@ -7,11 +7,11 @@
 #include <sstream>
 
 GameController::GameController(): currentPressedKey(sf::Keyboard::Key::Unknown),  
-    wasMouseButtonAlreadyPressed(false), windowManager(GameContext::getWindowManager()),
-    musicPlayingWhenPaused(false)
+    wasMouseButtonAlreadyPressed(false), musicPlayingWhenPaused(false)
 {
-    windowManager.createView("mainMenu", {0, 0}, {1, 1});
-    components["mainMenu"] = new MainMenu(windowManager.getViewSize("mainMenu"));
+    windowManager = GameContext::getWindowManager();
+    windowManager->createView("mainMenu", {0, 0}, {1, 1});
+    components["mainMenu"] = new MainMenu(windowManager->getViewSize("mainMenu"));
 
     // TODO: adicionar controle de volume no menu
     // TODO: try to build for windows
@@ -26,7 +26,7 @@ GameController::~GameController()
 
 void GameController::updateFrame(sf::Time deltaTime)
 {
-    windowManager.update();
+    windowManager->update();
 
     for (auto& [name, component] : components)
     {
@@ -37,15 +37,15 @@ void GameController::updateFrame(sf::Time deltaTime)
 
 void GameController::render(sf::Color backgroundColor)
 {
-    windowManager.beginDraw();
+    windowManager->beginDraw();
 
     for (auto& [name, component] : components)
     {
-        windowManager.switchToView(name);
-        windowManager.draw(*component);
+        windowManager->switchToView(name);
+        windowManager->draw(*component);
     }
     
-    windowManager.endDraw();
+    windowManager->endDraw();
 }
 
 void GameController::handleInput()
@@ -88,7 +88,7 @@ void GameController::handleInput()
         }
     }
 
-    if (windowManager.isFocused())
+    if (windowManager->isFocused())
     {
         handleMouseInput();
         handleKeyboardInput();
@@ -100,7 +100,7 @@ void GameController::clearComponents()
     for (auto& [name, component] : components)
     {
         delete component;
-        windowManager.removeView(name);
+        windowManager->removeView(name);
     }
     components.clear();
 }
@@ -137,15 +137,15 @@ void GameController::handleMouseInput()
         if (!wasMouseButtonAlreadyPressed) 
         {
             wasMouseButtonAlreadyPressed = true;
-            sf::Vector2i pos = sf::Mouse::getPosition(windowManager);
+            sf::Vector2i pos = sf::Mouse::getPosition(*windowManager);
             sf::Vector2f sceneCords;
 
             for (auto& [name, component] : components)
             {
-                if (windowManager.getViewport(name).contains(pos))
+                if (windowManager->getViewport(name).contains(pos))
                 {
-                    windowManager.switchToView(name);
-                    sceneCords = windowManager.mapPixelToCoords({pos.x, pos.y});
+                    windowManager->switchToView(name);
+                    sceneCords = windowManager->mapPixelToCoords({pos.x, pos.y});
                     component->click(sceneCords.x, sceneCords.y);
                 }
             }
@@ -183,9 +183,9 @@ void GameController::handleGameOver()
 
     clearComponents();
 
-    windowManager.createView("winnerScreen", {0, 0}, {1, 1});
+    windowManager->createView("winnerScreen", {0, 0}, {1, 1});
     components["winnerScreen"] = new WinnerScreen(
-        windowManager.getViewSize("winnerScreen"), GameContext::getWinnerPlayer());
+        windowManager->getViewSize("winnerScreen"), GameContext::getWinnerPlayer());
 }
 
 void GameController::handleGameStarted()
@@ -194,15 +194,15 @@ void GameController::handleGameStarted()
 
     addEscapeKeybinding();
 
-    windowManager.createView("map", {0, 0}, {0.8, 0.9});
-    windowManager.createView("actionMenu", {0.8, 0.3}, {0.2, 0.6});
-    windowManager.createView("resources", {0, 0.9}, {1, 0.1});
-    windowManager.createView("help", {0.8, 0}, {0.2, 0.3});
+    windowManager->createView("map", {0, 0}, {0.8, 0.9});
+    windowManager->createView("actionMenu", {0.8, 0.3}, {0.2, 0.6});
+    windowManager->createView("resources", {0, 0.9}, {1, 0.1});
+    windowManager->createView("help", {0.8, 0}, {0.2, 0.3});
 
-    components["map"] = new TileMap(GameContext::getMapSize(), windowManager.getViewSize("map") * 0.5f);
-    components["actionMenu"] = new ActionMenu(windowManager.getViewSize("actionMenu"));
-    components["resources"] = new ResourceBar(windowManager.getViewSize("resources"));
-    components["help"] = new HelpArea(windowManager.getViewSize("help"));
+    components["map"] = new TileMap(GameContext::getMapSize(), windowManager->getViewSize("map") * 0.5f);
+    components["actionMenu"] = new ActionMenu(windowManager->getViewSize("actionMenu"));
+    components["resources"] = new ResourceBar(windowManager->getViewSize("resources"));
+    components["help"] = new HelpArea(windowManager->getViewSize("help"));
 
     music.play();
 }
@@ -216,7 +216,7 @@ void GameController::handleNextTurn()
     
     auto map = dynamic_cast<TileMap*>(it->second);
     map->selectTile(GameContext::getPlayer()->getLastSelectedTile());
-    windowManager.centerOnSelectedTile();
+    windowManager->centerOnSelectedTile();
 
     // It is possible to use this event to update the resources bar only at this moment
     // I think it would be more efficient, but I don't know if this is a priority right now
@@ -224,19 +224,24 @@ void GameController::handleNextTurn()
 
 void GameController::handleGameQuit()
 {
-    windowManager.close();
+    windowManager->close();
 }
 
 void GameController::handleMainMenu()
 {
     clearComponents();
 
-    windowManager.createView("mainMenu", {0, 0}, {1, 1});
-    components["mainMenu"] = new MainMenu(windowManager.getViewSize("mainMenu"));
+    windowManager->createView("mainMenu", {0, 0}, {1, 1});
+    components["mainMenu"] = new MainMenu(windowManager->getViewSize("mainMenu"));
 }
 
 void GameController::handleGamePaused()
 {
+    if (savedComponents.size() > 0)
+    {
+        return;
+    }
+
     GameContext::addKeyAction(
         sf::Keyboard::Key::Escape, 
         [](std::vector<void*>) { GameContext::notifyEvent(GameContext::GameEvents::RESUME); }
@@ -246,10 +251,10 @@ void GameController::handleGamePaused()
     music.pause();
 
     saveCurrentComponents();
-    windowManager.saveCurrentViews();
+    windowManager->saveCurrentViews();
 
-    windowManager.createView("pauseMenu", {0, 0}, {1, 1});
-    components["pauseMenu"] = new PauseMenu(windowManager.getViewSize("pauseMenu"));
+    windowManager->createView("pauseMenu", {0, 0}, {1, 1});
+    components["pauseMenu"] = new PauseMenu(windowManager->getViewSize("pauseMenu"));
 }
 
 void GameController::handleGameResumed()
@@ -260,9 +265,10 @@ void GameController::handleGameResumed()
     }
 
     restoreSavedComponents();
-    windowManager.restoreSavedViews();
+    windowManager->restoreSavedViews();
 
     addEscapeKeybinding();
+    music.setVolume(GameContext::getMusicVolume());
 }
 
 void GameController::addEscapeKeybinding()
@@ -289,4 +295,4 @@ sf::RectangleShape GameController::drawDebugSquare(sf::Sprite sprite, sf::Color 
     return outline;
 }
 
-bool GameController::isOver() { return windowManager.isDone(); }
+bool GameController::isOver() { return windowManager->isDone(); }

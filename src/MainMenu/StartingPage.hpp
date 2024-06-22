@@ -9,7 +9,7 @@ class StartingPage : public GenericMenu
 // TODO: save/load mechanisms
 
 public:
-    StartingPage(sf::Vector2f windowSize) : GenericMenu(windowSize)
+    StartingPage(sf::Vector2f windowSize) : GenericMenu(windowSize, sf::Color(255, 255, 255, 180))
     {
         const sf::Vector2f buttonSize(windowSize.x * 0.3f, windowSize.y * 0.1f);
 
@@ -19,7 +19,7 @@ public:
         addButton("Settings", Callbacks::settingsBtnCb, {});
         addButton("Exit", Callbacks::exitGameBtnCb, {});
 
-        organizeButtons();
+        organizeMenu();
     }
 
     void update() override 

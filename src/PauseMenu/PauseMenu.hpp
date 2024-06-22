@@ -7,7 +7,11 @@ class PauseMenu : public GenericMenu
 {
 public:
     PauseMenu(sf::Vector2f windowSize);
+    ~PauseMenu();
 private:
+    int musicVolume;
+    int sfxVolume;
+
     static void resumeBtnCb(std::vector<void *> parameters);
     static void exitBtnCb(std::vector<void *> parameters);
 };

@@ -26,7 +26,7 @@ void ActionMenu::update()
 {
     if (isSpendingCoinsMenuOpen)
     {
-        clearButtons();
+        clearMenu();
 
         addButton("Buy 500 wood", buyResources, {new WoodResource(500)});
         addButton("Buy 100 mineral", buyResources, {new MineralResource(100)});
@@ -34,7 +34,7 @@ void ActionMenu::update()
         addButton("Buy 50 food", buyResources, {new FoodResource(50)});
         addButton("Go back", buyResources, {new NullResource()});
     
-        organizeButtons();
+        organizeMenu();
         return;
     }
 
@@ -46,7 +46,7 @@ void ActionMenu::update()
         return;
     }
 
-    clearButtons();
+    clearMenu();
 
     if (empire->getTerritory().size() <= 0)
     {
@@ -99,7 +99,7 @@ void ActionMenu::update()
     GameContext::addKeyAction(sf::Keyboard::Num1, cb);
 #endif
 
-    organizeButtons();
+    organizeMenu();
 }
 
 void ActionMenu::annexTileBtnCb(std::vector<void *> parameters)
