@@ -11,6 +11,17 @@ GenericMenu::GenericMenu(sf::Vector2f windowSize, sf::Color bgColor)
     frame.setPosition(windowSize * 0.5f);
 }
 
+GenericMenu::~GenericMenu()
+{
+    for (auto& btnColumn : buttons)
+    {
+        for (auto& btn : btnColumn)
+        {
+            delete btn;
+        }
+    }
+}
+
 void GenericMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     target.draw(frame);

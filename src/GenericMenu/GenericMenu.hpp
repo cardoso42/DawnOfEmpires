@@ -10,6 +10,7 @@ class GenericMenu : public BaseComponent
 {
 public:
     GenericMenu(sf::Vector2f windowSize, sf::Color bgColor = sf::Color::Transparent);
+    ~GenericMenu();
 
     void click(float x, float y) override;
     void animate(sf::Time deltaTime) override;

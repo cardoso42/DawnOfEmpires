@@ -20,7 +20,13 @@ public:
             &mapSize, 1, GameContext::getMaxMapSize()));
 
         addButton("Go back", [](std::vector<void *> parameters) { MainMenu::goBackMainMenu(); }, {});
-        addButton("Start game", MainMenu::startGameBtnCb, {});
+        addButton("Start game", 
+        [](std::vector<void*> parameters) 
+        { 
+            GameContext::setNumPlayers(*(int*)parameters[0]); 
+            GameContext::setMapSize(*(int*)parameters[1]); 
+            MainMenu::startGameBtnCb({}); 
+        }, {&numPlayers, &mapSize});
 
         organizeMenu();
     }

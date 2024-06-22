@@ -15,9 +15,6 @@ public:
     virtual void setPosition(sf::Vector2f pos) = 0;
     virtual sf::Vector2f getSize() = 0;
     virtual void update() = 0;
-    virtual void updateText(std::string newText) = 0; // TODO: delete this
-    virtual void setSelectable(bool selectable) = 0; // TODO: delete this
-private:
 };
 
 #endif // MENUELEMENT_HPP

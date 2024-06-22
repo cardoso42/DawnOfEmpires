@@ -13,7 +13,6 @@ GameController::GameController(): currentPressedKey(sf::Keyboard::Key::Unknown),
     windowManager->createView("mainMenu", {0, 0}, {1, 1});
     components["mainMenu"] = new MainMenu(windowManager->getViewSize("mainMenu"));
 
-    // TODO: adicionar controle de volume no menu
     // TODO: try to build for windows
 
     music.openFromFile(AssetManager::GenerateAbsolutePathname("backgroundMusic.mp3"));

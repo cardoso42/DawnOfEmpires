@@ -8,6 +8,7 @@ class StackMenu : public BaseComponent
 {
 public:
     StackMenu(GenericMenu *startingMenu);
+    ~StackMenu();
 
     void addMenu(GenericMenu *menu);
     void goBack();

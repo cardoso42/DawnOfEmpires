@@ -39,11 +39,7 @@ void ButtonMenu::setCallback(CallbackFunction cb, std::vector<void *> parameters
     cbParameters = parameters;
 }
 
-void ButtonMenu::setSelectable(bool selectable) { this->selectable = selectable; }
-
-void ButtonMenu::update()
-{
-}
+void ButtonMenu::update() { }
 
 void ButtonMenu::setOutlineThickness(float thickness) { frame.setOutlineThickness(thickness); }
 
@@ -112,29 +108,6 @@ void ButtonMenu::unselect()
     isSelected = false;
     frame.setOutlineColor(sf::Color::Black);
     frame.setOutlineThickness(frame.getOutlineThickness() / 2);
-}
-
-void ButtonMenu::updateText(std::string newText)
-{
-    btnText.setString(newText);
-
-    if (frame.getSize().x < btnText.getLocalBounds().width + 20)
-    {
-        frame.setSize({btnText.getLocalBounds().width + 20, frame.getSize().y});
-    }
-
-    if (frame.getSize().y < btnText.getLocalBounds().height + 20)
-    {
-        frame.setSize({frame.getSize().x, btnText.getLocalBounds().height + 20});
-    }
-
-    frame.setOrigin(frame.getSize() * 0.5f);
-
-    btnText.setOrigin({
-        btnText.getLocalBounds().width * 0.5f,
-        btnText.getLocalBounds().height * 0.5f
-    });
-    btnText.setPosition(frame.getPosition());
 }
 
 sf::FloatRect ButtonMenu::getGlobalBounds() { return frame.getGlobalBounds(); }

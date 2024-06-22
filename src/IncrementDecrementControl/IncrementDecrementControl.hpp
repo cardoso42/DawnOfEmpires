@@ -17,8 +17,6 @@ public:
     void unselect() override;
     sf::Vector2f getSize() override;
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-    void updateText(std::string newText) override {}
-    void setSelectable(bool selectable) override {}
     void update() override;
 
 private:

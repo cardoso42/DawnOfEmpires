@@ -6,6 +6,16 @@ StackMenu::StackMenu(GenericMenu *startingMenu) : BaseComponent()
     menus.push_back(startingMenu);
 }
 
+StackMenu::~StackMenu()
+{
+    for (auto menu : menus)
+    {
+        delete menu;
+    }
+
+    menus.clear();
+}
+
 void StackMenu::addMenu(GenericMenu *menu)
 {   
     menus.push_back(menu);

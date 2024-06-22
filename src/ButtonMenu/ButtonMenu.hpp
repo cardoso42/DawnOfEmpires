@@ -19,8 +19,6 @@ public:
     void select(float x, float y) override;
     void unselect() override;
     sf::Vector2f getSize() override;
-    void updateText(std::string newText) override;
-    void setSelectable(bool selectable) override;
     void update() override;
     
     void setCallback(CallbackFunction cb, std::vector<void*> parameters);

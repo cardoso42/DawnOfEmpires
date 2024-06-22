@@ -3,7 +3,7 @@
 
 PauseMenu::PauseMenu(sf::Vector2f windowSize) : GenericMenu(windowSize)
 {
-    sf::Vector2f size = {windowSize.x * 0.8f, windowSize.y * 0.15f};
+    sf::Vector2f size = {windowSize.x * 0.8f, windowSize.y * 0.05f};
     setButtonSize(size);
 
     musicVolume = GameContext::getMusicVolume();
