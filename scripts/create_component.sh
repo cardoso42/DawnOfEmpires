@@ -28,7 +28,9 @@ cat <<EOL > src/$NOME/$NOME.hpp
 #ifndef ${NOME_MAIUSCULO}_HPP
 #define ${NOME_MAIUSCULO}_HPP
 
-class $NOME
+#include "BaseComponent.hpp"
+
+class $NOME : public BaseComponent
 {
 public:
     $NOME();
