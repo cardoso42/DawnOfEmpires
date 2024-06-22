@@ -81,7 +81,7 @@ void GameController::handleInput()
                 components.clear();
 
                 windowManager.createView("winnerScreen", {0, 0}, {1, 1});
-                components["winnerScreen"] = new WinnerScreen(windowManager.getViewSize("winnerScreen"), *GameContext::getPlayer());
+                components["winnerScreen"] = new WinnerScreen(windowManager.getViewSize("winnerScreen"), GameContext::getWinnerPlayer());
                 break;
 
             case GameContext::GameEvents::GAME_STARTED:

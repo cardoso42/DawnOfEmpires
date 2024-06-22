@@ -20,6 +20,7 @@ public:
     // Getters
     static TilePiece* getTile();
     static Empire* getPlayer();
+    static Empire getWinnerPlayer();
     static int getTileHrCost();
     static std::vector<GameEvents> getEvents();
     static int getMapSize();

@@ -83,6 +83,66 @@ void GameContext::notifyEvent(GameEvents event)
 }
 
 Empire* GameContext::getPlayer() { return &sInstance->players[sInstance->currentPlayer]; }
+Empire GameContext::getWinnerPlayer()
+{
+    for (auto &player : sInstance->players)
+    {
+        if (player.haveWon())
+        {
+            return player;
+        }
+    }
+
+    // Decides the winner based on the number of constructions
+    int maxConstructions = 0;
+    int empireIndex = 0;
+    bool isUnique = true;
+
+    for (int i = 0; i < sInstance->players.size(); i++)
+    {
+        auto player = sInstance->players[i];
+        if (player.getConstructionsNumber() > maxConstructions)
+        {
+            maxConstructions = player.getConstructionsNumber();
+            empireIndex = i;
+            isUnique = true;
+        }
+        else if (player.getConstructionsNumber() == maxConstructions)
+        {
+            isUnique = false;
+        }
+    }
+
+    if (isUnique)
+    {
+        return sInstance->players[empireIndex];
+    }
+
+    // Decides the winner based on the number of resources
+    int maxResources = 0;
+    empireIndex = 0;
+
+    for (int i = 0; i < sInstance->players.size(); i++)
+    {
+        auto player = sInstance->players[i];
+        auto resources = player.getResources();
+        
+        int resourcesNumber = 0;
+        for (auto resource : resources)
+        {
+            resourcesNumber += resource.getAmount();
+        }
+
+        if (resourcesNumber > maxResources)
+        {
+            maxResources = resourcesNumber;
+            empireIndex = i;
+        }
+    }
+
+    return sInstance->players[empireIndex];
+
+}
 TilePiece *GameContext::getTile() { return sInstance->tile; }
 int GameContext::getTileHrCost() { return 3; }
 
