@@ -104,6 +104,18 @@ void GameContext::clearKeyActions()
     sInstance->keyActions.clear();
 }
 
+void GameContext::removeCurrentPlayer()
+{
+    auto currentPlayer = getPlayer();
+    currentPlayer->abandonGame();
+
+    sInstance->players.erase(sInstance->players.begin() + sInstance->currentPlayer);
+    if (sInstance->currentPlayer >= sInstance->players.size())
+    {
+        sInstance->currentPlayer = 0;
+    }
+}
+
 void GameContext::clearAlphanumericKeyActions()
 {
     for (auto it = sInstance->keyActions.begin(); it != sInstance->keyActions.end();)

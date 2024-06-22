@@ -19,6 +19,7 @@ public:
     bool hasResources(std::vector<Resource> resources);
     bool isTileNeighbor(TilePiece *tile);
     void addResource(Resource newResource);
+    void abandonGame();
     void setAsWinner();
     bool haveWon();
 

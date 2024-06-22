@@ -22,6 +22,7 @@ public:
     static void addKeyAction(sf::Keyboard::Key key, CallbackFunction action);
     static void removeKeyAction(sf::Keyboard::Key key);
     static void clearKeyActions();
+    static void removeCurrentPlayer();
     static void clearAlphanumericKeyActions();
     static void clearDirectionalKeyActions();
     static void notifyEvent(GameEvents event);

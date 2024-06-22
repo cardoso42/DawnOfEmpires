@@ -40,7 +40,6 @@ void Empire::update(sf::Time dt)
         }
     }
 
-    // TODO: add condition to player to quit the game, without it ending
     turnResources[FoodResource(0).getName()] -= hrSource.consume(resources, dt);
     Resource hr = hrSource.extract(dt);
     resources[hr.getName()] += hr;
@@ -130,6 +129,16 @@ void Empire::addResource(Resource newResource)
         {
             turnResources[newResource.getName()] = newResource;
         }
+    }
+}
+
+void Empire::abandonGame()
+{
+    resources.clear();
+
+    for (auto tile : territory)
+    {
+        tile->annexTo(-1, sf::Color::Transparent);
     }
 }
 

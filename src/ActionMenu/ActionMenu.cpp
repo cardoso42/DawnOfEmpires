@@ -87,6 +87,14 @@ void ActionMenu::update()
 
     addButton("(N)ext turn", nextTurnBtnCb, {});
     GameContext::addKeyAction(sf::Keyboard::N, nextTurnBtnCb);
+
+    addButton("(Q)uit match", [](std::vector<void*> parameters) {
+        GameContext::removeCurrentPlayer();
+    }, {});
+    GameContext::addKeyAction(sf::Keyboard::Q, [](std::vector<void*>) {
+        GameContext::removeCurrentPlayer();
+    });
+
 #ifdef DEBUG
     CallbackFunction cb = [](std::vector<void*> parameters) {
         for (int i = 0; i < 100; i++)
