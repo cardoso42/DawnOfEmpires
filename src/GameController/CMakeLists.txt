@@ -22,6 +22,7 @@ target_link_libraries(GameController PUBLIC ResourceBar)
 target_link_libraries(GameController PUBLIC HelpArea)
 target_link_libraries(GameController PUBLIC MainMenu)
 target_link_libraries(GameController PUBLIC WinnerScreen)
+target_link_libraries(GameController PUBLIC PauseMenu)
 
 target_include_directories(GameController PUBLIC
                            "${PROJECT_BINARY_DIR}/src/GameController"

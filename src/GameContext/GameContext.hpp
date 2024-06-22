@@ -9,7 +9,7 @@ class GameContext
 {
 public:
     // GameEvents enum
-    enum GameEvents { GAME_STARTED, NEXT_TURN, GAME_OVER, MAIN_MENU, QUIT };
+    enum GameEvents { GAME_STARTED, NEXT_TURN, GAME_OVER, MAIN_MENU, QUIT, PAUSE, RESUME };
 
     GameContext(int numPlayers, int mapSize);
     static void startGame();

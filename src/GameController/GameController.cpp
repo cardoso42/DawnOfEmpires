@@ -1,6 +1,7 @@
 #include "GameController.hpp"
 #include "ContextMenu.hpp"
 #include "WinnerScreen.hpp"
+#include "PauseMenu.hpp"
 
 #include <iostream>
 #include <sstream>
@@ -25,12 +26,12 @@ GameController::GameController(): currentPressedKey(sf::Keyboard::Key::Unknown),
         {sf::Keyboard::Right, [this]() { components["map"]->handleKeyboardInput(sf::Keyboard::Right); }},
         {sf::Keyboard::Up, [this]() { components["map"]->handleKeyboardInput(sf::Keyboard::Up); }},
         {sf::Keyboard::Down, [this]() { components["map"]->handleKeyboardInput(sf::Keyboard::Down); }},
+        {sf::Keyboard::Escape, []() { GameContext::notifyEvent(GameContext::GameEvents::PAUSE); }},
     };
 
     music.openFromFile(AssetManager::GenerateAbsolutePathname("backgroundMusic.mp3"));
     music.setLoop(true);
 
-    // TODO: add menu pressing ESC (control volume, etc)
     // TODO: check if culture bonus is really working
     // TODO: lower even more the amount in each resource source
 }
@@ -73,12 +74,7 @@ void GameController::handleInput()
             case GameContext::GameEvents::GAME_OVER:
                 music.stop();
 
-                for (auto& [name, component] : components)
-                {
-                    delete component;
-                    windowManager.removeView(name);
-                }
-                components.clear();
+                clearComponents();
 
                 windowManager.createView("winnerScreen", {0, 0}, {1, 1});
                 components["winnerScreen"] = new WinnerScreen(windowManager.getViewSize("winnerScreen"), GameContext::getWinnerPlayer());
@@ -86,12 +82,7 @@ void GameController::handleInput()
 
             case GameContext::GameEvents::GAME_STARTED:
             {
-                for (auto& [name, component] : components)
-                {
-                    delete component;
-                    windowManager.removeView(name);
-                }
-                components.clear();
+                clearComponents();
 
                 windowManager.createView("map", {0, 0}, {0.8, 0.9});
                 windowManager.createView("actionMenu", {0.8, 0.3}, {0.2, 0.6});
@@ -128,15 +119,31 @@ void GameController::handleInput()
             }
             case GameContext::GameEvents::MAIN_MENU:
             {
-                for (auto& [name, component] : components)
-                {
-                    delete component;
-                    windowManager.removeView(name);
-                }
-                components.clear();
+                clearComponents();
 
                 windowManager.createView("mainMenu", {0, 0}, {1, 1});
                 components["mainMenu"] = new MainMenu(windowManager.getViewSize("mainMenu"));
+                break;
+            }
+            case GameContext::GameEvents::PAUSE:
+            {
+                music.pause();
+
+                saveCurrentComponents();
+                windowManager.saveCurrentViews();
+
+                windowManager.createView("pauseMenu", {0, 0}, {1, 1});
+                components["pauseMenu"] = new PauseMenu(windowManager.getViewSize("pauseMenu"));
+
+                break;
+            }
+            case GameContext::GameEvents::RESUME:
+            {
+                music.play();
+
+                restoreSavedComponents();
+                windowManager.restoreSavedViews();
+
                 break;
             }
             default:
@@ -151,6 +158,37 @@ void GameController::handleInput()
         handleMouseInput();
         handleKeyboardInput();
     }
+}
+
+void GameController::clearComponents()
+{
+    for (auto& [name, component] : components)
+    {
+        delete component;
+        windowManager.removeView(name);
+    }
+    components.clear();
+}
+
+void GameController::saveCurrentComponents()
+{
+    for (auto& [name, component] : components)
+    {
+        savedComponents[name] = component;
+    }
+    components.clear();
+}
+
+void GameController::restoreSavedComponents()
+{
+    clearComponents();
+
+    for (auto& [name, component] : savedComponents)
+    {
+        components[name] = component;
+    }
+
+    savedComponents.clear();
 }
 
 void GameController::handleMouseInput()

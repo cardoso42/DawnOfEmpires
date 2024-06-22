@@ -264,6 +264,30 @@ bool WindowManager::switchToView(std::string name)
     return true;
 }
 
+void WindowManager::saveCurrentViews()
+{  
+    for (auto& view : views)
+    {
+        savedViews[view.first] = view.second;
+    }
+    views.clear();
+}
+
+void WindowManager::restoreSavedViews()
+{
+    for (auto view : views)
+    {
+        delete view.second;
+    }
+    views.clear();
+
+    for (auto view : savedViews)
+    {
+        views[view.first] = new sf::View(*view.second);
+    }
+    savedViews.clear();
+}
+
 void WindowManager::centerOnSelectedTile()
 {
     auto tile = GameContext::getTile();

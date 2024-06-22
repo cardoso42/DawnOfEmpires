@@ -42,7 +42,6 @@ void GenericMenu::startNewColumn()
 
 void GenericMenu::click(float x, float y)
 {
-    // TODO: tem algum bug quando fica clicando pra selecionar e deselecionar um botão
     for (auto& btnColumn : buttons)
     {
         for (auto& btn : btnColumn)

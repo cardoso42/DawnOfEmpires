@@ -15,6 +15,8 @@ public:
     bool createView(std::string name, sf::Vector2f pos, sf::Vector2f size);
     bool removeView(std::string name);
     bool switchToView(std::string name);
+    void saveCurrentViews();
+    void restoreSavedViews();
     void centerOnSelectedTile();
     void beginDraw();
     void endDraw();
@@ -48,6 +50,7 @@ private:
     std::map<std::string, sf::View*> views;
     std::thread contextMenuThread;
     bool focus;
+    std::map<std::string, sf::View*> savedViews;
 
     sf::Vector2i lastMousePos;
 };
