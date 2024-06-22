@@ -42,6 +42,8 @@ Fisherman from Craftpix in [craftpix.net](https://craftpix.net/freebies/free-fis
 
 <a href="https://www.vecteezy.com/free-vector/polluted-river">Polluted River Vectors by Vecteezy</a>
 
+<a href="https://www.vecteezy.com/free-vector/video-game-coin">Video Game Coin Vectors by Vecteezy</a>
+
 ### Sounds
 
 Sound Effect by <a href="https://pixabay.com/users/juliush-3921568/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=8185">Julius H.</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=8185">Pixabay</a>
