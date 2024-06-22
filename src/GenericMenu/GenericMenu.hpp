@@ -19,7 +19,6 @@ public:
     void handleKeyboardInput(sf::Keyboard::Key key) override;
     void setButtonSize(sf::Vector2f size);
     void startNewColumn();
-    void setButtonTransparency(float alpha);
     virtual std::string getName() { return "GenericMenu"; };
 
 protected:
@@ -27,6 +26,7 @@ protected:
     sf::RectangleShape frame;
     sf::Vector2f buttonSize;
     int currentColumn;
+    AnimatedAsset background;
 
     void addButton(ButtonMenu* button);
     void addButton(std::string msg, CallbackFunction callback, std::vector<void*> parameters);
@@ -35,6 +35,12 @@ protected:
     void clearMenu();
     void organizeMenu();
     void organizeColumn(std::vector<MenuElement*>& column, float x);
+
+    void setButtonTransparency(float alpha);
+    const std::vector<std::string> bgImgs = {
+        "cristo.png", "coliseu.png", "chichén-itzá.png", "great-wall.png", 
+        "taj-mahal.png", "petra.png", "machu-pichu.png"};
+    void setRandomBackground();
 };
 
 #endif // GENERICMENU_HPP

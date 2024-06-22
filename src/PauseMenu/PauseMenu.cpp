@@ -3,6 +3,8 @@
 
 PauseMenu::PauseMenu(sf::Vector2f windowSize) : GenericMenu(windowSize)
 {
+    setRandomBackground();
+
     sf::Vector2f size = {windowSize.x * 0.8f, windowSize.y * 0.05f};
     setButtonSize(size);
 

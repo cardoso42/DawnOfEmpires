@@ -11,6 +11,8 @@ class StartingPage : public GenericMenu
 public:
     StartingPage(sf::Vector2f windowSize) : GenericMenu(windowSize, sf::Color(255, 255, 255, 180))
     {
+        setRandomBackground();
+
         const sf::Vector2f buttonSize(windowSize.x * 0.3f, windowSize.y * 0.1f);
 
         setButtonSize(buttonSize);

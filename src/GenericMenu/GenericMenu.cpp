@@ -2,7 +2,7 @@
 #include <iostream>
 
 GenericMenu::GenericMenu(sf::Vector2f windowSize, sf::Color bgColor) 
-    : frame(windowSize), currentColumn(0), buttonSize({100, 10})
+    : frame(windowSize), currentColumn(0), buttonSize({100, 10}), background("cristo.png")
 {
     buttons.push_back(std::vector<MenuElement*>());
 
@@ -24,6 +24,7 @@ GenericMenu::~GenericMenu()
 
 void GenericMenu::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+    target.draw(background);
     target.draw(frame);
 
     for (auto btnColumn : buttons)
@@ -168,4 +169,15 @@ void GenericMenu::organizeColumn(std::vector<MenuElement*> &column, float x)
 
         previousBtnsHeight += column[i]->getGlobalBounds().height;
     }
+}
+
+void GenericMenu::setRandomBackground()
+{
+    auto texture = AssetManager::GetTexture(bgImgs[rand() % bgImgs.size()]);
+    background.setTexture(*texture);
+    background.setOrigin(background.getLocalBounds().width / 2, background.getLocalBounds().height / 2);
+    background.setPosition(frame.getSize().x / 2, frame.getSize().y / 2);
+    background.fitTo(static_cast<sf::Vector2i>(frame.getSize()), 1);
+
+    setButtonTransparency(255 * 0.8f);
 }
