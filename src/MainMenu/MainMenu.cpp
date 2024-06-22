@@ -41,7 +41,7 @@ void MainMenu::addSubMenu(GenericMenu *submenu)
     instance->setRandomBackground();
 }
 
-void MainMenu::goBack()
+void MainMenu::goBackMainMenu()
 {
     if (instance == nullptr)
     {

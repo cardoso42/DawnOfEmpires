@@ -63,6 +63,7 @@ void GenericMenu::click(float x, float y)
             if (btn.getGlobalBounds().contains({x, y}))
             {
                 btn.select();
+                return;
             }
         }
     }

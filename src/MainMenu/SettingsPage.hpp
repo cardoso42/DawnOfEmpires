@@ -18,7 +18,7 @@ public:
         setButtonSize({windowSize.y * 0.1f, windowSize.y * 0.1f});
         addButton("-", subPlayers, {});
         addButton("-", subMapSize, {});
-        addButton("Go back", [](std::vector<void *> parameters) { MainMenu::goBack(); }, {});
+        addButton("Go back", [](std::vector<void *> parameters) { MainMenu::goBackMainMenu(); }, {});
         startNewColumn();
 
         // Middle column (variable values)

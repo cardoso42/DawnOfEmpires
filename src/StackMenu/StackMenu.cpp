@@ -13,6 +13,12 @@ void StackMenu::addMenu(GenericMenu *menu)
 
 void StackMenu::goBack()
 {
+    if (menus.size() == 1)
+    {
+        return;
+    }
+
+    delete menus.back();
     menus.pop_back();
 }
 

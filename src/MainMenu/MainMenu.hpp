@@ -17,7 +17,7 @@ public:
     static void startGameBtnCb(std::vector<void *> parameters);
 
     static void addSubMenu(GenericMenu *submenu);
-    static void goBack();
+    static void goBackMainMenu();
 
 private:
     sf::Vector2f windowSize;

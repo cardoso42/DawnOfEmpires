@@ -3,6 +3,7 @@
 int main()
 {
     XInitThreads();
+    srand(time(NULL));
     
     AssetManager assetManager;
     IdGenerator idGenerator;
