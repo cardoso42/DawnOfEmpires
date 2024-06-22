@@ -86,4 +86,13 @@ public:
     Resource getEmptyResource() override { return GoldResource(0); }
 };
 
+class CultureBonusResourceSource : public ResourceSource 
+{
+public:
+    CultureBonusResourceSource(float amount, float generation)
+        : ResourceSource(CultureBonusResource(amount), generation) {}
+
+    Resource getEmptyResource() override { return CultureBonusResource(0); }
+};
+
 #endif // RESOURCESOURCE_HPP

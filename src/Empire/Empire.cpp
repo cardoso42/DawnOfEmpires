@@ -204,14 +204,8 @@ void Empire::createNewConstruction(TilePiece *tile, TilePiece::ConstructionType 
         if (type == TilePiece::ConstructionType::CULTURE)
         {
             auto neighbors = tile->getNeighbors();
-
             for (auto neighbor : neighbors)
             {
-                if (!neighbor->isOwnedBy(empireId))
-                {
-                    continue;
-                }
-
                 neighbor->addBonus(tile->extractResource(sf::seconds(5)).getAmount());
             }
         }

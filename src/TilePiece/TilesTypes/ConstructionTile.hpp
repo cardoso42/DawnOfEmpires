@@ -4,6 +4,8 @@
 #include "TileTypeStrategy.hpp"
 #include "Resources.hpp"
 
+#include <limits>
+
 class ConstructionTile : public TileTypeStrategy
 {
 public:
@@ -88,7 +90,8 @@ class CultureConstructionTile : public ConstructionTile
 public:
     ResourceSource* createResourceSource() override
     {
-        return new NullResourceSource();
+        float generation = (1 + rand() % 3) * 0.01;
+        return new CultureBonusResourceSource(std::numeric_limits<float>::max(), generation);
     }
 
     std::string getName() override
