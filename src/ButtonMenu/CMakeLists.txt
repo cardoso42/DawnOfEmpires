@@ -11,6 +11,7 @@ target_include_directories(ButtonMenu
 target_link_libraries(ButtonMenu PRIVATE AssetManager)
 target_link_libraries(ButtonMenu PRIVATE Animator)
 target_link_libraries(ButtonMenu PRIVATE GameContext)
+target_link_libraries(ButtonMenu PRIVATE BaseComponent)
 
 target_include_directories(ButtonMenu PUBLIC
                            "${PROJECT_BINARY_DIR}/src/ButtonMenu"

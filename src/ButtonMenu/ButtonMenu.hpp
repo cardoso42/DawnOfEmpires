@@ -3,14 +3,19 @@
 
 #include <SFML/Graphics.hpp>
 #include <GameContext.hpp>
+#include <BaseComponent.hpp>
 
-class ButtonMenu : public sf::Drawable
+class ButtonMenu : public BaseComponent
 {
 public:
     ButtonMenu(std::string text, sf::Vector2f size, bool visible = true);
 
     // Overrides
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+    void click(float x, float y) override;
+    void animate(sf::Time deltaTime) override;
+    void handleKeyboardInput(sf::Keyboard::Key key) override;
+    void update() override;
     
     void setCallback(CallbackFunction cb, std::vector<void*> parameters);
     void setSelectable(bool selectable);
