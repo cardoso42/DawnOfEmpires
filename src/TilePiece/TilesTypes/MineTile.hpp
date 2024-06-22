@@ -9,7 +9,7 @@ class MineTile : public TileTypeStrategy
 public:
     ResourceSource* createResourceSource() override 
     {
-        float amount = 100 + rand() % 200;
+        float amount = 50 + rand() % 100;
         float generation = .95 + rand() % 10 * 0.01;
         
         return new MineralResourceSource(amount, generation);

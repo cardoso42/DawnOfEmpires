@@ -9,7 +9,7 @@ class WaterTile : public TileTypeStrategy
 public:
     ResourceSource* createResourceSource() override
     {
-        float amount = 450 + rand() % 100;
+        float amount = 150 + rand() % 50;
         float generation = .95 + rand() % 10 * 0.01;
         
         return new FoodResourceSource(amount, generation);

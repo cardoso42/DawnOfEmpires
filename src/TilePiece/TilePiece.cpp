@@ -236,6 +236,7 @@ void TilePiece::generateDecoration()
     }
     else
     {
+        paint(sf::Color::Red);
         decoration = strategy->createEmptyDecoration();
     }
 

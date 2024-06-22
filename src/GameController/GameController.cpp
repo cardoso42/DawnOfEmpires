@@ -31,9 +31,6 @@ GameController::GameController(): currentPressedKey(sf::Keyboard::Key::Unknown),
 
     music.openFromFile(AssetManager::GenerateAbsolutePathname("backgroundMusic.mp3"));
     music.setLoop(true);
-
-    // TODO: check if culture bonus is really working
-    // TODO: lower even more the amount in each resource source
 }
 
 GameController::~GameController()

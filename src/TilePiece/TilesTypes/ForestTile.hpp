@@ -9,7 +9,7 @@ class ForestTile : public TileTypeStrategy
 public:
     ResourceSource* createResourceSource() override
     {
-        float amount = 500 + rand() % 1000;
+        float amount = 100 + rand() % 500;
         float generation = .95 + rand() % 10 * 0.01;
 
         return new WoodResourceSource(amount, generation);
