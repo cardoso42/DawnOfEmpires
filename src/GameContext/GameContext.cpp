@@ -3,6 +3,11 @@
 
 GameContext* GameContext::sInstance = nullptr;
 
+const std::vector<sf::Color> GameContext::colors ={
+    sf::Color::Red, sf::Color::Green, sf::Color::Blue, sf::Color::Yellow, 
+    sf::Color::Black, sf::Color::Magenta, sf::Color::Cyan, sf::Color::White
+};
+
 GameContext::GameContext(int numPlayers, int mapSize) : tile(nullptr), mapSize(mapSize),
     windowManager("Dawn of Empires"), currentPlayer(0), playersNumber(numPlayers)
 {
@@ -30,11 +35,6 @@ void GameContext::setMapSize(int size) { sInstance->mapSize = size; }
 
 void GameContext::setPlayers(int playersNumber)
 {
-    const std::vector<sf::Color> colors = {
-        sf::Color::Red, sf::Color::Green, sf::Color::Blue, sf::Color::Yellow, 
-        sf::Color::Black, sf::Color::Magenta, sf::Color::Cyan, sf::Color::White
-    };
-
     if (playersNumber > colors.size())
     {
         throw std::logic_error("Too many players");
@@ -100,6 +100,10 @@ int GameContext::getMapSize() { return sInstance->mapSize; }
 WindowManager &GameContext::getWindowManager() { return sInstance->windowManager; }
 
 int GameContext::getPlayersNumber() { return sInstance->playersNumber; }
+
+int GameContext::getMaxPlayersNumber() { return colors.size(); }
+
+int GameContext::getMaxMapSize() { return 50; }
 
 void GameContext::verifyIfPlayerWon()
 {

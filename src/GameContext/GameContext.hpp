@@ -26,6 +26,8 @@ public:
     static int getMapSize();
     static WindowManager& getWindowManager();
     static int getPlayersNumber();
+    static int getMaxPlayersNumber();
+    static int getMaxMapSize();
     
     // Setters
     static void setNumPlayers(int numPlayers);
@@ -42,6 +44,7 @@ private:
 
     int mapSize;
     int playersNumber;
+    static const std::vector<sf::Color> colors;
 
     static GameContext* sInstance;
 
