@@ -14,6 +14,8 @@ GameController::GameController(): currentPressedKey(sf::Keyboard::Key::Unknown),
     components["mainMenu"] = new MainMenu(windowManager->getViewSize("mainMenu"));
 
     // TODO: try to build for windows
+    // TODO: use other page on help area for notifications maybe
+    // TODO: use context menu for more detail about tiles maybe
 
     music.openFromFile(AssetManager::GenerateAbsolutePathname("backgroundMusic.mp3"));
     music.setLoop(true);
@@ -185,6 +187,8 @@ void GameController::handleGameOver()
     windowManager->createView("winnerScreen", {0, 0}, {1, 1});
     components["winnerScreen"] = new WinnerScreen(
         windowManager->getViewSize("winnerScreen"), GameContext::getWinnerPlayer());
+
+    IdGenerator::ResetEmpireIds();
 }
 
 void GameController::handleGameStarted()

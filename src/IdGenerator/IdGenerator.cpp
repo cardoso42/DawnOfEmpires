@@ -17,3 +17,5 @@ IdGenerator::IdGenerator()
 unsigned int IdGenerator::GenerateUniqueId() { return ++uniqueId; }
 unsigned int IdGenerator::GenerateTileId() { return ++tileId; }
 unsigned int IdGenerator::GenerateEmpireId() { return ++empireId; }
+
+void IdGenerator::ResetEmpireIds() { empireId = 0; }

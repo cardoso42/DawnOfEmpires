@@ -9,6 +9,7 @@ public:
     static unsigned int GenerateUniqueId();
     static unsigned int GenerateTileId();
     static unsigned int GenerateEmpireId();
+    static void ResetEmpireIds();
 
 private:
     static IdGenerator* mInstance;

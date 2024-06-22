@@ -114,6 +114,12 @@ void GameContext::removeCurrentPlayer()
     {
         sInstance->currentPlayer = 0;
     }
+
+    if (sInstance->players.size() == 1)
+    {
+        sInstance->players[0].setAsWinner();
+        sInstance->events.push_back(GAME_OVER);
+    }
 }
 
 void GameContext::clearAlphanumericKeyActions()
