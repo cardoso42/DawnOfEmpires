@@ -6,8 +6,6 @@
 
 class StartingPage : public GenericMenu
 {
-// TODO: save/load mechanisms
-
 public:
     StartingPage(sf::Vector2f windowSize) : GenericMenu(windowSize, sf::Color(255, 255, 255, 180))
     {

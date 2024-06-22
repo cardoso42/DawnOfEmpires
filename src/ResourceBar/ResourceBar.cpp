@@ -176,7 +176,6 @@ void ResourceBar::ResourceBox::draw(sf::RenderTarget &target, sf::RenderStates s
     target.draw(icon);
 
 #ifdef DEBUG
-// TODO: discover why the display text and its debug square doesn't match!
     target.draw(displayDebug);
     target.draw(iconDebug);
     target.draw(amountDebug);

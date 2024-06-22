@@ -13,10 +13,6 @@ GameController::GameController(): currentPressedKey(sf::Keyboard::Key::Unknown),
     windowManager->createView("mainMenu", {0, 0}, {1, 1});
     components["mainMenu"] = new MainMenu(windowManager->getViewSize("mainMenu"));
 
-    // TODO: try to build for windows
-    // TODO: use other page on help area for notifications maybe
-    // TODO: use context menu for more detail about tiles maybe
-
     music.openFromFile(AssetManager::GenerateAbsolutePathname("backgroundMusic.mp3"));
     music.setLoop(true);
 }

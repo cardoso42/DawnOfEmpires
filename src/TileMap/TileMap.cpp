@@ -76,9 +76,6 @@ void TileMap::animate(sf::Time deltaTime)
 
 void TileMap::click(float x, float y)
 {
-    // TODO: problema ao clicar porque como o globalBounds retorna um 
-    // retângulo, não coincide exatamente com os hexagonos, fazendo com que ao 
-    // clicar no canto de alguns hex, selecione o vizinho na verdade
     TilePiece* selected = GameContext::getTile();
 
     bool clickedOnTile{false};

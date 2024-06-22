@@ -8,8 +8,6 @@
 
 #include <SFML/Graphics.hpp>
 
-// TODO: Add something to tell the user that he can change the page on the help area
-
 class HelpArea : public BaseComponent
 {
 public:
