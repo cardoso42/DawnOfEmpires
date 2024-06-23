@@ -28,6 +28,7 @@ public:
     static void clearAlphanumericKeyActions();
     static void clearDirectionalKeyActions();
     static void notifyEvent(GameEvents event);
+    static void stealLand(TilePiece *stolenTile);
     
     // Getters
     static TilePiece* getTile();
@@ -71,6 +72,7 @@ private:
 
     static void setPlayers(int playersNumber);
     static void verifyIfPlayerWon();
+    static void removePlayer(int playerIndex);
 };
 
 #endif // GAMECONTEXT_HPP

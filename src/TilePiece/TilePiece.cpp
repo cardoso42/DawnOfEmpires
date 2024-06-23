@@ -11,7 +11,7 @@ TilePiece::TilePiece(float x, float y, int q, int r)
 {
 #ifdef DEBUG
     text = new sf::Text(
-        "(" + std::to_string(q) + ", " + std::to_string(r) + ")",
+        "(" + std::to_string(tileId) + ")",
         AssetManager::GetFont("anonymous.ttf"), 8U
     );
     text->setFillColor(sf::Color::Black);
@@ -282,6 +282,12 @@ void TilePiece::addBonus(float bonus)
 void TilePiece::annexTo(uint newOwner, sf::Color newColor)
 {
     status |= TilePiece::TileStatus::TERRITORY;
+
+    if (ownerId != -1)
+    {
+        GameContext::stealLand(this);
+    }
+
     ownerId = newOwner;
     ownerColor.setFillColor(newColor);
 }

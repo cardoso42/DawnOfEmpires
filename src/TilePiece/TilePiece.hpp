@@ -57,6 +57,10 @@ public:
 
     // Static
     static sf::Vector2i getSize();
+
+    bool operator==(const TilePiece& other) const {
+        return getId() == other.getId();
+    }
 private:
     ResourceSource *resourceSource;
     std::vector<TilePiece*> neighbors;
@@ -80,5 +84,17 @@ private:
     void generateDecoration();
     void paint(sf::Color color);
 };
+
+namespace std 
+{
+    template<>
+    struct hash<TilePiece> 
+    {
+        std::size_t operator()(const TilePiece& tile) const noexcept 
+        {
+            return std::hash<int>()(tile.getId());
+        }
+    };
+}
 
 #endif // TILE_PIECE_HPP

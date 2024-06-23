@@ -13,6 +13,7 @@ public:
 
     void setStartingTerritory(TilePiece *startingTile);
     void annexNewTile(TilePiece *tile);
+    void removeTile(TilePiece *tile);
     void createNewConstruction(TilePiece *tile, TilePiece::ConstructionType type);
 
     bool expendResources(std::vector<Resource> costs);
@@ -35,9 +36,21 @@ public:
 
     void update(sf::Time dt);
 private:
+    struct TilePiecePtrHash {
+        std::size_t operator()(const TilePiece* tile) const {
+            return std::hash<int>()(tile->getId()); // Supondo que cada TilePiece tem um ID único
+        }
+    };
+
+    struct TilePiecePtrEqual {
+        bool operator()(const TilePiece* lhs, const TilePiece* rhs) const {
+            return lhs->getId() == rhs->getId();
+        }
+    };
+
     uint empireId;
     std::vector<TilePiece*> territory;
-    std::unordered_set<TilePiece*> neighbors;
+    std::unordered_set<TilePiece*, TilePiecePtrHash, TilePiecePtrEqual> neighbors;
     std::map<std::string, Resource> resources;
     std::map<std::string, Resource> turnResources;
     sf::Color color;

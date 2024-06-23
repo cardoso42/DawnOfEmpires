@@ -40,13 +40,7 @@ class MilitaryConstructionTile : public ConstructionTile
 public:
     ResourceSource* createResourceSource() override
     {
-    #ifdef DEBUG
-        float generation = 0.25;
-    #else
-        float generation = (1 + rand() % 3) * 0.01;
-    #endif
-
-        return new TileResourceSource(18, generation);
+        return new NullResourceSource();
     }
 
     std::string getName() override

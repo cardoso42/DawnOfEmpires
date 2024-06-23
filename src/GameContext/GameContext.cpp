@@ -106,20 +106,7 @@ void GameContext::clearKeyActions()
 
 void GameContext::removeCurrentPlayer()
 {
-    auto currentPlayer = getPlayer();
-    currentPlayer->abandonGame();
-
-    sInstance->players.erase(sInstance->players.begin() + sInstance->currentPlayer);
-    if (sInstance->currentPlayer >= sInstance->players.size())
-    {
-        sInstance->currentPlayer = 0;
-    }
-
-    if (sInstance->players.size() == 1)
-    {
-        sInstance->players[0].setAsWinner();
-        sInstance->events.push_back(GAME_OVER);
-    }
+    removePlayer(sInstance->currentPlayer);
 }
 
 void GameContext::clearAlphanumericKeyActions()
@@ -157,7 +144,31 @@ void GameContext::notifyEvent(GameEvents event)
     sInstance->events.push_back(event);
 }
 
-Empire* GameContext::getPlayer() { return &sInstance->players[sInstance->currentPlayer]; }
+void GameContext::stealLand(TilePiece *stolenTile)
+{
+    for (int i = 0; i < sInstance->players.size(); i++)
+    {
+        Empire& player = sInstance->players[i];
+
+        if (stolenTile->isOwnedBy(player.getId()))
+        {
+            player.removeTile(stolenTile);
+
+            if (player.getTerritory().size() <= 0)
+            {
+                removePlayer(i);
+            }
+
+            break;
+        }
+    }
+}
+
+Empire* GameContext::getPlayer() 
+{
+    return &sInstance->players[sInstance->currentPlayer]; 
+}
+
 Empire GameContext::getWinnerPlayer()
 {
     for (auto &player : sInstance->players)
@@ -260,5 +271,23 @@ void GameContext::verifyIfPlayerWon()
     if (empire->getConstructionsNumber() >= 7)
     {
         empire->setAsWinner();
+    }
+}
+
+void GameContext::removePlayer(int playerIndex)
+{
+    sInstance->players[playerIndex].abandonGame();
+
+    sInstance->players.erase(sInstance->players.begin() + playerIndex);
+
+    if (sInstance->currentPlayer >= sInstance->players.size())
+    {
+        sInstance->currentPlayer = 0;
+    }
+
+    if (sInstance->players.size() == 1)
+    {
+        sInstance->players[0].setAsWinner();
+        sInstance->events.push_back(GAME_OVER);
     }
 }

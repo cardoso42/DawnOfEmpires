@@ -75,6 +75,11 @@ bool Empire::canPayResource(Resource resource)
 
 void Empire::addTileToTerritory(TilePiece *newTile)
 {
+    if (newTile->isOwnedBy(empireId))
+    {
+        return;
+    }
+
     territory.push_back(newTile);
     newTile->annexTo(empireId, color);
 
@@ -203,6 +208,38 @@ void Empire::annexNewTile(TilePiece *newTile)
     addTileToTerritory(newTile);
 }
 
+void Empire::removeTile(TilePiece* tile)
+{
+    for (auto it = territory.begin(); it != territory.end(); it++)
+    {
+        if ((*it)->getId() == tile->getId())
+        {
+            territory.erase(it);
+            break;
+        }
+    }
+
+    for (auto neighbor : tile->getNeighbors())
+    {
+        bool stillIsNeighbor = false;
+
+        for (auto neighborNeighbor : neighbor->getNeighbors())
+        {
+            if (neighborNeighbor->isOwnedBy(empireId))
+            {
+                stillIsNeighbor = true;
+                break;
+            }
+        }
+
+        if (!stillIsNeighbor)
+        {
+            neighbors.erase(neighbor);
+        }
+    }
+}
+
+#define p(a) std::cout << a << std::endl;
 void Empire::createNewConstruction(TilePiece *tile, TilePiece::ConstructionType type)
 {
     if (tile->isConstructable() && expendResources(tile->getConstructionCost()))
@@ -216,6 +253,18 @@ void Empire::createNewConstruction(TilePiece *tile, TilePiece::ConstructionType 
             for (auto neighbor : neighbors)
             {
                 neighbor->addBonus(tile->extractResource(sf::seconds(5)).getAmount());
+            }
+        }
+        else if (type == TilePiece::ConstructionType::MILITARY)
+        {
+            auto neighbors = tile->getNeighbors();
+            int counter{0};
+            for (auto neighbor : neighbors)
+            {
+                if (!neighbor->isOwnedBy(empireId))
+                {
+                    addTileToTerritory(neighbor);
+                }
             }
         }
     }
