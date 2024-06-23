@@ -1,6 +1,8 @@
 #include "PauseMenu.hpp"
 #include "GameContext.hpp"
 
+// TODO: don't show pause screen if window loses focus but game is not being played yet
+
 PauseMenu::PauseMenu(sf::Vector2f windowSize) : GenericMenu(windowSize)
 {
     setRandomBackground();
@@ -17,7 +19,9 @@ PauseMenu::PauseMenu(sf::Vector2f windowSize) : GenericMenu(windowSize)
     addIncDecControl(new IncrementDecrementControl({windowSize.x * 0.8f, windowSize.y * 0.05f}, "Music volume", &musicVolume, 0, 100));
     addIncDecControl(new IncrementDecrementControl({windowSize.x * 0.8f, windowSize.y * 0.05f}, "SFX volume", &sfxVolume, 0, 100));
 
-    addButton("Go to main (M)enu", goToMainMenuCb, {});
+    addButton("(F)inish game", goToMainMenuCb, {});
+    GameContext::addKeyAction(sf::Keyboard::F, goToMainMenuCb);
+
     addButton("(E)xit", exitBtnCb, {});
     GameContext::addKeyAction(sf::Keyboard::E, exitBtnCb);
 

@@ -10,8 +10,6 @@
 // TODO: bug when all tiles are already occupied and there is tile obtention with military constructions
 // Maybe change mechanics to occupy all tiles in a radius of 2 instantly
 
-// TODO: bug when leaving game to main menu and starting it again
-
 class SettingsPage : public GenericMenu
 {
 public:

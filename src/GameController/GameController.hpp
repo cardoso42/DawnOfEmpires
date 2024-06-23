@@ -45,6 +45,7 @@ private:
     void clearComponents();
     void saveCurrentComponents();
     void restoreSavedComponents();
+    void clearSavedComponents();
 
     void handleMouseInput();
     void handleKeyboardInput();

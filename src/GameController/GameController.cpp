@@ -122,6 +122,16 @@ void GameController::restoreSavedComponents()
     savedComponents.clear();
 }
 
+void GameController::clearSavedComponents()
+{
+    for (auto& [name, component] : savedComponents)
+    {
+        delete component;
+        windowManager->removeView(name);
+    }
+    savedComponents.clear();
+}
+
 void GameController::handleMouseInput()
 {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) 
@@ -227,7 +237,10 @@ void GameController::handleGameQuit()
 
 void GameController::handleMainMenu()
 {
+    music.stop();
+
     clearComponents();
+    clearSavedComponents();
 
     windowManager->createView("mainMenu", {0, 0}, {1, 1});
     components["mainMenu"] = new MainMenu(windowManager->getViewSize("mainMenu"));
