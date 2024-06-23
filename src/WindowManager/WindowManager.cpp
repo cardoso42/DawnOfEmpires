@@ -1,5 +1,4 @@
 #include "WindowManager.hpp"
-#include "ContextMenu.hpp"
 #include "GameContext.hpp"
 
 #include <iostream>
@@ -61,55 +60,6 @@ void WindowManager::destroy()
     close();
 }
 
-std::atomic<bool> stopThread(false);
-
-void createNewWindowMenu(sf::Vector2i position)
-{
-    sf::RenderWindow newWindow({120, 200}, "Teste", sf::Style::None);
-    newWindow.setPosition(position);
-
-    while (newWindow.isOpen() && !stopThread.load())
-    {
-        ContextMenu contextMenu(sf::Vector2f(newWindow.getSize().x, newWindow.getSize().y));
-        sf::Event event;
-
-        while (newWindow.pollEvent(event))
-        {
-            switch (event.type)
-            {
-            case sf::Event::KeyPressed:
-                if (event.key.code == sf::Keyboard::Escape)
-                {
-                    newWindow.close();
-                }
-                break;
-            case sf::Event::LostFocus:
-                newWindow.close();
-                break;
-            case sf::Event::MouseButtonPressed:
-                if (event.mouseButton.button == sf::Mouse::Button::Left)
-                {
-                    contextMenu.click(event.mouseButton.x, event.mouseButton.y);
-                }
-                break;
-            }
-
-            newWindow.clear(sf::Color::Black);
-            newWindow.draw(contextMenu);
-            newWindow.display();
-        }
-    }
-}
-
-void WindowManager::finishThread()
-{
-    stopThread.store(true);
-    if (contextMenuThread.joinable())
-    {
-        contextMenuThread.join();
-    }
-}
-
 void WindowManager::update()
 {
     sf::Event event;
@@ -119,7 +69,6 @@ void WindowManager::update()
         switch (event.type)
         {
         case sf::Event::Closed:
-            finishThread();
             close();
             break;
 
@@ -132,25 +81,6 @@ void WindowManager::update()
         
         case sf::Event::MouseWheelScrolled:
             zoom(event.mouseWheelScroll.delta);
-            break;
-
-        case sf::Event::MouseButtonPressed:
-            if (event.mouseButton.button == sf::Mouse::Button::Right)
-            {
-                if (!stopThread.load())
-                {
-                    finishThread();
-                }
-                stopThread.store(false);
-                contextMenuThread = std::thread(
-                    createNewWindowMenu, 
-                    sf::Vector2i(event.mouseButton.x, event.mouseButton.y
-                ));
-            }
-            else if (event.mouseButton.button == sf::Mouse::Button::Left)
-            {
-                finishThread();
-            }
             break;
 
         case sf::Event::MouseMoved:

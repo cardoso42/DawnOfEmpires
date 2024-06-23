@@ -41,15 +41,13 @@ private:
     void create();
     void zoom(float delta);
     void toggleFullscreen();
-    void finishThread();
 
     sf::Vector2u windowSize;
     std::string windowTitle;
     bool m_isDone;
     bool m_isFullscreen;
-    std::map<std::string, sf::View*> views;
-    std::thread contextMenuThread;
     bool focus;
+    std::map<std::string, sf::View*> views;
     std::map<std::string, sf::View*> savedViews;
 
     sf::Vector2i lastMousePos;
