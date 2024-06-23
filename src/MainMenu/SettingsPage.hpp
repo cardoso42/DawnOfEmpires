@@ -1,10 +1,16 @@
 #ifndef SETTINGSPAGE_HPP
 #define SETTINGSPAGE_HPP
 
+#include <cassert>
+
+#include <WindowManager.hpp>
 #include "GenericMenu.hpp"
 #include "Callbacks.hpp"
-#include <WindowManager.hpp>
-#include <cassert>
+
+// TODO: bug when all tiles are already occupied and there is tile obtention with military constructions
+// Maybe change mechanics to occupy all tiles in a radius of 2 instantly
+
+// TODO: bug when leaving game to main menu and starting it again
 
 class SettingsPage : public GenericMenu
 {
@@ -21,22 +27,22 @@ public:
             {windowSize.x * 0.8f, windowSize.y * 0.05f}, "Map size", 
             &mapSize, 1, GameContext::getMaxMapSize()));
 
-        addButton("Go back", [](std::vector<void *> parameters) { MainMenu::goBackMainMenu(); }, {});
+        addButton("Go back", 
+        [](std::vector<void *> parameters) 
+        { 
+            GameContext::setNumPlayers(*(int*)parameters[0]);
+            GameContext::setMapSize(*(int*)parameters[1]);
+            MainMenu::goBackMainMenu(); 
+        }, {&numPlayers, &mapSize});
         addButton("Start game", 
         [](std::vector<void*> parameters) 
         { 
             GameContext::setNumPlayers(*(int*)parameters[0]); 
             GameContext::setMapSize(*(int*)parameters[1]); 
-            MainMenu::startGameBtnCb({}); 
+            Callbacks::startGameBtnCb({}); 
         }, {&numPlayers, &mapSize});
 
         organizeMenu();
-    }
-
-    ~SettingsPage()
-    {
-        GameContext::setNumPlayers(numPlayers);
-        GameContext::setMapSize(mapSize);
     }
 
     std::string getName() override { return "SettingsPage"; }

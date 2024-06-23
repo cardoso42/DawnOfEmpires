@@ -18,11 +18,6 @@ MainMenu::~MainMenu()
     instance = nullptr;
 }
 
-void MainMenu::startGameBtnCb(std::vector<void *> parameters)
-{
-    GameContext::startGame();
-}
-
 void MainMenu::addSubMenu(GenericMenu *submenu)
 {
     if (instance == nullptr)

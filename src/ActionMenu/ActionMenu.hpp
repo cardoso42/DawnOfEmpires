@@ -16,6 +16,11 @@ public:
 
     void update() override;
     
+private:
+    sf::Vector2f size;
+    void setBuyResourceButtons();
+    bool isSpendingCoinsMenuOpen = false;
+    
     static void annexTileBtnCb(std::vector<void*> parameters);
     static void selectInitialTileBtnCb(std::vector<void*> parameters);
     static void improveTileBtnCb(std::vector<void*> parameters);
@@ -24,14 +29,9 @@ public:
     static void constructCultureTileBtnCb(std::vector<void*> parameters);
     static void spendGoldCoinBtnCb(std::vector<void*> parameters);
     static void nextTurnBtnCb(std::vector<void*> parameters);
-
     static void buyResources(std::vector<void *> parameters);
-private:
-    sf::Vector2f size;
-    void setBuyResourceButtons();
-    bool isSpendingCoinsMenuOpen = false;
-
     static void constructTile(TilePiece::ConstructionType type);
+
     static ActionMenu* instance;
 };
 

@@ -2,12 +2,13 @@
 #define STARTINGPAGE_HPP
 
 #include "GenericMenu.hpp"
+#include "SettingsPage.hpp"
 #include "Callbacks.hpp"
 
 class StartingPage : public GenericMenu
 {
 public:
-    StartingPage(sf::Vector2f windowSize) : GenericMenu(windowSize, sf::Color(255, 255, 255, 180))
+    StartingPage(sf::Vector2f windowSize) : GenericMenu(windowSize, sf::Color(255, 255, 255, 180)), size(windowSize)
     {
         setRandomBackground();
 
@@ -15,8 +16,8 @@ public:
 
         setButtonSize(buttonSize);
 
-        addButton("Start", MainMenu::startGameBtnCb, {});
-        addButton("Settings", Callbacks::settingsBtnCb, {});
+        addButton("Start", Callbacks::startGameBtnCb, {});
+        addButton("Settings", Callbacks::settingsBtnCb, {reinterpret_cast<void*>(&SettingsPageFactory), static_cast<void*>(&size)});
         addButton("Exit", Callbacks::exitGameBtnCb, {});
 
         organizeMenu();
@@ -29,6 +30,9 @@ public:
     std::string getName() override { return "StartingPage"; }
 
     void animate(sf::Time deltaTime) override {}
+private:
+    sf::Vector2f size;
+    static SettingsPage* SettingsPageFactory(sf::Vector2f size) { return new SettingsPage(size); }
 };
 
 #endif // STARTINGPAGE_HPP

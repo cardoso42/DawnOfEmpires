@@ -216,8 +216,8 @@ Empire GameContext::getWinnerPlayer()
     }
 
     return sInstance->players[empireIndex];
-
 }
+
 TilePiece *GameContext::getTile() { return sInstance->tile; }
 int GameContext::getTileHrCost() { return 3; }
 
