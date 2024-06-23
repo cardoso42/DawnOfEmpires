@@ -29,13 +29,15 @@ public:
     
     bool isOver();
 private:
+    enum State { MAIN_MENU, GAME_RUNNING, PAUSE_MENU, WINNER_SCREEN };
+
     WindowManager* windowManager;
 
     bool wasMouseButtonAlreadyPressed;
+    State currentState;
 
     sf::Keyboard::Key currentPressedKey;
 
-    std::unordered_map<sf::Keyboard::Key, std::function<void()>> directionalActions;
     std::unordered_map<std::string, BaseComponent*> components;
     std::unordered_map<std::string, BaseComponent*> savedComponents;
     bool musicPlayingWhenPaused;

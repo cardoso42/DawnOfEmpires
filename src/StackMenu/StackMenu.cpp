@@ -3,7 +3,7 @@
 
 StackMenu::StackMenu(GenericMenu *startingMenu) : BaseComponent()
 {
-    menus.push_back(startingMenu);
+    addMenu(startingMenu);
 }
 
 StackMenu::~StackMenu()
@@ -19,6 +19,7 @@ StackMenu::~StackMenu()
 void StackMenu::addMenu(GenericMenu *menu)
 {   
     menus.push_back(menu);
+    menu->setActions();
 }
 
 void StackMenu::goBack()
@@ -30,6 +31,7 @@ void StackMenu::goBack()
 
     delete menus.back();
     menus.pop_back();
+    menus.back()->setActions();
 }
 
 void StackMenu::update()

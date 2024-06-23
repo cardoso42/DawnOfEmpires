@@ -11,14 +11,22 @@ public:
     StartingPage(sf::Vector2f windowSize) : GenericMenu(windowSize, sf::Color(255, 255, 255, 180)), size(windowSize)
     {
         setRandomBackground();
+        setActions();
+    }
 
-        const sf::Vector2f buttonSize(windowSize.x * 0.3f, windowSize.y * 0.1f);
-
+    void setActions() override
+    {
+        const sf::Vector2f buttonSize(size.x * 0.3f, size.y * 0.1f);
         setButtonSize(buttonSize);
 
-        addButton("Start", Callbacks::startGameBtnCb, {});
-        addButton("Settings", Callbacks::settingsBtnCb, {reinterpret_cast<void*>(&SettingsPageFactory), static_cast<void*>(&size)});
-        addButton("Exit", Callbacks::exitGameBtnCb, {});
+        clearMenu();
+
+        addButton("(P)lay", Callbacks::startGameBtnCb, {});
+        GameContext::addKeyAction(sf::Keyboard::P, Callbacks::startGameBtnCb);
+        addButton("(S)ettings", Callbacks::settingsBtnCb, {reinterpret_cast<void*>(&SettingsPageFactory), static_cast<void*>(&size)});
+        GameContext::addKeyAction(sf::Keyboard::S, Callbacks::settingsBtnCb, {reinterpret_cast<void*>(&SettingsPageFactory), static_cast<void*>(&size)});
+        addButton("(E)xit", Callbacks::exitGameBtnCb, {});
+        GameContext::addKeyAction(sf::Keyboard::E, Callbacks::exitGameBtnCb);
 
         organizeMenu();
     }

@@ -8,7 +8,6 @@ MainMenu* MainMenu::instance = nullptr;
 MainMenu::MainMenu(sf::Vector2f windowSize) : StackMenu(new StartingPage(windowSize)),
     windowSize(windowSize)
 {
-
     assert(instance == nullptr);
     instance = this;
 }

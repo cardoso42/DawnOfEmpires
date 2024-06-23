@@ -1,8 +1,6 @@
 #include "PauseMenu.hpp"
 #include "GameContext.hpp"
 
-// TODO: don't show pause screen if window loses focus but game is not being played yet
-
 PauseMenu::PauseMenu(sf::Vector2f windowSize) : GenericMenu(windowSize)
 {
     setRandomBackground();

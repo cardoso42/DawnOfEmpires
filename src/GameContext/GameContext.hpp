@@ -8,6 +8,8 @@
 #include <unordered_map>
 
 #define CallbackFunction std::function<void(std::vector<void*>)>
+#define CallbackParameters std::vector<void*>
+#define Callback std::pair<CallbackFunction, CallbackParameters>
 
 class GameContext
 {
@@ -19,7 +21,7 @@ public:
     static void startGame();
     static void nextPlayer();
     static void playSound(sf::SoundBuffer &buffer);
-    static void addKeyAction(sf::Keyboard::Key key, CallbackFunction action);
+    static void addKeyAction(sf::Keyboard::Key key, CallbackFunction action, std::vector<void*> parameters = {});
     static void removeKeyAction(sf::Keyboard::Key key);
     static void clearKeyActions();
     static void removeCurrentPlayer();
@@ -40,7 +42,7 @@ public:
     static int getMaxMapSize();
     static int getMusicVolume();
     static int getSfxVolume();
-    static std::unordered_map<sf::Keyboard::Key, CallbackFunction> getKeyActions();
+    static std::unordered_map<sf::Keyboard::Key, Callback> getKeyActions();
     
     // Setters
     static void setNumPlayers(int numPlayers);
@@ -63,7 +65,7 @@ private:
     int sfxVolume;
     static const std::vector<sf::Color> colors;
 
-    std::unordered_map<sf::Keyboard::Key, CallbackFunction> keyActions;
+    std::unordered_map<sf::Keyboard::Key, Callback> keyActions;
 
     static GameContext* sInstance;
 

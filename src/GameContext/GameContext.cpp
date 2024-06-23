@@ -89,9 +89,9 @@ void GameContext::playSound(sf::SoundBuffer &buffer)
     sInstance->soundEffect.play();
 }
 
-void GameContext::addKeyAction(sf::Keyboard::Key key, CallbackFunction action)
+void GameContext::addKeyAction(sf::Keyboard::Key key, CallbackFunction action, CallbackParameters parameters)
 {
-    sInstance->keyActions[key] = action;
+    sInstance->keyActions[key] = make_pair(action, parameters);
 }
 
 void GameContext::removeKeyAction(sf::Keyboard::Key key)
@@ -141,7 +141,7 @@ void GameContext::clearDirectionalKeyActions()
 {
     for (auto it = sInstance->keyActions.begin(); it != sInstance->keyActions.end();)
     {
-        if (it->first >= sf::Keyboard::Up && it->first <= sf::Keyboard::Right)
+        if (it->first >= sf::Keyboard::Left && it->first <= sf::Keyboard::Down)
         {
             it = sInstance->keyActions.erase(it);
         }
@@ -171,7 +171,7 @@ Empire GameContext::getWinnerPlayer()
     // Decides the winner based on the number of constructions
     int maxConstructions = 0;
     int empireIndex = 0;
-    bool isUnique = true;
+    bool isUnique = false;
 
     for (int i = 0; i < sInstance->players.size(); i++)
     {
@@ -248,7 +248,7 @@ int GameContext::getSfxVolume()
     return sInstance->sfxVolume;
 }
 
-std::unordered_map<sf::Keyboard::Key, CallbackFunction> GameContext::getKeyActions()
+std::unordered_map<sf::Keyboard::Key, Callback> GameContext::getKeyActions()
 {
     return sInstance->keyActions;
 }

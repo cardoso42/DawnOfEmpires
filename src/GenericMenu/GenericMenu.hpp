@@ -19,6 +19,7 @@ public:
     void handleKeyboardInput(sf::Keyboard::Key key) override;
     void setButtonSize(sf::Vector2f size);
     void startNewColumn();
+    virtual void setActions() { }; // To be controlled by the StackMenu class
     virtual std::string getName() { return "GenericMenu"; };
 
 protected:

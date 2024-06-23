@@ -16,7 +16,18 @@ public:
     SettingsPage(sf::Vector2f windowSize) : windowSize(windowSize), GenericMenu(windowSize, sf::Color(255, 255, 255, 180))
     {
         setRandomBackground();
-        
+        setActions();
+    }
+
+    void setActions() override
+    {
+        clearMenu();
+
+        setButtonSize({windowSize.x * 0.3f, windowSize.y * 0.1f});
+
+        addButton("Go (B)ack", goBackCb, {&numPlayers, &mapSize});
+        GameContext::addKeyAction(sf::Keyboard::B, goBackCb, {&numPlayers, &mapSize});
+
         addIncDecControl(new IncrementDecrementControl(
             {windowSize.x * 0.8f, windowSize.y * 0.05f}, "Players", 
             &numPlayers, 1, GameContext::getMaxPlayersNumber()));
@@ -25,22 +36,24 @@ public:
             {windowSize.x * 0.8f, windowSize.y * 0.05f}, "Map size", 
             &mapSize, 1, GameContext::getMaxMapSize()));
 
-        addButton("Go back", 
-        [](std::vector<void *> parameters) 
-        { 
-            GameContext::setNumPlayers(*(int*)parameters[0]);
-            GameContext::setMapSize(*(int*)parameters[1]);
-            MainMenu::goBackMainMenu(); 
-        }, {&numPlayers, &mapSize});
-        addButton("Start game", 
-        [](std::vector<void*> parameters) 
-        { 
-            GameContext::setNumPlayers(*(int*)parameters[0]); 
-            GameContext::setMapSize(*(int*)parameters[1]); 
-            Callbacks::startGameBtnCb({}); 
-        }, {&numPlayers, &mapSize});
+        addButton("(S)tart game", startCb, {&numPlayers, &mapSize});
+        GameContext::addKeyAction(sf::Keyboard::S, startCb, {&numPlayers, &mapSize});
 
         organizeMenu();
+    }
+
+    static void goBackCb(CallbackParameters parameters)
+    {
+        GameContext::setNumPlayers(*(int*)parameters[0]);
+        GameContext::setMapSize(*(int*)parameters[1]);
+        MainMenu::goBackMainMenu(); 
+    }
+
+    static void startCb(CallbackParameters parameters)
+    {
+        GameContext::setNumPlayers(*(int*)parameters[0]); 
+        GameContext::setMapSize(*(int*)parameters[1]); 
+        Callbacks::startGameBtnCb({}); 
     }
 
     std::string getName() override { return "SettingsPage"; }

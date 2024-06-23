@@ -9,8 +9,10 @@ GameController::GameController(): currentPressedKey(sf::Keyboard::Key::Unknown),
     wasMouseButtonAlreadyPressed(false), musicPlayingWhenPaused(false)
 {
     windowManager = GameContext::getWindowManager();
+
     windowManager->createView("mainMenu", {0, 0}, {1, 1});
     components["mainMenu"] = new MainMenu(windowManager->getViewSize("mainMenu"));
+    currentState = State::MAIN_MENU;
 
     music.openFromFile(AssetManager::GenerateAbsolutePathname("backgroundMusic.mp3"));
     music.setLoop(true);
@@ -53,10 +55,12 @@ void GameController::handleInput()
         {
             case GameContext::GameEvents::GAME_OVER:
                 handleGameOver();
+                currentState = State::WINNER_SCREEN;
                 break;
 
             case GameContext::GameEvents::GAME_STARTED:
                 handleGameStarted();
+                currentState = State::GAME_RUNNING;
                 break;
 
             case GameContext::GameEvents::NEXT_TURN:
@@ -69,19 +73,27 @@ void GameController::handleInput()
 
             case GameContext::GameEvents::MAIN_MENU:
                 handleMainMenu();
+                currentState = State::MAIN_MENU;
                 break;
 
             case GameContext::GameEvents::PAUSE:
-                handleGamePaused();
+                if (currentState == State::GAME_RUNNING)
+                {
+                    handleGamePaused();
+                    currentState = State::PAUSE_MENU;
+                }
                 break;
 
             case GameContext::GameEvents::RESUME:
                 handleGameResumed();
+                currentState = State::GAME_RUNNING;
                 break;
 
             default:
                 break;
         }
+
+        addEscapeKeybinding();
     }
 
     if (windowManager->isFocused())
@@ -172,7 +184,7 @@ void GameController::handleKeyboardInput()
         {
             if (currentPressedKey == sf::Keyboard::Key::Unknown)
             {
-                action({});
+                action.first(action.second);
                 currentPressedKey = key;
             }
 
@@ -192,15 +204,11 @@ void GameController::handleGameOver()
     windowManager->createView("winnerScreen", {0, 0}, {1, 1});
     components["winnerScreen"] = new WinnerScreen(
         windowManager->getViewSize("winnerScreen"), GameContext::getWinnerPlayer());
-
-    IdGenerator::ResetEmpireIds();
 }
 
 void GameController::handleGameStarted()
 {
     clearComponents();
-
-    addEscapeKeybinding();
 
     windowManager->createView("map", {0, 0}, {0.8, 0.9});
     windowManager->createView("actionMenu", {0.8, 0.3}, {0.2, 0.6});
@@ -244,19 +252,16 @@ void GameController::handleMainMenu()
 
     windowManager->createView("mainMenu", {0, 0}, {1, 1});
     components["mainMenu"] = new MainMenu(windowManager->getViewSize("mainMenu"));
+
+    IdGenerator::ResetEmpireIds();
 }
 
 void GameController::handleGamePaused()
 {
-    if (savedComponents.size() > 0)
+    if (currentState != State::GAME_RUNNING)
     {
         return;
     }
-
-    GameContext::addKeyAction(
-        sf::Keyboard::Key::Escape, 
-        [](std::vector<void*>) { GameContext::notifyEvent(GameContext::GameEvents::RESUME); }
-    );
 
     musicPlayingWhenPaused = music.getStatus() == sf::Music::Playing;
     music.pause();
@@ -270,6 +275,11 @@ void GameController::handleGamePaused()
 
 void GameController::handleGameResumed()
 {
+    if (currentState != State::PAUSE_MENU)
+    {
+        return;
+    }
+
     if (musicPlayingWhenPaused)
     {
         music.play();
@@ -278,16 +288,35 @@ void GameController::handleGameResumed()
     restoreSavedComponents();
     windowManager->restoreSavedViews();
 
-    addEscapeKeybinding();
     music.setVolume(GameContext::getMusicVolume());
 }
 
 void GameController::addEscapeKeybinding()
 {
-    GameContext::addKeyAction(
-        sf::Keyboard::Key::Escape, 
-        [](std::vector<void*>) { GameContext::notifyEvent(GameContext::GameEvents::PAUSE); }
-    );
+    if (currentState == State::PAUSE_MENU)
+    {
+        GameContext::addKeyAction(
+            sf::Keyboard::Key::Escape,
+            [](std::vector<void*>) 
+            { 
+                GameContext::notifyEvent(GameContext::GameEvents::RESUME); 
+            }
+        );
+    }
+    else if (currentState == State::GAME_RUNNING)
+    {
+        GameContext::addKeyAction(
+            sf::Keyboard::Key::Escape,
+            [](std::vector<void*>) 
+            { 
+                GameContext::notifyEvent(GameContext::GameEvents::PAUSE); 
+            }
+        );
+    }
+    else
+    {
+        GameContext::removeKeyAction(sf::Keyboard::Key::Escape);
+    }
 }
 
 sf::RectangleShape GameController::drawDebugSquare(sf::Sprite sprite, sf::Color backgroundColor)
