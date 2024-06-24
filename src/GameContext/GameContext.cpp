@@ -69,6 +69,12 @@ void GameContext::nextPlayer()
         sInstance->currentPlayer = 0;
     }
 
+    if (verifyIfPlayerLost())
+    {
+        removeCurrentPlayer();
+        return;
+    }
+
     if (getPlayer()->haveWon())
     {
         sInstance->events.push_back(GAME_OVER);
@@ -153,12 +159,6 @@ void GameContext::stealLand(TilePiece *stolenTile)
         if (stolenTile->isOwnedBy(player.getId()))
         {
             player.removeTile(stolenTile);
-
-            if (player.getTerritory().size() <= 0)
-            {
-                removePlayer(i);
-            }
-
             break;
         }
     }
@@ -272,6 +272,13 @@ void GameContext::verifyIfPlayerWon()
     {
         empire->setAsWinner();
     }
+}
+
+bool GameContext::verifyIfPlayerLost()
+{
+    auto empire = getPlayer();
+
+    return empire->haveStarted() && empire->getTerritory().size() <= 0;
 }
 
 void GameContext::removePlayer(int playerIndex)

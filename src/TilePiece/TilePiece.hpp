@@ -18,6 +18,7 @@ public:
     enum ConstructionType { MILITARY, CULTURE, ECONOMY };
 
     TilePiece(float x, float y, int q, int r);
+    TilePiece(const TilePiece& other);
 
     // Overrides
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

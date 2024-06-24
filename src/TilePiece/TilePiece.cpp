@@ -42,6 +42,29 @@ TilePiece::TilePiece(float x, float y, int q, int r)
     setStrategy(factory.createRandomStrategy());
 }
 
+TilePiece::TilePiece(const TilePiece &other)
+{
+    tileId = other.tileId;
+    ownerId = other.ownerId;
+    decoration = other.decoration;
+    strategy = other.strategy;
+    status = other.status;
+    resourceSource = other.resourceSource;
+    q = other.q;
+    r = other.r;
+
+    body = other.body;
+    border = other.border;
+    ownerColor = other.ownerColor;
+
+    neighbors = other.neighbors;
+    colorHistory = other.colorHistory;
+
+#ifdef DEBUG
+    text = other.text;
+#endif    
+}
+
 bool TilePiece::improve()
 {
     if (!isImprovable())

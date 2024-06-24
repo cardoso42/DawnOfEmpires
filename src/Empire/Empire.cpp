@@ -12,6 +12,8 @@ Empire::Empire(sf::Color empireColor) : color(empireColor), constructions(0),
     resources[hr.getName()] = hr;
     resources[food.getName()] = food;
     resources[TileResource(0).getName()] = TileResource(0);
+
+    started = false;
 }
 
 Empire::~Empire()
@@ -44,19 +46,6 @@ void Empire::update(sf::Time dt)
     Resource hr = hrSource.extract(dt);
     resources[hr.getName()] += hr;
     turnResources[hr.getName()] = hr;
-
-    auto it = resources.find(TileResource(0).getName());
-    if (it != resources.end() && it->second.getAmount() >= 1)
-    {
-        int index = std::rand() % neighbors.size();
-
-        auto neighborsVector = std::vector<TilePiece*>(neighbors.begin(), neighbors.end());
-        TilePiece* newTile = neighborsVector[index];
-
-        addTileToTerritory(newTile);
-
-        resources[TileResource(0).getName()] -= 1;
-    }
 }
 
 bool Empire::canPayResource(Resource resource)
@@ -151,21 +140,27 @@ void Empire::setAsWinner() { won = true; }
 
 bool Empire::haveWon() { return won; }
 
+bool Empire::haveStarted()
+{
+    return started;
+}
+
 int Empire::getConstructionsNumber() { return constructions; }
 
 void Empire::setStartingTerritory(TilePiece *startingTile)
 {
+    std::unordered_set<TilePiece*> territorySet;
+    std::unordered_set<TilePiece*> neighborsSet;
+
     for (auto& tile : startingTile->getNeighbors())
     {
         territory.push_back(tile);
         tile->annexTo(empireId, color);
     }
 
-    territory.push_back(startingTile);
     startingTile->annexTo(empireId, color);
-
-    std::unordered_set<TilePiece*> territorySet;
-    std::unordered_set<TilePiece*> neighborsSet;
+    territory.push_back(startingTile);
+    territorySet.insert(startingTile);
 
     for (auto& tile : startingTile->getNeighbors())
     {
@@ -186,6 +181,7 @@ void Empire::setStartingTerritory(TilePiece *startingTile)
     }
 
     hrSource.activate();
+    started = true;
 }
 
 void Empire::annexNewTile(TilePiece *newTile)
@@ -239,7 +235,6 @@ void Empire::removeTile(TilePiece* tile)
     }
 }
 
-#define p(a) std::cout << a << std::endl;
 void Empire::createNewConstruction(TilePiece *tile, TilePiece::ConstructionType type)
 {
     if (tile->isConstructable() && expendResources(tile->getConstructionCost()))
@@ -264,6 +259,16 @@ void Empire::createNewConstruction(TilePiece *tile, TilePiece::ConstructionType 
                 if (!neighbor->isOwnedBy(empireId))
                 {
                     addTileToTerritory(neighbor);
+                }
+
+                auto neighborNeighbors = neighbor->getNeighbors();
+                int countercounter{0};
+                for (auto neighborNeighbor : neighborNeighbors)
+                {
+                    if (!neighborNeighbor->isOwnedBy(empireId))
+                    {
+                        addTileToTerritory(neighborNeighbor);
+                    }
                 }
             }
         }

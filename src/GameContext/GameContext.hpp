@@ -72,6 +72,7 @@ private:
 
     static void setPlayers(int playersNumber);
     static void verifyIfPlayerWon();
+    static bool verifyIfPlayerLost();
     static void removePlayer(int playerIndex);
 };
 

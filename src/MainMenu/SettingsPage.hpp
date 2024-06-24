@@ -7,9 +7,6 @@
 #include "GenericMenu.hpp"
 #include "Callbacks.hpp"
 
-// TODO: bug when all tiles are already occupied and there is tile obtention with military constructions
-// Maybe change mechanics to occupy all tiles in a radius of 2 instantly
-
 class SettingsPage : public GenericMenu
 {
 public:
